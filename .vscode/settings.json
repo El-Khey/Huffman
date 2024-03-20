@@ -2,6 +2,7 @@
     "files.associations": {
         "*.rmd": "markdown",
         "binary_tree.h": "c",
-        "huffman_tree.h": "c"
+        "huffman_tree.h": "c",
+        "node.h": "c"
     }
 }

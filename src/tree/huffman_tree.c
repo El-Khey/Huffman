@@ -1,5 +1,18 @@
 #include "huffman_tree.h"
 
+static void update_depth(Node *root, int depth)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    root->depth = depth;
+
+    update_depth(root->left, depth + 1);
+    update_depth(root->right, depth + 1);
+}
+
 Node *create_huffman_tree(Node *leaves_nodes[], int size)
 {
     int index_smallest = -1;
@@ -27,6 +40,7 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
         index_smallest = smallest;
     }
 
+    update_depth(leaves_nodes[index_smallest], 0);
     return leaves_nodes[index_smallest];
 }
 
@@ -47,14 +61,20 @@ void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
     }
 }
 
-static void print_tree_helper(Node *root, int level)
+void print_tree_helper(Node *root, char side)
 {
     if (root == NULL)
     {
         return;
     }
 
-    printf("%*s", level * 4, "");
+    printf("%*s", root->depth * 4, "");
+
+    if (side != '\0')
+    {
+        printf("%c--", side);
+    }
+
     if (root->character == '\0')
     {
         printf("[Freq: %d]\n", root->frequency);
@@ -64,12 +84,12 @@ static void print_tree_helper(Node *root, int level)
         printf("'%c' (Freq: %d)\n", root->character, root->frequency);
     }
 
-    print_tree_helper(root->left, level + 1);
-    print_tree_helper(root->right, level + 1);
+    print_tree_helper(root->left, 'L');
+    print_tree_helper(root->right, 'R');
 }
 
 void print_tree(Node *root)
 {
     printf("Huffman Tree:\n");
-    print_tree_helper(root, 0);
+    print_tree_helper(root, '\0');
 }
