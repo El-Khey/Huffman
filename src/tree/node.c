@@ -1,4 +1,4 @@
-#include "./binary_tree.h"
+#include "./node.h"
 
 Node *create_node(char character, int frequency, int depth, int code)
 {
@@ -63,7 +63,7 @@ void find_two_smallest(Node *nodes[], int size, int *smallest, int *second_small
     }
 }
 
-void display_node(Node *node)
+void print_node(Node *node)
 {
     if (node != NULL)
     {
