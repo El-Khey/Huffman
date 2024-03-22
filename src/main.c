@@ -21,7 +21,7 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    compress_file(filename, "compressed.txt");
+    compress_file(filename, "example/compressed.txt");
 
     /**
         read_partial_content(filename);

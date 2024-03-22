@@ -94,7 +94,7 @@ static void populate_alphabet(Node *node, Node *alphabet[])
 
     if (is_leaf(node))
     {
-        alphabet[(int)node->character] = node;
+        alphabet[(int)node->ascii] = node;
     }
 
     populate_alphabet(node->left, alphabet);
@@ -126,13 +126,13 @@ void print_tree_helper(Node *root, char side)
         printf("%c--", side);
     }
 
-    if (root->character == '\0')
+    if (root->ascii == '\0')
     {
         printf("[Freq: %d]\n", root->frequency);
     }
     else
     {
-        printf("'%c' (Freq: %d)\n", root->character, root->frequency);
+        printf("'%c' (Freq: %d)\n", root->ascii, root->frequency);
     }
 
     print_tree_helper(root->left, 'L');
@@ -145,9 +145,9 @@ void print_tree(Node *root)
     print_tree_helper(root, '\0');
 }
 
-static void print_row(char character, int ascii, int code, int depth)
+static void print_row(int ascii, int code, int depth)
 {
-    printf("|    '%c'    |  %3d  | ", character, ascii);
+    printf("|    '%c'    |  %3d  | ", ascii, ascii);
     print_bits(depth, code);
     printf("\n");
 }
@@ -161,7 +161,7 @@ static void print_codes_helper(Node *root)
 
     if (is_leaf(root))
     {
-        print_row(root->character, root->character, root->code, root->depth);
+        print_row(root->ascii, root->code, root->depth);
     }
 
     print_codes_helper(root->left);

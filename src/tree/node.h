@@ -6,10 +6,10 @@
 
 typedef struct Node
 {
-    char character; /** The character of the node */
-    int frequency;  /** The number of occurence (frequency) of the character in the file */
-    int depth;      /** The depth of the node in the tree represent the number of bits the character is encoded with */
-    int code;       /** The code of the node */
+    int ascii;     /** The ascii character of the node */
+    int frequency; /** The number of occurence (frequency) of the character in the file */
+    int depth;     /** The depth of the node in the tree represent the number of bits the character is encoded with */
+    int code;      /** The code of the node */
 
     struct Node *left;  /** The left child of the node */
     struct Node *right; /** The right child of the node */
@@ -18,22 +18,22 @@ typedef struct Node
 /**
  * @brief Create a node object
  *
- * @param character - the character of the node
+ * @param ascii - the ascii character of the node
  * @param frequency - the frequency of the character
  * @param depth - the depth of the node
  * @param code - the code of the node
  * @return Node*
  */
-Node *create_node(char character, int frequency, int depth, int code);
+Node *create_node(int ascii, int frequency, int depth, int code);
 
 /**
  * @brief Create a leaf object
  *
- * @param character - the character of the node
+ * @param ascii - the ascii character of the node
  * @param frequency - the frequency of the character
  * @return Node*
  */
-Node *create_leaf(char character, int frequency);
+Node *create_leaf(int character, int frequency);
 
 /**
  * @brief Check if the node is a leaf

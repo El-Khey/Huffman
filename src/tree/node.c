@@ -1,10 +1,10 @@
 #include "./node.h"
 
-Node *create_node(char character, int frequency, int depth, int code)
+Node *create_node(int ascii, int frequency, int depth, int code)
 {
     Node *node = (Node *)malloc(sizeof(Node));
 
-    node->character = character;
+    node->ascii = ascii;
     node->frequency = frequency;
 
     node->depth = depth;
@@ -26,9 +26,9 @@ void insert_left_node(Node *parent, Node *left)
     parent->left = left;
 }
 
-Node *create_leaf(char character, int frequency)
+Node *create_leaf(int ascii, int frequency)
 {
-    return create_node(character, frequency, 0, 0);
+    return create_node(ascii, frequency, 0, 0);
 }
 
 int is_leaf(Node *node)
@@ -81,6 +81,6 @@ void print_node(Node *node)
 {
     if (node != NULL)
     {
-        printf("Character: '%c', Frequency: %d, Depth: %d, Code: %d\n", node->character, node->frequency, node->depth, node->code);
+        printf("Character: '%c', Frequency: %d, Depth: %d, Code: %d\n", node->ascii, node->frequency, node->depth, node->code);
     }
 }
