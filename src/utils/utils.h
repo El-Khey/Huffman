@@ -15,6 +15,24 @@
 char *convert_into_bits(int code, int size);
 
 /**
+ * @brief This function convert an integer into binary and return it as an array of integers
+ *
+ * @param code - the integer to convert
+ * @param size - the size of the integer
+ * @return int* - the binary array
+ */
+int *convert_interger_code_into_bits(int code, int size);
+
+/**
+ * @brief This function convert a binary string into an integer
+ *
+ * @param code - the binary string to convert
+ * @param size - the size of the integer
+ * @return int - the integer
+ */
+int convert_into_int(char *code, int size);
+
+/**
  * @brief This function count the frequencies of each character in a file
  *
  * @param file - the file to read

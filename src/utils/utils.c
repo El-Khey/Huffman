@@ -14,6 +14,40 @@ char *convert_into_bits(int code, int size)
     return bits;
 }
 
+int *convert_interger_code_into_bits(int code, int size)
+{
+    int *bits = (int *)malloc(size + 1);
+    int i;
+
+    for (i = size - 1; i >= 0; i--)
+    {
+        bits[size - 1 - i] = ((code >> i) & 1);
+    }
+
+    bits[size] = '\0';
+    return bits;
+}
+
+int convert_into_int(char *code, int size)
+{
+    int result = 0, i = 0;
+
+    for (; i < size; i++)
+    {
+        if (code[i] == '1')
+        {
+            result |= (1 << (size - 1 - i));
+        }
+        else if (code[i] != '0')
+        {
+            fprintf(stderr, "Invalid bit string. Only '0' and '1' characters are allowed.\n");
+            return -1;
+        }
+    }
+
+    return result;
+}
+
 void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
 {
     int ch, i;

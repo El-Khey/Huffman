@@ -4,6 +4,7 @@
 #include "./tree/huffman_tree.h"
 #include "./utils/utils.h"
 #include "./compression/compression.h"
+#include "./decompression/decompression.h"
 
 #define MAX_CHAR 256
 
@@ -21,11 +22,13 @@ int main()
         exit(EXIT_FAILURE);
     }
 
-    compress_file(filename, "example/compressed.txt");
+    decompress_file("example/compressed_small", "example/decompressed_small");
+    /*
 
-    /**
+        decompress_file("example/compressed_small", "example/decompressed_small");
         read_partial_content(filename);
         read_full_content(filename);
+
     */
 
     exit(EXIT_SUCCESS);

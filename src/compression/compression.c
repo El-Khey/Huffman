@@ -1,6 +1,6 @@
 #include "./compression.h"
 
-static void write_header(FILE *file, Node *alphabet[], int number_of_leaves)
+static void write_header(FILE *file, Node **alphabet, int number_of_leaves)
 {
     int i;
     char *binary_code;
@@ -11,7 +11,7 @@ static void write_header(FILE *file, Node *alphabet[], int number_of_leaves)
         if (alphabet[i] != NULL)
         {
             binary_code = convert_into_bits(alphabet[i]->code, alphabet[i]->depth);
-            fprintf(file, "%c %d %d %s\n",
+            fprintf(file, "%d %d %d %s\n",
                     alphabet[i]->ascii,
                     alphabet[i]->frequency,
                     alphabet[i]->depth,

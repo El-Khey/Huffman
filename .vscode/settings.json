@@ -7,6 +7,7 @@
         "constants.h": "c",
         "compression.h": "c",
         "file.h": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "decompression.h": "c"
     }
 }
