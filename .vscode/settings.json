@@ -3,6 +3,10 @@
         "*.rmd": "markdown",
         "binary_tree.h": "c",
         "huffman_tree.h": "c",
-        "node.h": "c"
+        "node.h": "c",
+        "constants.h": "c",
+        "compression.h": "c",
+        "file.h": "c",
+        "utils.h": "c"
     }
 }

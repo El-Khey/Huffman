@@ -4,11 +4,12 @@ CLIBS = -lm -lMLV
 
 TREE = huffman_tree.o node.o
 UTILS = utils.o file.o
+COMPRESSION = compression.o
 
 all: build simple-clean
 
-build: main.o $(TREE) $(UTILS)
-	$(CC) main.o $(TREE) $(UTILS) -o main $(CLIBS)
+build: main.o $(TREE) $(UTILS) $(COMPRESSION)
+	$(CC) main.o $(TREE) $(UTILS) $(COMPRESSION) -o main $(CLIBS)
 
 # ----------- #
 # Main file 
@@ -38,6 +39,9 @@ utils.o: ./src/utils/utils.c
 
 file.o: ./src/utils/file.c
 	$(CC) $(CFLAGS) -c ./src/utils/file.c
+
+compression.o: ./src/compression/compression.c
+	$(CC) $(CFLAGS) -c ./src/compression/compression.c
 
 # simple-clean removes all the .o files
 simple-clean:

@@ -23,7 +23,7 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
         int smallest, second_smallest;
         find_two_smallest(leaves_nodes, size, &smallest, &second_smallest);
 
-        if (second_smallest == -1)
+        if (second_smallest == -1 || smallest == -1)
         {
             break;
         }
@@ -61,6 +61,57 @@ void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
     }
 }
 
+static void print_bits(int size, int code)
+{
+    int i;
+    for (i = size - 1; i >= 0; i--)
+    {
+        printf("%d", (code >> i) & 1);
+    }
+}
+
+static void create_codes_helper(Node *node, int code)
+{
+    if (is_leaf(node))
+    {
+        node->code = code;
+    }
+    else
+    {
+        create_codes_helper(node->left, (code << 1) | 1);
+        create_codes_helper(node->right, (code << 1) | 0);
+    }
+}
+
+void create_codes(Node *node) { create_codes_helper(node, 0); }
+
+static void populate_alphabet(Node *node, Node *alphabet[])
+{
+    if (node == NULL)
+    {
+        return;
+    }
+
+    if (is_leaf(node))
+    {
+        alphabet[(int)node->character] = node;
+    }
+
+    populate_alphabet(node->left, alphabet);
+    populate_alphabet(node->right, alphabet);
+}
+
+void compute_alphabet(Node *root, Node *alphabet[])
+{
+    int i;
+    for (i = 0; i < MAX_CHAR; i++)
+    {
+        alphabet[i] = NULL;
+    }
+
+    populate_alphabet(root, alphabet);
+}
+
 void print_tree_helper(Node *root, char side)
 {
     if (root == NULL)
@@ -92,4 +143,34 @@ void print_tree(Node *root)
 {
     printf("Huffman Tree:\n");
     print_tree_helper(root, '\0');
+}
+
+static void print_row(char character, int ascii, int code, int depth)
+{
+    printf("|    '%c'    |  %3d  | ", character, ascii);
+    print_bits(depth, code);
+    printf("\n");
+}
+
+static void print_codes_helper(Node *root)
+{
+    if (root == NULL)
+    {
+        return;
+    }
+
+    if (is_leaf(root))
+    {
+        print_row(root->character, root->character, root->code, root->depth);
+    }
+
+    print_codes_helper(root->left);
+    print_codes_helper(root->right);
+}
+
+void print_codes(Node *root)
+{
+    printf("| Character | ASCII | Code |\n");
+    printf("|-----------|-------|------|\n");
+    print_codes_helper(root);
 }

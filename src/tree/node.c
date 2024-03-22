@@ -4,12 +4,6 @@ Node *create_node(char character, int frequency, int depth, int code)
 {
     Node *node = (Node *)malloc(sizeof(Node));
 
-    if (node == NULL)
-    {
-        printf("Memory allocation failed.\n");
-        exit(EXIT_FAILURE);
-    }
-
     node->character = character;
     node->frequency = frequency;
 
@@ -37,6 +31,11 @@ Node *create_leaf(char character, int frequency)
     return create_node(character, frequency, 0, 0);
 }
 
+int is_leaf(Node *node)
+{
+    return node->left == NULL && node->right == NULL;
+}
+
 void find_two_smallest(Node *nodes[], int size, int *smallest, int *second_smallest)
 {
     int i;
@@ -61,6 +60,21 @@ void find_two_smallest(Node *nodes[], int size, int *smallest, int *second_small
             *second_smallest = i;
         }
     }
+}
+
+int get_number_of_leaves(Node *root)
+{
+    if (root == NULL)
+    {
+        return 0;
+    }
+
+    if (is_leaf(root))
+    {
+        return 1;
+    }
+
+    return get_number_of_leaves(root->left) + get_number_of_leaves(root->right);
 }
 
 void print_node(Node *node)

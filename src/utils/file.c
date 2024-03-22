@@ -57,3 +57,12 @@ void read_full_content(const char *filename)
 
     fclose(file);
 }
+
+void check_file_opening(FILE *file, const char *filename)
+{
+    if (file == NULL)
+    {
+        printf("Error: Could not open file %s\n", filename);
+        exit(EXIT_FAILURE);
+    }
+}

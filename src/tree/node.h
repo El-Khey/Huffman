@@ -36,6 +36,14 @@ Node *create_node(char character, int frequency, int depth, int code);
 Node *create_leaf(char character, int frequency);
 
 /**
+ * @brief Check if the node is a leaf
+ *
+ * @param node - the node to check
+ * @return int
+ */
+int is_leaf(Node *node);
+
+/**
  * @brief Create a parent object
  *
  * @param left - the left child of the node
@@ -61,6 +69,14 @@ void insert_left_node(Node *parent, Node *left);
  * @return Node*
  */
 void find_two_smallest(Node *nodes[], int size, int *smallest, int *second_smallest);
+
+/**
+ * @brief Get the number of leaves
+ *
+ * @param root - the root of the tree
+ * @return int - the number of leaves
+ */
+int get_number_of_leaves(Node *root);
 
 /**
  * @brief Create a parent object
