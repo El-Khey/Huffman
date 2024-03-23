@@ -103,6 +103,16 @@ static int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size
     return 1;
 }
 
+static void print_array(int *arr, int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        printf("%d", arr[i]);
+    }
+    printf("\n");
+}
+
 static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, int number_of_leaves, FILE *output)
 {
     int i = 0;
@@ -111,15 +121,18 @@ static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, 
     int code_found = 1;
     int index;
 
+    printf("alphabet:\n");
     print_alphabet(alphabet);
+    printf("\n\n");
 
     printf("length_encoded_data: %d\n", length_encoded_data);
     printf("number_of_leaves: %d\n", number_of_leaves);
+    printf("\n");
 
     while (1)
     {
         index = (i % MAX_CHAR);
-        printf("index: %d\n", index);
+        printf("\n-----------\nindex: %d\n", index);
 
         if (alphabet[index] == NULL)
         {
@@ -134,20 +147,15 @@ static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, 
 
         code_found = 1;
         decoded_code = convert_interger_code_into_bits(alphabet[index]->code, alphabet[index]->depth);
-
-        printf("processed_length: %d\n", processed_length);
-        printf("depth: %d\n", alphabet[index]->depth);
+        printf("decoded_code: ");
+        print_array(decoded_code, alphabet[index]->depth);
 
         code_found = are_arrays_equal(decoded_code, encoded_data, processed_length, alphabet[index]->depth);
-        printf("code_found: %d\n", code_found);
 
         if (code_found)
         {
-            printf("-->: %c\n", alphabet[index]->ascii);
             fprintf(output, "%c", alphabet[index]->ascii);
-            printf("ascii: %c\n", alphabet[index]->ascii);
             processed_length += alphabet[index]->depth;
-            printf("-->: %d\n", processed_length);
         }
 
         i++;

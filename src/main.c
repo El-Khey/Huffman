@@ -8,28 +8,32 @@
 
 #define MAX_CHAR 256
 
-int main()
+int main(int argc, char *argv[])
 {
-    char filename[100];
-    int success;
-
-    printf("Enter the name of the file to open: ");
-    success = scanf("%s", filename);
-
-    if (!success)
+    int action = 1;
+    if (argc != 2)
     {
-        printf("Invalid input. Exiting...\n");
+        printf("Usage: %s <integer>\n", argv[0]);
+        printf("<integer> : <1> to compress a file\n");
+        printf("<integer> : <2> to decompress a file\n");
         exit(EXIT_FAILURE);
     }
 
-    decompress_file("example/compressed_small", "example/decompressed_small");
-    /*
+    action = atoi(argv[1]);
 
+    if (action == 1)
+    {
+        compress_file("example/small", "example/compressed_small");
+    }
+    else if (action == 2)
+    {
         decompress_file("example/compressed_small", "example/decompressed_small");
-        read_partial_content(filename);
-        read_full_content(filename);
-
-    */
+    }
+    else
+    {
+        printf("Invalid action.\n");
+        exit(EXIT_FAILURE);
+    }
 
     exit(EXIT_SUCCESS);
 }
