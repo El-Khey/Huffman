@@ -8,6 +8,7 @@
         "compression.h": "c",
         "file.h": "c",
         "utils.h": "c",
-        "decompression.h": "c"
+        "decompression.h": "c",
+        "alphabet.h": "c"
     }
 }

@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -g -W -Wall -std=c89 -pedantic -O2
 CLIBS = -lm -lMLV
 
-TREE = huffman_tree.o node.o
+TREE = huffman_tree.o node.o alphabet.o
 UTILS = utils.o file.o
 COMPRESSION = compression.o decompression.o
 
@@ -28,6 +28,9 @@ huffman_tree.o: ./src/tree/huffman_tree.c
 
 node.o: ./src/tree/node.c
 	$(CC) $(CFLAGS) -c ./src/tree/node.c
+
+alphabet.o: ./src/tree/alphabet.c
+	$(CC) $(CFLAGS) -c ./src/tree/alphabet.c
 
 
 # ----------- #

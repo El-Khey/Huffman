@@ -10,7 +10,7 @@ static void write_header(FILE *file, Node **alphabet, int number_of_leaves)
     {
         if (alphabet[i] != NULL)
         {
-            binary_code = convert_into_bits(alphabet[i]->code, alphabet[i]->depth);
+            binary_code = convert_code_into_string(alphabet[i]->code, alphabet[i]->depth);
             fprintf(file, "%d %d %d %s\n",
                     alphabet[i]->ascii,
                     alphabet[i]->frequency,
@@ -35,7 +35,7 @@ static void write_encoded_data(FILE *file, FILE *compressed_file, Node *alphabet
             continue;
         }
 
-        binary_code = convert_into_bits(alphabet[ch]->code, alphabet[ch]->depth);
+        binary_code = convert_code_into_string(alphabet[ch]->code, alphabet[ch]->depth);
         fprintf(compressed_file, "%s", binary_code);
     }
 }
@@ -54,25 +54,21 @@ void compress_file(char *input_file, char *output_file)
     check_file_opening(compressed_file, output_file);
 
     count_char_frequencies(file, tab);
-    display_char_frequencies(tab);
-
     initialize_huffman_nodes(leaves_nodes, tab, MAX_CHAR);
 
     huffman_tree = create_huffman_tree(leaves_nodes, MAX_CHAR);
     number_of_leaves = get_number_of_leaves(huffman_tree);
 
     create_codes(huffman_tree);
-
-    print_tree(huffman_tree);
-    print_codes(huffman_tree);
-
     compute_alphabet(huffman_tree, alphabet);
+    print_alphabet(alphabet);
 
     write_header(compressed_file, alphabet, number_of_leaves);
-    printf("Header written.\n");
-
     write_encoded_data(file, compressed_file, alphabet);
-    printf("Data encoded.\n");
+
+    fprintf(stdout, "\n\n========================================\n");
+    fprintf(stdout, "  Compression completed successfully!\n");
+    fprintf(stdout, "========================================\n\n");
 
     fclose(file);
     fclose(compressed_file);

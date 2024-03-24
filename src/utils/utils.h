@@ -6,31 +6,33 @@
 #include "../constants.h"
 
 /**
- * @brief This function convert an integer into binary and return it as a string
+ * @brief This function convert a code into a string
  *
- * @param code - the integer to convert
- * @param size - the size of the integer
- * @return char* - the binary string
+ * @param code - the code to convert
+ * @param size - the size of the code
+ * @return char* - the string
  */
-char *convert_into_bits(int code, int size);
+char *convert_code_into_string(int *code, int size);
 
 /**
- * @brief This function convert an integer into binary and return it as an array of integers
+ * @brief This function convert a string into a code
  *
- * @param code - the integer to convert
- * @param size - the size of the integer
- * @return int* - the binary array
+ * @param str - the string to convert
+ * @param size - the size of the string
+ * @return int* - the code
  */
-int *convert_interger_code_into_bits(int code, int size);
+int *convert_string_into_code(char *str, int size);
 
 /**
- * @brief This function convert a binary string into an integer
+ * @brief This function compare two arrays
  *
- * @param code - the binary string to convert
- * @param size - the size of the integer
- * @return int - the integer
+ * @param arr1 - the first array
+ * @param arr2 - the second array
+ * @param processed_length - the length of the processed part
+ * @param size - the size of the arrays
+ * @return int - 1 if the arrays are equal, 0 otherwise
  */
-int convert_into_int(char *code, int size);
+int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size);
 
 /**
  * @brief This function count the frequencies of each character in a file

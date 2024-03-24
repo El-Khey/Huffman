@@ -3,6 +3,7 @@
 
 #include "../constants.h"
 #include "../tree/huffman_tree.h"
+#include "../tree/alphabet.h"
 #include "../utils/file.h"
 #include "../utils/utils.h"
 

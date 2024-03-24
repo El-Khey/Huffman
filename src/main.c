@@ -23,11 +23,11 @@ int main(int argc, char *argv[])
 
     if (action == 1)
     {
-        compress_file("example/small", "example/compressed_small");
+        compress_file("example/smiley", "example/compressed_smiley.bin");
     }
     else if (action == 2)
     {
-        decompress_file("example/compressed_small", "example/decompressed_small");
+        decompress_file("example/compressed_smiley", "example/decompressed_smiley");
     }
     else
     {

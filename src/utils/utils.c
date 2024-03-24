@@ -1,51 +1,45 @@
 #include "./utils.h"
 
-char *convert_into_bits(int code, int size)
+char *convert_code_into_string(int *code, int size)
 {
-    char *bits = (char *)malloc(size + 1);
     int i;
+    char *str = (char *)malloc((size + 1) * sizeof(char));
 
-    for (i = size - 1; i >= 0; i--)
+    for (i = 0; i < size; i++)
     {
-        bits[size - 1 - i] = ((code >> i) & 1) + '0';
+        str[i] = code[i] + '0';
     }
 
-    bits[size] = '\0';
-    return bits;
+    str[size] = '\0';
+
+    return str;
 }
 
-int *convert_interger_code_into_bits(int code, int size)
+int *convert_string_into_code(char *str, int size)
 {
-    int *bits = (int *)malloc(size + 1);
     int i;
+    int *code = (int *)malloc(size * sizeof(int));
 
-    for (i = size - 1; i >= 0; i--)
+    for (i = 0; i < size; i++)
     {
-        bits[size - 1 - i] = ((code >> i) & 1);
+        code[i] = str[i] - '0';
     }
 
-    bits[size] = '\0';
-    return bits;
+    return code;
 }
 
-int convert_into_int(char *code, int size)
+int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size)
 {
-    int result = 0, i = 0;
-
-    for (; i < size; i++)
+    int i;
+    for (i = 0; i < size; i++)
     {
-        if (code[i] == '1')
+        if (arr1[i] != arr2[i + processed_length])
         {
-            result |= (1 << (size - 1 - i));
-        }
-        else if (code[i] != '0')
-        {
-            fprintf(stderr, "Invalid bit string. Only '0' and '1' characters are allowed.\n");
-            return -1;
+            return 0;
         }
     }
 
-    return result;
+    return 1;
 }
 
 void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
