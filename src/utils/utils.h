@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+
 #include "../constants.h"
 
 /**
@@ -48,5 +50,12 @@ void count_char_frequencies(FILE *file, int tab[MAX_CHAR]);
  * @param tab
  */
 void display_char_frequencies(int tab[MAX_CHAR]);
+
+/**
+ * @brief This function print a byte
+ *
+ * @param byte - the byte to print
+ */
+void print_byte(uint8_t byte);
 
 #endif

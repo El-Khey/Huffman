@@ -20,10 +20,34 @@ static void write_header(FILE *file, Node **alphabet, int number_of_leaves)
     }
 }
 
+static void write_bit(FILE *file, uint8_t *byte, uint8_t *bit_position, uint8_t bit)
+{
+    *byte = (*byte << 1) | bit;
+    (*bit_position)++;
+
+    if (*bit_position == 8)
+    {
+        fwrite(byte, sizeof(uint8_t), 1, file);
+        *byte = 0;
+        *bit_position = 0;
+    }
+}
+
+static void flush_bits(FILE *file, uint8_t *byte, uint8_t *bit_position)
+{
+    if (*bit_position > 0)
+    {
+        *byte <<= (8 - *bit_position);
+        fwrite(byte, sizeof(uint8_t), 1, file);
+    }
+}
+
 static void write_encoded_data(FILE *file, FILE *compressed_file, Node *alphabet[])
 {
     int ch;
-    char *binary_code;
+    uint8_t byte = 0;
+    uint8_t bit_position = 0;
+    int i = 0;
 
     rewind(file);
 
@@ -35,9 +59,13 @@ static void write_encoded_data(FILE *file, FILE *compressed_file, Node *alphabet
             continue;
         }
 
-        binary_code = convert_code_into_string(alphabet[ch]->code, alphabet[ch]->depth);
-        fprintf(compressed_file, "%s", binary_code);
+        for (i = 0; i < alphabet[ch]->depth; i++)
+        {
+            write_bit(compressed_file, &byte, &bit_position, alphabet[ch]->code[i]);
+        }
     }
+
+    flush_bits(compressed_file, &byte, &bit_position);
 }
 
 void compress_file(char *input_file, char *output_file)

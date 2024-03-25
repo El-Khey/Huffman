@@ -36,17 +36,6 @@ static void read_header(FILE *file, Node **alphabet)
     }
 }
 
-static void read_content(FILE *file, int *encoded_data)
-{
-    int ch, i = 0;
-
-    while ((ch = fgetc(file)) != EOF)
-    {
-        encoded_data[i] = ch - '0';
-        i++;
-    }
-}
-
 static int get_length_encoded_data(Node **alphabet)
 {
     int i, length = 0;
@@ -60,6 +49,40 @@ static int get_length_encoded_data(Node **alphabet)
     }
 
     return length;
+}
+
+static int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position)
+{
+    int bit;
+
+    if (*bit_position == 0)
+    {
+        if (fread(byte, sizeof(uint8_t), 1, file) != 1)
+        {
+            return -1;
+        }
+
+        *bit_position = 8;
+    }
+
+    bit = (*byte >> (*bit_position - 1)) & 1;
+    (*bit_position)--;
+
+    return bit;
+}
+
+static void read_encoded_data(FILE *input, int *encoded_data)
+{
+    int bit;
+    uint8_t byte = 0;
+    uint8_t bit_position = 0;
+    int i = 0;
+
+    while ((bit = read_bit(input, &byte, &bit_position)) != -1)
+    {
+        encoded_data[i] = bit;
+        i++;
+    }
 }
 
 static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, FILE *output)
@@ -99,21 +122,22 @@ static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, 
 
 void decompress_file(char *input_file, char *output_file)
 {
-    int length_encoded_data;
     Node *alphabet[MAX_CHAR];
-    int *encoded_data;
 
+    int length_encoded_data;
     FILE *input = fopen(input_file, "rb");
     FILE *output = fopen(output_file, "wb");
+    int *encoded_data;
 
     check_file_opening(input, input_file);
     check_file_opening(output, output_file);
 
     read_header(input, alphabet);
-    length_encoded_data = get_length_encoded_data(alphabet);
 
+    length_encoded_data = get_length_encoded_data(alphabet);
     encoded_data = (int *)malloc(length_encoded_data * sizeof(int));
-    read_content(input, encoded_data);
+
+    read_encoded_data(input, encoded_data);
 
     decode(alphabet, encoded_data, length_encoded_data, output);
 

@@ -88,3 +88,13 @@ void display_char_frequencies(int tab[MAX_CHAR])
 
     printf("\n");
 }
+
+void print_byte(uint8_t byte)
+{
+    int i;
+    for (i = 0; i < 8; i++)
+    {
+        printf("%d", (byte & 0x80) ? 1 : 0);
+        byte <<= 1;
+    }
+}
