@@ -76,7 +76,7 @@ void compress_file(char *input_file, char *output_file)
     int number_of_leaves;
 
     FILE *file = fopen(input_file, "r");
-    FILE *compressed_file = fopen(output_file, "w");
+    FILE *compressed_file = fopen(output_file, "wb");
 
     check_file_opening(file, input_file);
     check_file_opening(compressed_file, output_file);

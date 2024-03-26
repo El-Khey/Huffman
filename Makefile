@@ -8,6 +8,9 @@ COMPRESSION = compression.o decompression.o
 
 all: build simple-clean
 
+clean-example:
+	rm -rf ./example/*/*.bin ./example/*/decompressed_*
+
 build: main.o $(TREE) $(UTILS) $(COMPRESSION)
 	$(CC) main.o $(TREE) $(UTILS) $(COMPRESSION) -o main $(CLIBS)
 
