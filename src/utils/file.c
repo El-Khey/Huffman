@@ -62,7 +62,37 @@ void check_file_opening(FILE *file, const char *filename)
 {
     if (file == NULL)
     {
-        printf("Error: Could not open file %s\n", filename);
+        fprintf(stderr, "----------------------------------------------\n");
+        fprintf(stderr, "Error: Could not open file %s\n", filename);
+        fprintf(stderr, "----------------------------------------------\n");
         exit(EXIT_FAILURE);
+    }
+}
+
+void check_file_existence(FILE *file)
+{
+    char response;
+    int success;
+
+    if (file)
+    {
+        fprintf(stderr, "\n----------------------------------------------\n");
+        fprintf(stderr, "/!\\ Output file already exists. /!\\");
+        fprintf(stderr, "\n----------------------------------------------\n");
+
+        printf("Do you want to override the file? (y/n): ");
+        success = scanf(" %c", &response);
+
+        if (success != 1)
+        {
+            fprintf(stderr, "Error: Could not read the response.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (response == 'n' || response == 'N')
+        {
+            fprintf(stderr, "> Exiting...\n");
+            exit(EXIT_FAILURE);
+        }
     }
 }

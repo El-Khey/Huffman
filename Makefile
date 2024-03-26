@@ -1,5 +1,5 @@
 CC = gcc 
-CFLAGS = -g -W -Wall -std=c89 -pedantic -O2
+CFLAGS = -g -W -Wall -std=c99 -pedantic -O2
 CLIBS = -lm -lMLV
 
 TREE = huffman_tree.o node.o alphabet.o

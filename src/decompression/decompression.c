@@ -126,10 +126,13 @@ void decompress_file(char *input_file, char *output_file)
 
     int length_encoded_data;
     FILE *input = fopen(input_file, "rb");
-    FILE *output = fopen(output_file, "w");
+    FILE *output = fopen(output_file, "r");
     int *encoded_data;
 
     check_file_opening(input, input_file);
+    check_file_existence(output);
+
+    output = fopen(output_file, "w");
     check_file_opening(output, output_file);
 
     read_header(input, alphabet);

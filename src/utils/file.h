@@ -26,4 +26,12 @@ void read_full_content(const char *filename);
  */
 void check_file_opening(FILE *file, const char *filename);
 
+/**
+ * @brief Check if the file exists
+ *
+ * @param file - the file
+ * @param filename - the filename
+ */
+void check_file_existence(FILE *file);
+
 #endif
