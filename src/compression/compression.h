@@ -10,7 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 
-void compress_file(char *input_file, char *output_file);
+void compress_files(char **input_files, char *output_file, int num_files);
 
 #endif

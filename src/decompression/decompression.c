@@ -1,54 +1,34 @@
 #include "decompression.h"
 
-static void read_header(FILE *file, Node **alphabet)
+static void read_header(Archive *compressed_archive)
 {
-    int n, i, frequency, size, success, ascii;
+    int i, frequency, size, success, ascii;
     char binary_code[MAX_CHAR];
     int *code;
 
-    success = fscanf(file, "%d\n", &n);
-    if (!success)
-    {
-        fprintf(stderr, "Error: could not read the number of leaves.\n");
-        exit(EXIT_FAILURE);
-    }
+    success = fscanf(compressed_archive->file, "%d\n", &compressed_archive->header.number_of_leaves);
+    is_fscanf_successful(success, compressed_archive->filename);
 
     for (i = 0; i < MAX_CHAR; i++)
     {
-        if (i < n)
+        if (i < compressed_archive->header.number_of_leaves)
         {
-            success = fscanf(file, "%d %d %d %s\n", &ascii, &frequency, &size, binary_code);
-            if (!success)
-            {
-                fprintf(stderr, "Error: could not read the header.\n");
-                exit(EXIT_FAILURE);
-            }
+            success = fscanf(compressed_archive->file, "%d %d %d %s\n", &ascii, &frequency, &size, binary_code);
+            is_fscanf_successful(success, compressed_archive->filename);
 
             code = (int *)malloc(size * sizeof(int));
             code = convert_string_into_code(binary_code, size);
 
-            alphabet[i] = create_node(ascii, frequency, size, code);
+            compressed_archive->header.alphabet[i] = create_node(ascii, frequency, size, code);
         }
         else
         {
-            alphabet[i] = NULL;
-        }
-    }
-}
-
-static int get_length_encoded_data(Node **alphabet)
-{
-    int i, length = 0;
-
-    for (i = 0; i < MAX_CHAR; i++)
-    {
-        if (alphabet[i] != NULL)
-        {
-            length += alphabet[i]->frequency * alphabet[i]->depth;
+            compressed_archive->header.alphabet[i] = NULL;
         }
     }
 
-    return length;
+    success = fscanf(compressed_archive->file, "Number of files:%d\n", &compressed_archive->number_of_files);
+    is_fscanf_successful(success, compressed_archive->filename);
 }
 
 static int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position)
@@ -71,83 +51,116 @@ static int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position)
     return bit;
 }
 
-static void read_encoded_data(FILE *input, int *encoded_data)
+static void read_encoded_data(FILE *file, Content *content)
 {
-    int bit;
-    uint8_t byte = 0;
     uint8_t bit_position = 0;
-    int i = 0;
+    uint8_t byte = 0;
+    int bit, i = 0;
 
-    while ((bit = read_bit(input, &byte, &bit_position)) != -1)
+    while ((bit = read_bit(file, &byte, &bit_position)) != -1)
     {
-        encoded_data[i] = bit;
+        if (i >= content->size)
+        {
+            break;
+        }
+
+        content->encoded_data[i] = bit;
         i++;
     }
 }
 
-static void decode(Node **alphabet, int *encoded_data, int length_encoded_data, FILE *output)
+static Archive read_meta(const char *filename)
 {
-    int i = 0;
+    Archive compressed_archive;
+    int i = 0, success = 0;
+    int path_length = 0;
+
+    compressed_archive.file = fopen(filename, "rb");
+    check_file_opening(compressed_archive.file, filename);
+
+    compressed_archive.filename = filename;
+    read_header(&compressed_archive);
+
+    compressed_archive.content = (Content *)malloc(compressed_archive.number_of_files * sizeof(Content));
+
+    for (; i < compressed_archive.number_of_files; i++)
+    {
+        success = fscanf(compressed_archive.file, "length:%d\n", &path_length);
+        is_fscanf_successful(success, compressed_archive.filename);
+
+        compressed_archive.content[i].path = (char *)malloc(path_length + 1 * sizeof(char));
+        success = fscanf(compressed_archive.file, "file:%s encoded_size:%d flush_size:%d\n\n", compressed_archive.content[i].path, &compressed_archive.content[i].size, &compressed_archive.content[i].flush_size);
+        is_fscanf_successful(success, compressed_archive.filename);
+
+        compressed_archive.content[i].filename = get_filename(compressed_archive.content[i].path);
+
+        printf("File: %s\n", compressed_archive.content[i].filename);
+        printf("Path: %s\n", compressed_archive.content[i].path);
+        printf("Size: %d\n\n", compressed_archive.content[i].size);
+
+        compressed_archive.content[i].encoded_data = (int *)malloc(compressed_archive.content[i].size * sizeof(int));
+        read_encoded_data(compressed_archive.file, &compressed_archive.content[i]);
+    }
+
+    return compressed_archive;
+}
+
+static void decode(Header header, Content content, FILE *output)
+{
     int processed_length = 0;
+    int i = 0, index = 0;
     int code_found = 1;
-    int index;
 
     while (1)
     {
         index = (i % MAX_CHAR);
 
-        if (alphabet[index] == NULL)
+        if (header.alphabet[index] == NULL)
         {
             i++;
             continue;
         }
 
-        if (processed_length >= length_encoded_data)
+        if (processed_length >= content.size - content.flush_size)
         {
             break;
         }
 
         code_found = 1;
-        code_found = are_arrays_equal(alphabet[index]->code, encoded_data, processed_length, alphabet[index]->depth);
+        code_found = are_arrays_equal(header.alphabet[index]->code, content.encoded_data, processed_length, header.alphabet[index]->depth);
 
         if (code_found)
         {
-            fprintf(output, "%c", alphabet[index]->ascii);
-            processed_length += alphabet[index]->depth;
+            fprintf(output, "%c", header.alphabet[index]->ascii);
+            processed_length += header.alphabet[index]->depth;
         }
 
         i++;
     }
 }
 
-void decompress_file(char *input_file, char *output_file)
+void decompress_file(char *input_file, char *output_dir)
 {
-    Node *alphabet[MAX_CHAR];
+    Archive compressed_archive = read_meta(input_file);
+    int i = 0;
 
-    int length_encoded_data;
-    FILE *input = fopen(input_file, "rb");
-    FILE *output = fopen(output_file, "r");
-    int *encoded_data;
+    create_folder(output_dir);
+    for (; i < compressed_archive.number_of_files; i++)
+    {
+        char *output_path = (char *)malloc(strlen(output_dir) + strlen(compressed_archive.content[i].filename) + 1);
+        strcpy(output_path, output_dir);
+        strcat(output_path, compressed_archive.content[i].filename);
 
-    check_file_opening(input, input_file);
-    check_file_existence(output);
+        FILE *output = fopen(output_path, "w");
+        check_file_opening(output, output_path);
 
-    output = fopen(output_file, "w");
-    check_file_opening(output, output_file);
-
-    read_header(input, alphabet);
-
-    length_encoded_data = get_length_encoded_data(alphabet);
-    encoded_data = (int *)malloc(length_encoded_data * sizeof(int));
-
-    read_encoded_data(input, encoded_data);
-
-    decode(alphabet, encoded_data, length_encoded_data, output);
+        decode(compressed_archive.header, compressed_archive.content[i], output);
+        fclose(output);
+    }
 
     fprintf(stdout, "\n\n========================================\n");
     fprintf(stdout, "  Decompression completed successfully!\n");
     fprintf(stdout, "========================================\n\n");
 
-    fclose(input);
-    fclose(output);
+    fclose(compressed_archive.file);
 }

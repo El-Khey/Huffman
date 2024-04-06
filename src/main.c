@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "./utils/utils.h"
 #include "./tree/huffman_tree.h"
@@ -13,7 +14,7 @@ static void usage()
     printf("\nUsage: huffman [options]\n\n");
 
     printf("Options:\n");
-    printf("  -c <output_file> <input_file/directories> : Compress files/directories\n");
+    printf("  -c <archive_name> <input_file/directories> : Compress files/directories\n");
     printf("  -d <input_file> [output_directory]        : Decompress file to optional directory\n");
     printf("  -h                                        : Display help\n\n");
 
@@ -28,25 +29,36 @@ static void usage()
 int main(int argc, char *argv[])
 {
     int opt;
-    char *output_file = NULL;
-    char *input_file = NULL;
+    char *archive_name = NULL;
+    char **input_files = NULL;
     char *output_directory = NULL;
+    int num_files = 0, i = 0;
 
     while ((opt = getopt(argc, argv, "c:d:h")) != -1)
     {
         switch (opt)
         {
         case 'c':
-            output_file = optarg;
-            input_file = argv[optind];
+            num_files = argc - optind;
+            input_files = malloc(num_files * sizeof(char *));
+
+            for (; i < num_files; i++)
+            {
+                input_files[i] = argv[optind + i];
+            }
+
+            archive_name = optarg;
             break;
+
         case 'd':
-            input_file = optarg;
+            archive_name = optarg;
             output_directory = (optind < argc) ? argv[optind] : "./";
             break;
+
         case 'h':
             usage();
             break;
+
         default:
             fprintf(stderr, "\n----------------------------\n");
             fprintf(stderr, "/!\\ Unknown option: %c /!\\", optopt);
@@ -56,13 +68,13 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (output_file != NULL && input_file != NULL)
+    if (archive_name != NULL && input_files != NULL && num_files > 0)
     {
-        compress_file(output_file, input_file);
+        compress_files(input_files, archive_name, num_files);
     }
-    else if (input_file != NULL)
+    else if (archive_name != NULL)
     {
-        decompress_file(input_file, output_directory);
+        decompress_file(archive_name, output_directory);
     }
     else
     {

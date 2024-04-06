@@ -69,7 +69,7 @@ void check_file_opening(FILE *file, const char *filename)
     }
 }
 
-void check_file_existence(FILE *file)
+void prompt_override_existing_file(FILE *file, const char *filename)
 {
     char response;
     int success;
@@ -94,5 +94,28 @@ void check_file_existence(FILE *file)
             fprintf(stderr, "> Exiting...\n");
             exit(EXIT_FAILURE);
         }
+    }
+}
+
+void is_fscanf_successful(int success, const char *filename)
+{
+    if (!success)
+    {
+        fprintf(stderr, "Error: could not read the file. Scanf failed.\n");
+        fprintf(stderr, "File: %s\n", filename);
+        exit(EXIT_FAILURE);
+    }
+}
+
+char *get_filename(const char *path)
+{
+    char *filename = strrchr(path, '/');
+    if (filename == NULL)
+    {
+        return (char *)path;
+    }
+    else
+    {
+        return filename + 1;
     }
 }

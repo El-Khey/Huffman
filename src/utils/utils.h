@@ -37,19 +37,26 @@ int *convert_string_into_code(char *str, int size);
 int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size);
 
 /**
+ * @brief This function initialize the frequencies of each character in a file
+ *
+ * @param char_frequencies - the array to initialize
+ */
+void initialize_char_frequencies(int *char_frequencies);
+
+/**
  * @brief This function count the frequencies of each character in a file
  *
  * @param file - the file to read
- * @param tab - the array to store the frequencies
+ * @param char_frequencies - the array to store the frequencies
  */
-void count_char_frequencies(FILE *file, int tab[MAX_CHAR]);
+void count_char_frequencies(FILE *file, int *char_frequencies);
 
 /**
  * @brief This function display the frequencies of each character in a file
  *
- * @param tab
+ * @param char_frequencies - the array of frequencies
  */
-void display_char_frequencies(int tab[MAX_CHAR]);
+void display_char_frequencies(int *char_frequencies);
 
 /**
  * @brief This function print a byte

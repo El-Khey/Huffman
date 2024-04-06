@@ -3,7 +3,7 @@ CFLAGS = -g -W -Wall -std=c99 -pedantic -O2
 CLIBS = -lm -lMLV
 
 TREE = huffman_tree.o node.o alphabet.o
-UTILS = utils.o file.o
+UTILS = utils.o file.o folder.o
 COMPRESSION = compression.o decompression.o
 
 all: build simple-clean
@@ -51,6 +51,9 @@ compression.o: ./src/compression/compression.c
 
 decompression.o: ./src/decompression/decompression.c
 	$(CC) $(CFLAGS) -c ./src/decompression/decompression.c
+
+folder.o: ./src/utils/folder.c
+	$(CC) $(CFLAGS) -c ./src/utils/folder.c
 
 # simple-clean removes all the .o files
 simple-clean:

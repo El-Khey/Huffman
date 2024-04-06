@@ -1,4 +1,4 @@
-#include "./utils.h"
+#include "utils.h"
 
 char *convert_code_into_string(int *code, int size)
 {
@@ -42,17 +42,19 @@ int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size)
     return 1;
 }
 
-void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
+void initialize_char_frequencies(int *char_frequencies)
 {
-    int ch, i;
-
-    /** Initialize the array with zeros */
+    int i;
     for (i = 0; i < MAX_CHAR; i++)
     {
-        tab[i] = 0;
+        char_frequencies[i] = 0;
     }
+}
 
-    /** Count occurrences of each character */
+void count_char_frequencies(FILE *file, int *char_frequencies)
+{
+    int ch;
+
     while ((ch = fgetc(file)) != EOF)
     {
         if (ch > MAX_CHAR || ch < 0)
@@ -61,11 +63,11 @@ void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
             continue;
         }
 
-        tab[ch]++;
+        char_frequencies[ch]++;
     }
 }
 
-void display_char_frequencies(int tab[MAX_CHAR])
+void display_char_frequencies(int *char_frequencies)
 {
     int i;
 
@@ -73,9 +75,9 @@ void display_char_frequencies(int tab[MAX_CHAR])
     printf("\nOccurrences of each character:\n");
     for (i = 0; i < MAX_CHAR; i++)
     {
-        if (tab[i] > 0)
+        if (char_frequencies[i] > 0)
         {
-            printf("'%c' (ASCII: %d) : %d\n", i, i, tab[i]);
+            printf("'%c' (ASCII: %d) : %d\n", i, i, char_frequencies[i]);
         }
     }
 

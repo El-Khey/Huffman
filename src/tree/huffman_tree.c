@@ -13,7 +13,7 @@ static void update_depth(Node *root, int depth)
     update_depth(root->right, depth + 1);
 }
 
-Node *create_huffman_tree(Node *leaves_nodes[], int size)
+Node *create_huffman_tree(Node **leaves_nodes)
 {
     int index_smallest = -1;
     Node *new_node;
@@ -21,7 +21,7 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
     while (1)
     {
         int smallest, second_smallest;
-        find_two_smallest(leaves_nodes, size, &smallest, &second_smallest);
+        find_two_smallest(leaves_nodes, MAX_CHAR, &smallest, &second_smallest);
 
         if (second_smallest == -1 || smallest == -1)
         {
@@ -43,11 +43,11 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
     return leaves_nodes[index_smallest];
 }
 
-void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
+void initialize_huffman_nodes(Node **nodes, int *tab)
 {
     int i;
 
-    for (i = 0; i < size; i++)
+    for (i = 0; i < MAX_CHAR; i++)
     {
         if (tab[i] > 0)
         {
@@ -60,7 +60,7 @@ void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
     }
 }
 
-static void create_codes_helper(Node *node, int code[], int depth)
+static void create_codes_helper(Node *node, int *code, int depth)
 {
     if (is_leaf(node))
     {
