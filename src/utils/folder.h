@@ -20,6 +20,13 @@ int exists(const char *directory);
  *
  * @param directory - The directory to create
  */
-void create_folder(const char *directory);
+void create_folder(char *directory);
+
+/**
+ * @brief Fix the folder name by adding a '/' at the end if it doesn't exist
+ *
+ * @param directory - The directory to fix
+ */
+void fix_folder_name(char *directory);
 
 #endif

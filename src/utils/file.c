@@ -77,7 +77,7 @@ void prompt_override_existing_file(FILE *file, const char *filename)
     if (file)
     {
         fprintf(stderr, "\n----------------------------------------------\n");
-        fprintf(stderr, "/!\\ Output file already exists. /!\\");
+        fprintf(stderr, "/!\\ The file %s already exists.\n", filename);
         fprintf(stderr, "\n----------------------------------------------\n");
 
         printf("Do you want to override the file? (y/n): ");

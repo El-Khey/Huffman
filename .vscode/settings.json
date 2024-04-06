@@ -52,6 +52,8 @@
         "decompression.h": "c",
         "alphabet.h": "c",
         "stat.h": "c",
-        "folder.h": "c"
+        "folder.h": "c",
+        "bit.h": "c",
+        "debug.h": "c"
     }
 }

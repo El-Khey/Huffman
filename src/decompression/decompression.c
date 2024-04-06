@@ -31,26 +31,6 @@ static void read_header(Archive *compressed_archive)
     is_fscanf_successful(success, compressed_archive->filename);
 }
 
-static int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position)
-{
-    int bit;
-
-    if (*bit_position == 0)
-    {
-        if (fread(byte, sizeof(uint8_t), 1, file) != 1)
-        {
-            return -1;
-        }
-
-        *bit_position = 8;
-    }
-
-    bit = (*byte >> (*bit_position - 1)) & 1;
-    (*bit_position)--;
-
-    return bit;
-}
-
 static void read_encoded_data(FILE *file, Content *content)
 {
     uint8_t bit_position = 0;
@@ -94,10 +74,7 @@ static Archive read_meta(const char *filename)
 
         compressed_archive.content[i].filename = get_filename(compressed_archive.content[i].path);
 
-        printf("File: %s\n", compressed_archive.content[i].filename);
-        printf("Path: %s\n", compressed_archive.content[i].path);
-        printf("Size: %d\n\n", compressed_archive.content[i].size);
-
+        debug_file_size(compressed_archive.content[i].path, compressed_archive.content[i].size, compressed_archive.content[i].flush_size); // ! TODO: use a debug flag to trigger this line
         compressed_archive.content[i].encoded_data = (int *)malloc(compressed_archive.content[i].size * sizeof(int));
         read_encoded_data(compressed_archive.file, &compressed_archive.content[i]);
     }
@@ -139,7 +116,7 @@ static void decode(Header header, Content content, FILE *output)
     }
 }
 
-void decompress_file(char *input_file, char *output_dir)
+void decompress_archive(char *input_file, char *output_dir)
 {
     Archive compressed_archive = read_meta(input_file);
     int i = 0;

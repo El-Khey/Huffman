@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     }
     else if (archive_name != NULL)
     {
-        decompress_file(archive_name, output_directory);
+        decompress_archive(archive_name, output_directory);
     }
     else
     {

@@ -4,9 +4,11 @@
 #include "../tree/huffman_tree.h"
 #include "../tree/alphabet.h"
 #include "../utils/folder.h"
+#include "../debug/debug.h"
 #include "../utils/utils.h"
 #include "../utils/file.h"
 #include "../constants.h"
+#include "../byte/bit.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,8 +33,15 @@ typedef struct Content
     int length_encoded_data;
 } Content;
 
+typedef enum Type
+{
+    FILE_TYPE,
+    FOLDER_TYPE
+} Type;
+
 typedef struct Archive
 {
+    Type type;
     Header header;
     Content *content;
 
@@ -42,6 +51,11 @@ typedef struct Archive
     const char *filename;
 } Archive;
 
-void decompress_file(char *input_file, char *output_dir);
+/**
+ * @brief Read the header of the compressed archive.
+ *
+ * @param compressed_archive - the compressed archive
+ */
+void decompress_archive(char *input_file, char *output_dir);
 
 #endif

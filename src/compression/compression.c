@@ -42,28 +42,6 @@ static int get_encoded_file_size(FILE *raw_file, Node **alphabet)
     return size;
 }
 
-static void write_bit(FILE *file, uint8_t *byte, uint8_t *bit_position, uint8_t bit)
-{
-    *byte = (*byte << 1) | bit;
-    (*bit_position)++;
-
-    if (*bit_position == 8)
-    {
-        fwrite(byte, sizeof(uint8_t), 1, file);
-        *byte = 0;
-        *bit_position = 0;
-    }
-}
-
-static void flush_bits(FILE *file, uint8_t *byte, uint8_t *bit_position)
-{
-    if (*bit_position > 0)
-    {
-        *byte <<= (8 - *bit_position);
-        fwrite(byte, sizeof(uint8_t), 1, file);
-    }
-}
-
 static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_file, Node **alphabet)
 {
     int ch;
@@ -76,10 +54,7 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     flush_size = (size % 8) ? 8 - (size % 8) : 0;
     size += flush_size;
 
-    printf("Size: %d\n", size);
-    printf("Flush: %d\n", flush_size);
-    printf("Total size: %d\n", size + flush_size);
-
+    debug_file_size(filename, size, flush_size); // ! TODO: use a debug flag to trigger this line
     fprintf(compressed_file, "\nlength:%d\n", filename_length);
     fprintf(compressed_file, "file:%s encoded_size:%d flush_size:%d\n", filename, size, flush_size);
 
@@ -87,7 +62,7 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     {
         if (ch > MAX_CHAR || ch < 0)
         {
-            fprintf(stderr, "Error: character with ASCII code %d is not supported.\n", ch);
+            fprintf(stderr, "<Error>: character with ASCII code %d is not supported.\n", ch);
             continue;
         }
 
@@ -110,16 +85,8 @@ void compress_files(char **input_files, char *output_file, int number_of_files)
     FILE *compressed_archive = fopen(output_file, "r");
     FILE *raw_file = NULL;
 
-    fprintf(stderr, "Compressed archive : %s\n", output_file);
-    for (int i = 0; i < number_of_files; i++)
-    {
-        fprintf(stderr, "Input file: %s\n", input_files[i]);
-    }
-
-    // Check if the compressed archive is opened correctly
+    // Prepare the compressed archive
     prompt_override_existing_file(compressed_archive, output_file);
-
-    // Overwrite the compressed archive
     compressed_archive = fopen(output_file, "wb");
     check_file_opening(compressed_archive, output_file);
 
@@ -133,28 +100,25 @@ void compress_files(char **input_files, char *output_file, int number_of_files)
         fclose(raw_file);
     }
 
-    display_char_frequencies(char_frequencies);
-    initialize_huffman_nodes(leaves_nodes, char_frequencies);
+    display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
 
     // Step 1: Create the Huffman tree
+    initialize_huffman_nodes(leaves_nodes, char_frequencies);
     huffman_tree = create_huffman_tree(leaves_nodes);
     number_of_leaves = get_number_of_leaves(huffman_tree);
     printf("Number of leaves: %d\n", number_of_leaves);
 
-    // Step 2: Create the codes for each character
+    // Step 2: Create the codes for each character and compute the alphabet
     create_codes(huffman_tree);
-
-    // Step 3: Compute the alphabet
     compute_alphabet(huffman_tree, alphabet);
-    print_alphabet(alphabet);
+    print_alphabet(alphabet); // ! TODO: use a debug flag to trigger this line
 
     // Step 4: Write the header and the encoded data to the compressed archive
     write_header(compressed_archive, alphabet, number_of_leaves, number_of_files);
     fclose(compressed_archive);
 
     compressed_archive = fopen(output_file, "ab");
-    printf("Header written successfully.\n");
-
+    check_file_opening(compressed_archive, output_file);
     for (int i = 0; i < number_of_files; i++)
     {
         raw_file = fopen(input_files[i], "r");

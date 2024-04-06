@@ -88,7 +88,7 @@ void display_char_frequencies(int *char_frequencies)
     printf("The number of supported characters is: %d\n", i);
     printf("\n-----------------------------------\n");
 
-    printf("\n");
+    printf("\n\n");
 }
 
 void print_byte(uint8_t byte)

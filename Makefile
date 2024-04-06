@@ -5,19 +5,20 @@ CLIBS = -lm -lMLV
 TREE = huffman_tree.o node.o alphabet.o
 UTILS = utils.o file.o folder.o
 COMPRESSION = compression.o decompression.o
+BYTE = bit.o
+DEBUG = debug.o
 
 all: build simple-clean
 
 clean-example:
 	rm -rf ./example/*/*.bin ./example/*/decompressed_*
 
-build: main.o $(TREE) $(UTILS) $(COMPRESSION)
-	$(CC) main.o $(TREE) $(UTILS) $(COMPRESSION) -o main $(CLIBS)
+build: main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG)
+	$(CC) main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG) -o main $(CLIBS)
 
 # ----------- #
 # Main file 
 # ----------- #
-
 main.o: ./src/main.c
 	$(CC) $(CFLAGS) -c ./src/main.c
 
@@ -25,7 +26,6 @@ main.o: ./src/main.c
 # ----------- #
 # TREE 
 # ----------- #
-
 huffman_tree.o: ./src/tree/huffman_tree.c
 	$(CC) $(CFLAGS) -c ./src/tree/huffman_tree.c
 
@@ -37,9 +37,22 @@ alphabet.o: ./src/tree/alphabet.c
 
 
 # ----------- #
+# BYTE
+# ----------- #
+bit.o: ./src/byte/bit.c
+	$(CC) $(CFLAGS) -c ./src/byte/bit.c
+
+
+# ----------- #
+# DEBUG
+# ----------- #
+debug.o: ./src/debug/debug.c
+	$(CC) $(CFLAGS) -c ./src/debug/debug.c
+
+
+# ----------- #
 # UTILS
 # ----------- #
-
 utils.o: ./src/utils/utils.c
 	$(CC) $(CFLAGS) -c ./src/utils/utils.c
 
