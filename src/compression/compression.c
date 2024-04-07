@@ -81,31 +81,33 @@ void compress_folders(char **input_folders, char *output_file, int number_of_fol
     char **files_list;
     int number_of_files = 0;
     int level = 0;
+    int index_files = 0;
 
     printf("List of folders Passed: %d\n\n", number_of_folders);
+
+    // TODO: loop to count the total number of files
     for (i = 0; i < number_of_folders; i++)
     {
         find_deepest_level(input_folders[i], input_folders[i], &level);
-        printf("level: %d\n", level);
-
-        // printf("Folder: %s\n", input_folders[i]);
-        // number_of_files += get_number_files(input_folders[i], 1);
-        // printf("Number of files: %d\n", number_of_files);
-        level = 0;
-
-        number_of_files = get_number_files(input_folders[i], level);
-
-        printf("Folder: %s\n", input_folders[i]);
-        printf("Number of files: %d\n", number_of_files);
-
-        files_list = (char **)malloc(number_of_files * sizeof(char *));
-        list_files_in_folder_at_level(input_folders[i], level, files_list);
-        printf("\n\n");
-        for (int j = 0; j < number_of_files; j++)
-        {
-            printf("->File[%d]: %s\n", j, files_list[j]);
-        }
+        number_of_files += get_number_files(input_folders[i], level);
     }
+
+    printf("Number of files: %d\n", number_of_files);
+
+    files_list = (char **)malloc(number_of_files * sizeof(char *));
+    for (i = 0; i < number_of_folders; i++)
+    {
+        find_deepest_level(input_folders[i], input_folders[i], &level);
+        list_files_in_folder_at_level(input_folders[i], level, files_list, &index_files);
+    }
+
+    for (int j = 0; j < number_of_files; j++)
+    {
+        printf("->File[%d]: %s\n", j, files_list[j]);
+    }
+
+    // ! compress_files(files_list, output_file, number_of_files);
+    // TODO : check the files names to store in the header of the compressed file
 }
 
 void compress_files(char **input_files, char *output_file, int number_of_files)

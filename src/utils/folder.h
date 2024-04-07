@@ -73,8 +73,9 @@ int get_folder_relative_level(char *base_dir, char *sub_dir);
  * @param dir_path - The directory to check
  * @param level - The level of the directory
  * @param files_list - The list of files in the directory
+ * @param index_files - The index of the files
  */
-void list_files_in_folder_at_level(char *dir_path, int level, char **files_list);
+void list_files_in_folder_at_level(char *dir_path, int level, char **files_list, int *index_files);
 
 /**
  * @brief Check if a folder can be opened

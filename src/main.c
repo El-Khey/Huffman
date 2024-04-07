@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     Type compression_type = NONE_TYPE;
     Action action = NOTHING;
 
-    while ((opt = getopt(argc, argv, "c:d:hf:r")) != -1)
+    while ((opt = getopt(argc, argv, "c:d:h:fr")) != -1)
     {
         switch (opt)
         {

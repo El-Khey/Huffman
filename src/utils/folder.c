@@ -57,6 +57,7 @@ int get_folder_tree_depth(char *directory)
     return depth;
 }
 
+// TODO: create a helper function to reduce the number of parameters (base_path, level)
 void find_deepest_level(char *base_path, char *dir_path, int *level)
 {
     DIR *dir;
@@ -191,10 +192,9 @@ void list_files_in_folder_at_level_helper(char *base_path, char *dir_path, int l
     closedir(dir);
 }
 
-void list_files_in_folder_at_level(char *dir_path, int level, char **files_list)
+void list_files_in_folder_at_level(char *dir_path, int level, char **files_list, int *index_files)
 {
-    int num_files = 0;
-    list_files_in_folder_at_level_helper(dir_path, dir_path, level, files_list, &num_files);
+    list_files_in_folder_at_level_helper(dir_path, dir_path, level, files_list, index_files);
 }
 
 void check_folder_opening(DIR *dir, const char *directory_name)
