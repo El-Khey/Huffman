@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <dirent.h>
+#include <string.h>
 
 #include "../constants.h"
 
@@ -64,5 +66,15 @@ void display_char_frequencies(int *char_frequencies);
  * @param byte - the byte to print
  */
 void print_byte(uint8_t byte);
+
+/**
+ * @brief This function split a string into parts
+ *
+ * @param str - the string to split
+ * @param parts - the array of parts
+ * @param delimiter - the delimiter
+ * @return int - the number of parts
+ */
+int split_string(char *str, char **parts, const char *delimiter);
 
 #endif

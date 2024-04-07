@@ -54,6 +54,14 @@
         "stat.h": "c",
         "folder.h": "c",
         "bit.h": "c",
-        "debug.h": "c"
+        "debug.h": "c",
+        "string.h": "c",
+        "stdint.h": "c",
+        "dirent.h": "c",
+        "types.h": "c",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c"
     }
 }

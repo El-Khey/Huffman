@@ -100,3 +100,30 @@ void print_byte(uint8_t byte)
         byte <<= 1;
     }
 }
+
+int split_string(char *str, char **parts, const char *delimiter)
+{
+    char *token;
+    int num_parts = 0;
+    char *str_copy = (char *)malloc(strlen(str) + 1);
+    strcpy(str_copy, str);
+
+    if (str_copy == NULL)
+    {
+        fprintf(stderr, "<Error>: Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Initialize strtok with the string and delimiter
+    token = strtok(str_copy, delimiter);
+
+    // Loop through the tokens until no more tokens are found
+    while (token != NULL)
+    {
+        parts[num_parts++] = token;      // Store the token in parts array
+        token = strtok(NULL, delimiter); // Get the next token
+    }
+
+    free(str_copy);
+    return num_parts; // Return the number of parts
+}

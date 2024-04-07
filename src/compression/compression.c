@@ -1,4 +1,4 @@
-#include "./compression.h"
+#include "compression.h"
 
 // TODO : compress only 1 letter
 static void write_header(FILE *file, Node **alphabet, int number_of_leaves, int number_of_files)
@@ -73,6 +73,39 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     }
 
     flush_bits(compressed_file, &byte, &bit_position);
+}
+
+void compress_folders(char **input_folders, char *output_file, int number_of_folders)
+{
+    int i = 0;
+    char **files_list;
+    int number_of_files = 0;
+    int level = 0;
+
+    printf("List of folders Passed: %d\n\n", number_of_folders);
+    for (i = 0; i < number_of_folders; i++)
+    {
+        find_deepest_level(input_folders[i], input_folders[i], &level);
+        printf("level: %d\n", level);
+
+        // printf("Folder: %s\n", input_folders[i]);
+        // number_of_files += get_number_files(input_folders[i], 1);
+        // printf("Number of files: %d\n", number_of_files);
+        level = 0;
+
+        number_of_files = get_number_files(input_folders[i], level);
+
+        printf("Folder: %s\n", input_folders[i]);
+        printf("Number of files: %d\n", number_of_files);
+
+        files_list = (char **)malloc(number_of_files * sizeof(char *));
+        list_files_in_folder_at_level(input_folders[i], level, files_list);
+        printf("\n\n");
+        for (int j = 0; j < number_of_files; j++)
+        {
+            printf("->File[%d]: %s\n", j, files_list[j]);
+        }
+    }
 }
 
 void compress_files(char **input_files, char *output_file, int number_of_files)

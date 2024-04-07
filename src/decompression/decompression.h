@@ -33,12 +33,6 @@ typedef struct Content
     int length_encoded_data;
 } Content;
 
-typedef enum Type
-{
-    FILE_TYPE,
-    FOLDER_TYPE
-} Type;
-
 typedef struct Archive
 {
     Type type;

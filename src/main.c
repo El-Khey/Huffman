@@ -28,31 +28,52 @@ static void usage()
 
 int main(int argc, char *argv[])
 {
-    int opt;
+    char *output_directory = NULL;
     char *archive_name = NULL;
     char **input_files = NULL;
-    char *output_directory = NULL;
     int num_files = 0, i = 0;
+    int opt;
 
-    while ((opt = getopt(argc, argv, "c:d:h")) != -1)
+    Type compression_type = NONE_TYPE;
+    Action action = NOTHING;
+
+    while ((opt = getopt(argc, argv, "c:d:hf:r")) != -1)
     {
         switch (opt)
         {
         case 'c':
-            num_files = argc - optind;
-            input_files = malloc(num_files * sizeof(char *));
-
-            for (; i < num_files; i++)
-            {
-                input_files[i] = argv[optind + i];
-            }
-
             archive_name = optarg;
+            action = COMPRESS;
             break;
 
         case 'd':
             archive_name = optarg;
             output_directory = (optind < argc) ? argv[optind] : "./";
+            action = DECOMPRESS;
+            break;
+
+        case 'f':
+            num_files = argc - optind;
+            input_files = malloc(num_files * sizeof(char *));
+
+            for (i = 0; i < num_files; i++)
+            {
+                input_files[i] = argv[optind + i];
+            }
+
+            compression_type = FILE_TYPE;
+            break;
+
+        case 'r':
+            num_files = argc - optind;
+            input_files = malloc(num_files * sizeof(char *));
+
+            for (i = 0; i < num_files; i++)
+            {
+                input_files[i] = argv[optind + i];
+            }
+
+            compression_type = FOLDER_TYPE;
             break;
 
         case 'h':
@@ -68,20 +89,28 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (archive_name != NULL && input_files != NULL && num_files > 0)
-    {
-        compress_files(input_files, archive_name, num_files);
-    }
-    else if (archive_name != NULL)
-    {
-        decompress_archive(archive_name, output_directory);
-    }
-    else
+    if (archive_name == NULL || input_files == NULL || num_files == 0)
     {
         fprintf(stderr, "\n--------------------------------------\n");
         fprintf(stderr, "/!\\ No valid options provided. /!\\");
         fprintf(stderr, "\n--------------------------------------\n");
         usage();
+    }
+
+    if (action == COMPRESS)
+    {
+        if (compression_type == FILE_TYPE)
+        {
+            compress_files(input_files, archive_name, num_files);
+        }
+        else if (compression_type == FOLDER_TYPE)
+        {
+            compress_folders(input_files, archive_name, num_files);
+        }
+    }
+    if (action == DECOMPRESS)
+    {
+        decompress_archive(archive_name, output_directory);
     }
 
     exit(EXIT_SUCCESS);

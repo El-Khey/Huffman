@@ -32,3 +32,178 @@ void create_folder(char *directory)
         exit(EXIT_FAILURE);
     }
 }
+
+int get_folder_tree_depth(char *directory)
+{
+    int depth = 0;
+    if (directory == NULL || *directory == '\0')
+    {
+        return depth;
+    }
+
+    char *parts[1024]; // TODO: decide a length for the parts array based on linux/windows limits
+    int size = split_string(directory, parts, "/");
+    for (int i = 0; i < size; i++)
+    {
+        // ignore the . and .. directories
+        if (strcmp(parts[i], ".") == 0 || strcmp(parts[i], "..") == 0)
+        {
+            continue;
+        }
+
+        depth++;
+    }
+
+    return depth;
+}
+
+void find_deepest_level(char *base_path, char *dir_path, int *level)
+{
+    DIR *dir;
+    struct dirent *entry;
+
+    dir = opendir(dir_path);
+    check_folder_opening(dir, dir_path);
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+        {
+            char file_path[1024];
+            snprintf(file_path, sizeof(file_path), "%s/%s", dir_path, entry->d_name);
+
+            DIR *sub_dir = opendir(file_path);
+            if (sub_dir != NULL)
+            {
+                *level += 1; // TODO: move this inside the function call
+                find_deepest_level(base_path, file_path, level);
+                closedir(sub_dir);
+            }
+        }
+    }
+
+    closedir(dir);
+}
+
+int get_folder_relative_level(char *base_dir, char *sub_dir)
+{
+    char *base_parts[1024], *target_parts[1024];
+    int base_size = split_string(base_dir, base_parts, "/");
+    int target_size = split_string(sub_dir, target_parts, "/");
+
+    return target_size - base_size;
+}
+
+static int get_number_files_helper(char *base_path, char *dir_path, int level)
+{
+    DIR *dir;
+    struct dirent *entry;
+    int num_files = 0;
+
+    // Open directory
+    dir = opendir(dir_path);
+    if (dir == NULL)
+    {
+        fprintf(stderr, "Error opening directory %s\n", dir_path);
+        return -1;
+    }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+        {
+            char file_path[1024];
+            snprintf(file_path, sizeof(file_path), "%s/%s", dir_path, entry->d_name);
+
+            DIR *sub_dir = opendir(file_path);
+            if (sub_dir != NULL)
+            {
+                int cmp_lvl = get_folder_relative_level(base_path, file_path);
+                if (cmp_lvl <= level)
+                {
+                    num_files += get_number_files_helper(base_path, file_path, level);
+                }
+
+                closedir(sub_dir);
+            }
+            else
+            {
+                if (strstr(entry->d_name, ".txt") != NULL)
+                {
+                    num_files++;
+                }
+            }
+        }
+    }
+
+    closedir(dir);
+    return num_files;
+}
+
+int get_number_files(char *dir_path, int level)
+{
+    return get_number_files_helper(dir_path, dir_path, level);
+}
+
+void list_files_in_folder_at_level_helper(char *base_path, char *dir_path, int level, char **files_list, int *num_files)
+{
+    DIR *dir;
+    struct dirent *entry;
+
+    // Open directory
+    dir = opendir(dir_path);
+    if (dir == NULL)
+    {
+        fprintf(stderr, "Error opening directory %s\n", dir_path);
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+        {
+            char file_path[1024];
+            snprintf(file_path, sizeof(file_path), "%s/%s", dir_path, entry->d_name);
+
+            DIR *sub_dir = opendir(file_path);
+            if (sub_dir != NULL)
+            {
+                int cmp_lvl = get_folder_relative_level(base_path, file_path);
+                if (cmp_lvl <= level)
+                {
+                    list_files_in_folder_at_level_helper(base_path, file_path, level, files_list, num_files);
+                }
+
+                closedir(sub_dir);
+            }
+            else
+            {
+                if (strstr(entry->d_name, ".txt") != NULL)
+                {
+                    files_list[*num_files] = (char *)malloc(strlen(file_path) + 1 * sizeof(char));
+                    strcpy(files_list[*num_files], file_path);
+                    (*num_files)++;
+                }
+            }
+        }
+    }
+
+    closedir(dir);
+}
+
+void list_files_in_folder_at_level(char *dir_path, int level, char **files_list)
+{
+    int num_files = 0;
+    list_files_in_folder_at_level_helper(dir_path, dir_path, level, files_list, &num_files);
+}
+
+void check_folder_opening(DIR *dir, const char *directory_name)
+{
+    if (dir == NULL)
+    {
+        fprintf(stderr, "----------------------------------------------\n");
+        fprintf(stderr, "Error: Could not open folder %s\n", directory_name);
+        fprintf(stderr, "----------------------------------------------\n");
+        exit(EXIT_FAILURE);
+    }
+}
