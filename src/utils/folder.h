@@ -26,6 +26,13 @@ int exists(const char *directory);
 char *get_folder_name(char *directory);
 
 /**
+ * @brief Create intermediate folders if they don't exist
+ *
+ * @param directory - The directory to create
+ */
+void create_intermediate_folders(char *directory);
+
+/**
  * @brief Create a folder if it doesn't exist
  *
  * @param directory - The directory to create

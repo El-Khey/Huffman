@@ -118,7 +118,7 @@ static void decode(Header header, Content content, FILE *output)
     }
 }
 
-void decompress_archive(char *input_file, char *output_dir)
+void decompress(char *input_file, char *output_dir)
 {
     Archive compressed_archive = read_meta(input_file);
     int i = 0;
@@ -126,10 +126,11 @@ void decompress_archive(char *input_file, char *output_dir)
     create_folder(output_dir);
     for (; i < compressed_archive.number_of_files; i++)
     {
-        char *output_path = (char *)malloc(strlen(output_dir) + strlen(compressed_archive.content[i].filename) + 1);
+        char *output_path = (char *)malloc(strlen(output_dir) + strlen(compressed_archive.content[i].path) + 1);
         strcpy(output_path, output_dir);
-        strcat(output_path, compressed_archive.content[i].filename);
+        strcat(output_path, compressed_archive.content[i].path);
 
+        create_intermediate_folders(output_path);
         FILE *output = fopen(output_path, "w");
         check_file_opening(output, output_path);
 

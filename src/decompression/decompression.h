@@ -50,6 +50,6 @@ typedef struct Archive
  *
  * @param compressed_archive - the compressed archive
  */
-void decompress_archive(char *input_file, char *output_dir);
+void decompress(char *input_file, char *output_dir);
 
 #endif

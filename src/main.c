@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
     }
     else if (archive_name != NULL && action == DECOMPRESS)
     {
-        decompress_archive(archive_name, output_directory);
+        decompress(archive_name, output_directory);
     }
 
     exit(EXIT_SUCCESS);
