@@ -43,22 +43,18 @@ static int get_encoded_file_size(char *filename, Node **alphabet)
     return size;
 }
 
-static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_file, Node **alphabet)
+static void write_encoded_data(File file, FILE *compressed_file, Node **alphabet)
 {
     int ch;
     uint8_t byte = 0;
     uint8_t bit_position = 0;
-    int i = 0, size = 0, flush_size = 0;
-    int filename_length = strlen(filename);
+    int i = 0;
 
-    size = get_encoded_file_size(filename, alphabet);
-    flush_size = (size % 8) ? 8 - (size % 8) : 0;
-    size += flush_size;
+    debug_file_size(file.name, file.total_size, file.flush_size); // ! TODO: use a debug flag to trigger this line
+    fprintf(compressed_file, "\nlength:%d\n", (int)strlen(file.name));
+    fprintf(compressed_file, "file:%s encoded_size:%d flush_size:%d\n", file.name, file.total_size, file.flush_size);
 
-    debug_file_size(filename, size, flush_size); // ! TODO: use a debug flag to trigger this line
-    fprintf(compressed_file, "\nlength:%d\n", filename_length);
-    fprintf(compressed_file, "file:%s encoded_size:%d flush_size:%d\n", filename, size, flush_size);
-
+    FILE *raw_file = fopen(file.path, "r");
     while ((ch = fgetc(raw_file)) != EOF)
     {
         if (ch > MAX_CHAR || ch < 0)
@@ -76,25 +72,25 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     flush_bits(compressed_file, &byte, &bit_position);
 }
 
-static void write_files_data(Files files, FILE *compressed_file, Node **alphabet)
+static void write_files_data(Files list, Archive archive)
 {
-    int i;
-    FILE *raw_file = NULL;
-
-    for (i = 0; i < files.number_of_files; i++)
+    int i, size;
+    for (i = 0; i < list.number_of_files; i++)
     {
-        raw_file = fopen(files.files[i].path, "r");
-        write_encoded_data(raw_file, files.files[i].path, compressed_file, alphabet);
-        fclose(raw_file);
+        size = get_encoded_file_size(list.files[i].path, archive.header.alphabet);
+        list.files[i].flush_size = (size % 8) ? 8 - (size % 8) : 0;
+        list.files[i].total_size = size + list.files[i].flush_size;
+
+        write_encoded_data(list.files[i], archive.file, archive.header.alphabet);
     }
 }
 
-static void write_folders_data(Directories directories, FILE *compressed_file, Node **alphabet)
+static void write_folders_data(Directories directories, Archive archive)
 {
     int i;
     for (i = 0; i < directories.number_of_directories; i++)
     {
-        write_files_data(directories.directories[i].list, compressed_file, alphabet);
+        write_files_data(directories.directories[i].list, archive);
     }
 }
 
@@ -239,11 +235,11 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     check_file_opening(archive.file, output_file);
     if (data.type == FOLDER_TYPE)
     {
-        write_folders_data(data.directories, archive.file, archive.header.alphabet);
+        write_folders_data(data.directories, archive);
     }
     else
     {
-        write_files_data(data.files, archive.file, archive.header.alphabet);
+        write_files_data(data.files, archive);
     }
 
     fprintf(stdout, "\n\n========================================\n");

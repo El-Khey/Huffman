@@ -19,7 +19,9 @@ typedef struct File
 {
     char *path;
     char *name;
-    int size;
+
+    int total_size;
+    int flush_size;
 
     int *encoded_data;
     int length_encoded_data;
