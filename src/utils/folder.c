@@ -5,6 +5,14 @@ int exists(const char *directory)
     return access(directory, F_OK) == 0;
 }
 
+char *get_folder_name(char *directory)
+{
+    char *parts[1024]; // TODO: decide a length for the parts array based on linux/windows limits
+    int size = split_string(directory, parts, "/");
+
+    return parts[size - 1];
+}
+
 void fix_folder_name(char *directory)
 {
     if (directory[strlen(directory) - 1] != '/')
@@ -192,9 +200,10 @@ void list_files_in_folder_at_level_helper(char *base_path, char *dir_path, int l
     closedir(dir);
 }
 
-void list_files_in_folder_at_level(char *dir_path, int level, char **files_list, int *index_files)
+void list_files_in_folder_at_level(char *dir_path, int level, char **files_list)
 {
-    list_files_in_folder_at_level_helper(dir_path, dir_path, level, files_list, index_files);
+    int index_files = 0;
+    list_files_in_folder_at_level_helper(dir_path, dir_path, level, files_list, &index_files);
 }
 
 void check_folder_opening(DIR *dir, const char *directory_name)

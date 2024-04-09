@@ -1,31 +1,32 @@
 #include "compression.h"
 
 // TODO : compress only 1 letter
-static void write_header(FILE *file, Node **alphabet, int number_of_leaves, int number_of_files)
+static void write_header(FILE *file, Header header, int number_of_files, Type archive_type)
 {
     int i;
     char *binary_code;
 
-    fprintf(file, "%d\n", number_of_leaves);
+    fprintf(file, "%d\n", header.number_of_leaves);
     for (i = 0; i < MAX_CHAR; i++)
     {
-        if (alphabet[i] != NULL)
+        if (header.alphabet[i] != NULL)
         {
-            binary_code = convert_code_into_string(alphabet[i]->code, alphabet[i]->depth);
+            binary_code = convert_code_into_string(header.alphabet[i]->code, header.alphabet[i]->depth);
             fprintf(file, "%d %d %d %s\n",
-                    alphabet[i]->ascii,
-                    alphabet[i]->frequency,
-                    alphabet[i]->depth,
+                    header.alphabet[i]->ascii,
+                    header.alphabet[i]->frequency,
+                    header.alphabet[i]->depth,
                     binary_code);
         }
     }
-    fprintf(file, "Number of files:%d", number_of_files);
+    fprintf(file, "n:%d t:%d", number_of_files, archive_type);
 }
 
-static int get_encoded_file_size(FILE *raw_file, Node **alphabet)
+static int get_encoded_file_size(char *filename, Node **alphabet)
 {
     int size = 0;
     int ch;
+    FILE *raw_file = fopen(filename, "r");
 
     while ((ch = fgetc(raw_file)) != EOF)
     {
@@ -38,7 +39,7 @@ static int get_encoded_file_size(FILE *raw_file, Node **alphabet)
         size += alphabet[ch]->depth;
     }
 
-    rewind(raw_file);
+    fclose(raw_file);
     return size;
 }
 
@@ -50,7 +51,7 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     int i = 0, size = 0, flush_size = 0;
     int filename_length = strlen(filename);
 
-    size = get_encoded_file_size(raw_file, alphabet);
+    size = get_encoded_file_size(filename, alphabet);
     flush_size = (size % 8) ? 8 - (size % 8) : 0;
     size += flush_size;
 
@@ -75,64 +76,146 @@ static void write_encoded_data(FILE *raw_file, char *filename, FILE *compressed_
     flush_bits(compressed_file, &byte, &bit_position);
 }
 
-void compress_folders(char **input_folders, char *output_file, int number_of_folders)
+static void write_files_data(Files files, FILE *compressed_file, Node **alphabet)
 {
-    int i = 0;
-    char **files_list;
-    int number_of_files = 0;
-    int level = 0;
-    int index_files = 0;
-
-    printf("List of folders Passed: %d\n\n", number_of_folders);
-
-    // TODO: loop to count the total number of files
-    for (i = 0; i < number_of_folders; i++)
-    {
-        find_deepest_level(input_folders[i], input_folders[i], &level);
-        number_of_files += get_number_files(input_folders[i], level);
-    }
-
-    printf("Number of files: %d\n", number_of_files);
-
-    files_list = (char **)malloc(number_of_files * sizeof(char *));
-    for (i = 0; i < number_of_folders; i++)
-    {
-        find_deepest_level(input_folders[i], input_folders[i], &level);
-        list_files_in_folder_at_level(input_folders[i], level, files_list, &index_files);
-    }
-
-    for (int j = 0; j < number_of_files; j++)
-    {
-        printf("->File[%d]: %s\n", j, files_list[j]);
-    }
-
-    // ! compress_files(files_list, output_file, number_of_files);
-    // TODO : check the files names to store in the header of the compressed file
-}
-
-void compress_files(char **input_files, char *output_file, int number_of_files)
-{
-    int char_frequencies[MAX_CHAR];
-    Node *leaves_nodes[MAX_CHAR], *alphabet[MAX_CHAR];
-    Node *huffman_tree;
-    int number_of_leaves;
-
-    FILE *compressed_archive = fopen(output_file, "r");
+    int i;
     FILE *raw_file = NULL;
 
+    for (i = 0; i < files.number_of_files; i++)
+    {
+        raw_file = fopen(files.files[i].path, "r");
+        write_encoded_data(raw_file, files.files[i].path, compressed_file, alphabet);
+        fclose(raw_file);
+    }
+}
+
+static void write_folders_data(Directories directories, FILE *compressed_file, Node **alphabet)
+{
+    int i;
+    for (i = 0; i < directories.number_of_directories; i++)
+    {
+        write_files_data(directories.directories[i].list, compressed_file, alphabet);
+    }
+}
+
+static void compute_char_frequencies_in_files(Files files, int *char_frequencies)
+{
+    int i;
+    for (i = 0; i < files.number_of_files; i++)
+    {
+        FILE *file = fopen(files.files[i].path, "r");
+        check_file_opening(file, files.files[i].path);
+        count_char_frequencies(file, char_frequencies);
+        fclose(file);
+    }
+}
+
+static void compute_char_frequencies_in_folders(Directories directories, int *char_frequencies)
+{
+    int i, j;
+    for (i = 0; i < directories.number_of_directories; i++)
+    {
+        for (j = 0; j < directories.directories[i].list.number_of_files; j++)
+        {
+            compute_char_frequencies_in_files(directories.directories[i].list, char_frequencies);
+        }
+    }
+}
+
+static int get_number_files_in_directories(Directories directories)
+{
+    int i, number_of_files = 0;
+    for (i = 0; i < directories.number_of_directories; i++)
+    {
+        number_of_files += directories.directories[i].list.number_of_files;
+    }
+    return number_of_files;
+}
+
+static Data prepare_folders_data(char **input_folders, int number_of_folders)
+{
+    int i = 0;
+    int level = 0;
+    char **files_path;
+
+    Data data;
+    data.type = FOLDER_TYPE;
+    data.directories.number_of_directories = number_of_folders;
+    data.directories.directories = (Directory *)malloc(number_of_folders * sizeof(Directory));
+
+    printf("List of folders Passed: %d\n\n", number_of_folders);
+    for (i = 0; i < number_of_folders; i++)
+    {
+        data.directories.directories[i].path = (char *)malloc(strlen(input_folders[i]) + 1);
+        strcpy(data.directories.directories[i].path, input_folders[i]);
+
+        data.directories.directories[i].name = (char *)malloc(strlen(input_folders[i]) + 1);
+        strcpy(data.directories.directories[i].name, get_folder_name(input_folders[i]));
+
+        find_deepest_level(input_folders[i], input_folders[i], &level);
+        data.directories.directories[i].list.number_of_files = get_number_files(input_folders[i], level);
+
+        files_path = (char **)malloc(data.directories.directories[i].list.number_of_files * sizeof(char *));
+        list_files_in_folder_at_level(input_folders[i], level, files_path);
+
+        data.directories.directories[i].list.files = (File *)malloc(data.directories.directories[i].list.number_of_files * sizeof(File));
+        for (int j = 0; j < data.directories.directories[i].list.number_of_files; j++)
+        {
+            data.directories.directories[i].list.files[j].path = (char *)malloc(strlen(files_path[j]) + 1 * sizeof(char));
+            strcpy(data.directories.directories[i].list.files[j].path, files_path[j]);
+
+            data.directories.directories[i].list.files[j].name = files_path[j];
+            data.directories.directories[i].list.files[j].name += strlen(input_folders[i]);
+            str_cat_prefix(data.directories.directories[i].list.files[j].name, get_folder_name(input_folders[i]));
+        }
+    }
+
+    return data;
+}
+
+static Data prepare_files_data(char **input_files, int number_of_files)
+{
+    Data data;
+    data.type = FILE_TYPE;
+    data.files.number_of_files = number_of_files;
+    data.files.files = (File *)malloc(number_of_files * sizeof(File));
+
+    for (int i = 0; i < number_of_files; i++)
+    {
+        data.files.files[i].path = (char *)malloc(strlen(input_files[i]) + 1 * sizeof(char));
+        strcpy(data.files.files[i].path, input_files[i]);
+
+        data.files.files[i].name = get_filename(input_files[i]);
+    }
+
+    return data;
+}
+
+void compress(char **inputs, char *output_file, int number_of_inputs, Type archive_type)
+{
+    Node *leaves_nodes[MAX_CHAR], *huffman_tree;
+    int char_frequencies[MAX_CHAR], number_of_files;
+    Archive archive;
+
+    Data data = (archive_type == FOLDER_TYPE) ? prepare_folders_data(inputs, number_of_inputs)
+                                              : prepare_files_data(inputs, number_of_inputs);
+
     // Prepare the compressed archive
-    prompt_override_existing_file(compressed_archive, output_file);
-    compressed_archive = fopen(output_file, "wb");
-    check_file_opening(compressed_archive, output_file);
+    prompt_override_existing_file(fopen(output_file, "r"), output_file);
+    archive.file = fopen(output_file, "wb");
+    check_file_opening(archive.file, output_file);
 
     // Pre-step: Count the frequency of each character in the files
     initialize_char_frequencies(char_frequencies);
-    for (int i = 0; i < number_of_files; i++)
+    if (data.type == FOLDER_TYPE)
     {
-        raw_file = fopen(input_files[i], "r");
-        check_file_opening(raw_file, input_files[i]);
-        count_char_frequencies(raw_file, char_frequencies);
-        fclose(raw_file);
+        compute_char_frequencies_in_folders(data.directories, char_frequencies);
+        number_of_files = get_number_files_in_directories(data.directories);
+    }
+    else
+    {
+        compute_char_frequencies_in_files(data.files, char_frequencies);
+        number_of_files = data.files.number_of_files;
     }
 
     display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
@@ -140,27 +223,27 @@ void compress_files(char **input_files, char *output_file, int number_of_files)
     // Step 1: Create the Huffman tree
     initialize_huffman_nodes(leaves_nodes, char_frequencies);
     huffman_tree = create_huffman_tree(leaves_nodes);
-    number_of_leaves = get_number_of_leaves(huffman_tree);
-    printf("Number of leaves: %d\n", number_of_leaves);
+    archive.header.number_of_leaves = get_number_of_leaves(huffman_tree);
+    printf("Number of leaves: %d\n", archive.header.number_of_leaves);
 
     // Step 2: Create the codes for each character and compute the alphabet
     create_codes(huffman_tree);
-    compute_alphabet(huffman_tree, alphabet);
-    print_alphabet(alphabet); // ! TODO: use a debug flag to trigger this line
+    compute_alphabet(huffman_tree, archive.header.alphabet);
+    print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
 
     // Step 4: Write the header and the encoded data to the compressed archive
-    write_header(compressed_archive, alphabet, number_of_leaves, number_of_files);
-    fclose(compressed_archive);
+    write_header(archive.file, archive.header, number_of_files, data.type);
+    fclose(archive.file);
 
-    compressed_archive = fopen(output_file, "ab");
-    check_file_opening(compressed_archive, output_file);
-    for (int i = 0; i < number_of_files; i++)
+    archive.file = fopen(output_file, "ab");
+    check_file_opening(archive.file, output_file);
+    if (data.type == FOLDER_TYPE)
     {
-        raw_file = fopen(input_files[i], "r");
-        compressed_archive = fopen(output_file, "ab");
-        write_encoded_data(raw_file, input_files[i], compressed_archive, alphabet);
-        fclose(raw_file);
-        fclose(compressed_archive);
+        write_folders_data(data.directories, archive.file, archive.header.alphabet);
+    }
+    else
+    {
+        write_files_data(data.files, archive.file, archive.header.alphabet);
     }
 
     fprintf(stdout, "\n\n========================================\n");

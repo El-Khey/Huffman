@@ -101,6 +101,15 @@ void print_byte(uint8_t byte)
     }
 }
 
+void str_cat_prefix(char *str, const char *prefix)
+{
+    char *temp = (char *)malloc(strlen(str) + strlen(prefix) + 1);
+    strcpy(temp, prefix);
+    strcat(temp, str);
+    strcpy(str, temp);
+    free(temp);
+}
+
 int split_string(char *str, char **parts, const char *delimiter)
 {
     char *token;
@@ -120,7 +129,10 @@ int split_string(char *str, char **parts, const char *delimiter)
     // Loop through the tokens until no more tokens are found
     while (token != NULL)
     {
-        parts[num_parts++] = token;      // Store the token in parts array
+        parts[num_parts] = (char *)malloc(strlen(token) + 1); // Allocate memory for the token
+        strcpy(parts[num_parts], token);                      // Copy the token to the parts array
+
+        num_parts++;                     // Increment the number of parts
         token = strtok(NULL, delimiter); // Get the next token
     }
 

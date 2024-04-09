@@ -50,6 +50,7 @@ int main(int argc, char *argv[])
             archive_name = optarg;
             output_directory = (optind < argc) ? argv[optind] : "./";
             action = DECOMPRESS;
+            printf("Output directory: %s\n", output_directory);
             break;
 
         case 'f':
@@ -89,26 +90,26 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (archive_name == NULL || input_files == NULL || num_files == 0)
-    {
-        fprintf(stderr, "\n--------------------------------------\n");
-        fprintf(stderr, "/!\\ No valid options provided. /!\\");
-        fprintf(stderr, "\n--------------------------------------\n");
-        usage();
-    }
-
     if (action == COMPRESS)
     {
+        if (archive_name == NULL || input_files == NULL || num_files == 0)
+        {
+            fprintf(stderr, "\n--------------------------------------\n");
+            fprintf(stderr, "/!\\ No valid options provided. /!\\");
+            fprintf(stderr, "\n--------------------------------------\n");
+            usage();
+        }
+
         if (compression_type == FILE_TYPE)
         {
-            compress_files(input_files, archive_name, num_files);
+            compress(input_files, archive_name, num_files, FILE_TYPE);
         }
         else if (compression_type == FOLDER_TYPE)
         {
-            compress_folders(input_files, archive_name, num_files);
+            compress(input_files, archive_name, num_files, FOLDER_TYPE);
         }
     }
-    if (action == DECOMPRESS)
+    else if (archive_name != NULL && action == DECOMPRESS)
     {
         decompress_archive(archive_name, output_directory);
     }

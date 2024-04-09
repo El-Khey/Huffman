@@ -1,6 +1,7 @@
 #ifndef _COMPRESSION_H_
 #define _COMPRESSION_H_
 
+#include "../decompression/decompression.h"
 #include "../tree/huffman_tree.h"
 #include "../tree/alphabet.h"
 #include "../utils/folder.h"
@@ -14,22 +15,51 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-/**
- * @brief Compresses the input folders into the archive file.
- *
- * @param input_folders - array of input folders
- * @param output_file - output archive file
- * @param number_of_folders  - number of input folders
- */
-void compress_folders(char **input_folders, char *output_file, int number_of_folders);
+typedef struct File
+{
+    char *path;
+    char *name;
+    int size;
+
+    int *encoded_data;
+    int length_encoded_data;
+} File;
+
+typedef struct Files
+{
+    int number_of_files;
+    File *files;
+} Files;
+
+typedef struct Directory
+{
+    char *path;
+    char *name;
+
+    Files list;
+} Directory;
+
+typedef struct Directories
+{
+    int number_of_directories;
+    Directory *directories;
+} Directories;
+
+typedef struct Data
+{
+    Directories directories;
+    Files files;
+    Type type;
+} Data;
 
 /**
- * @brief Compresses the input files into the archive file.
+ * @brief Compress a list of files or directories.
  *
- * @param input_files - array of input files
- * @param output_file - output archive file
- * @param number_of_files - number of input files
+ * @param inputs - the list of files or directories
+ * @param output_file - the output archive
+ * @param number_of_inputs - the number of files or directories
+ * @param archive_type - the type of the archive
  */
-void compress_files(char **input_files, char *output_file, int num_files);
+void compress(char **inputs, char *output_file, int number_of_inputs, Type archive_type);
 
 #endif

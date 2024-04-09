@@ -68,6 +68,14 @@ void display_char_frequencies(int *char_frequencies);
 void print_byte(uint8_t byte);
 
 /**
+ * @brief This function concatenate a prefix to a string
+ *
+ * @param str - the string
+ * @param prefix - the prefix
+ */
+void str_cat_prefix(char *str, const char *prefix);
+
+/**
  * @brief This function split a string into parts
  *
  * @param str - the string to split
