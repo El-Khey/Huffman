@@ -4,7 +4,7 @@ CLIBS = -lm -lMLV
 
 TREE = huffman_tree.o node.o alphabet.o
 UTILS = utils.o file.o folder.o
-COMPRESSION = compression.o decompression.o
+COMPRESSION = compression.o decompression.o data.o
 BYTE = bit.o
 DEBUG = debug.o
 
@@ -64,6 +64,9 @@ file.o: ./src/utils/file.c
 
 compression.o: ./src/compression/compression.c
 	$(CC) $(CFLAGS) -c ./src/compression/compression.c
+
+data.o: ./src/compression/data.c
+	$(CC) $(CFLAGS) -c ./src/compression/data.c
 
 decompression.o: ./src/decompression/decompression.c
 	$(CC) $(CFLAGS) -c ./src/decompression/decompression.c
