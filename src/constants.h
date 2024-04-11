@@ -7,6 +7,7 @@ typedef enum Type
 {
     FILE_TYPE,
     FOLDER_TYPE,
+    BOTH_TYPE,
     NONE_TYPE
 } Type;
 

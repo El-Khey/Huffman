@@ -4,7 +4,6 @@ static void read_header(Archive *compressed_archive)
 {
     int i, frequency, size, success, ascii;
     char binary_code[MAX_CHAR];
-    int type_value;
     int *code;
 
     success = fscanf(compressed_archive->file, "%d\n", &compressed_archive->header.number_of_leaves);
@@ -28,9 +27,8 @@ static void read_header(Archive *compressed_archive)
         }
     }
 
-    success = fscanf(compressed_archive->file, "n:%d t:%d\n", &compressed_archive->number_of_files, &type_value);
+    success = fscanf(compressed_archive->file, "n:%d\n", &compressed_archive->number_of_files);
     is_fscanf_successful(success, compressed_archive->filename);
-    compressed_archive->type = type_value ? FOLDER_TYPE : FILE_TYPE;
 }
 
 static void read_encoded_data(FILE *file, Content *content)

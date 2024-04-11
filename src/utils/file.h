@@ -51,4 +51,12 @@ void is_fscanf_successful(int success, const char *filename);
  */
 char *get_filename(const char *path);
 
+/**
+ * @brief Check if the file is a text file
+ *
+ * @param filename - the filename
+ * @return 1 if the file is a text file, 0 otherwise
+ */
+int is_text_file(const char *filename);
+
 #endif

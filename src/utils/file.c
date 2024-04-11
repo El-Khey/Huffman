@@ -119,3 +119,8 @@ char *get_filename(const char *path)
         return filename + 1;
     }
 }
+
+int is_text_file(const char *filename)
+{
+    return strstr(filename, ".txt") != NULL;
+}
