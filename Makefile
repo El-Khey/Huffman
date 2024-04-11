@@ -16,6 +16,9 @@ clean-example:
 build: main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG)
 	$(CC) main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG) -o main $(CLIBS)
 
+install:
+	./setup.sh
+
 # ----------- #
 # Main file 
 # ----------- #
