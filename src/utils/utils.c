@@ -1,30 +1,60 @@
-#include "./utils.h"
+#include "utils.h"
 
-char *convert_into_bits(int code, int size)
+char *convert_code_into_string(int *code, int size)
 {
-    char *bits = (char *)malloc(size + 1);
     int i;
+    char *str = (char *)malloc((size + 1) * sizeof(char));
 
-    for (i = size - 1; i >= 0; i--)
+    for (i = 0; i < size; i++)
     {
-        bits[size - 1 - i] = ((code >> i) & 1) + '0';
+        str[i] = code[i] + '0';
     }
 
-    bits[size] = '\0';
-    return bits;
+    str[size] = '\0';
+
+    return str;
 }
 
-void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
+int *convert_string_into_code(char *str, int size)
 {
-    int ch, i;
+    int i;
+    int *code = (int *)malloc(size * sizeof(int));
 
-    /** Initialize the array with zeros */
-    for (i = 0; i < MAX_CHAR; i++)
+    for (i = 0; i < size; i++)
     {
-        tab[i] = 0;
+        code[i] = str[i] - '0';
     }
 
-    /** Count occurrences of each character */
+    return code;
+}
+
+int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size)
+{
+    int i;
+    for (i = 0; i < size; i++)
+    {
+        if (arr1[i] != arr2[i + processed_length])
+        {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+void initialize_char_frequencies(int *char_frequencies)
+{
+    int i;
+    for (i = 0; i < MAX_CHAR; i++)
+    {
+        char_frequencies[i] = 0;
+    }
+}
+
+void count_char_frequencies(FILE *file, int *char_frequencies)
+{
+    int ch;
+
     while ((ch = fgetc(file)) != EOF)
     {
         if (ch > MAX_CHAR || ch < 0)
@@ -33,11 +63,11 @@ void count_char_frequencies(FILE *file, int tab[MAX_CHAR])
             continue;
         }
 
-        tab[ch]++;
+        char_frequencies[ch]++;
     }
 }
 
-void display_char_frequencies(int tab[MAX_CHAR])
+void display_char_frequencies(int *char_frequencies)
 {
     int i;
 
@@ -45,9 +75,9 @@ void display_char_frequencies(int tab[MAX_CHAR])
     printf("\nOccurrences of each character:\n");
     for (i = 0; i < MAX_CHAR; i++)
     {
-        if (tab[i] > 0)
+        if (char_frequencies[i] > 0)
         {
-            printf("'%c' (ASCII: %d) : %d\n", i, i, tab[i]);
+            printf("'%c' (ASCII: %d) : %d\n", i, i, char_frequencies[i]);
         }
     }
 
@@ -58,5 +88,54 @@ void display_char_frequencies(int tab[MAX_CHAR])
     printf("The number of supported characters is: %d\n", i);
     printf("\n-----------------------------------\n");
 
-    printf("\n");
+    printf("\n\n");
+}
+
+void print_byte(uint8_t byte)
+{
+    int i;
+    for (i = 0; i < 8; i++)
+    {
+        printf("%d", (byte & 0x80) ? 1 : 0);
+        byte <<= 1;
+    }
+}
+
+void str_cat_prefix(char *str, const char *prefix)
+{
+    char *temp = (char *)malloc(strlen(str) + strlen(prefix) + 1);
+    strcpy(temp, prefix);
+    strcat(temp, str);
+    strcpy(str, temp);
+    free(temp);
+}
+
+int split_string(char *str, char **parts, const char *delimiter)
+{
+    char *token;
+    int num_parts = 0;
+    char *str_copy = (char *)malloc(strlen(str) + 1);
+    strcpy(str_copy, str);
+
+    if (str_copy == NULL)
+    {
+        fprintf(stderr, "<Error>: Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Initialize strtok with the string and delimiter
+    token = strtok(str_copy, delimiter);
+
+    // Loop through the tokens until no more tokens are found
+    while (token != NULL)
+    {
+        parts[num_parts] = (char *)malloc(strlen(token) + 1); // Allocate memory for the token
+        strcpy(parts[num_parts], token);                      // Copy the token to the parts array
+
+        num_parts++;                     // Increment the number of parts
+        token = strtok(NULL, delimiter); // Get the next token
+    }
+
+    free(str_copy);
+    return num_parts; // Return the number of parts
 }

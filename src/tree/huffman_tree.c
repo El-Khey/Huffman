@@ -13,7 +13,7 @@ static void update_depth(Node *root, int depth)
     update_depth(root->right, depth + 1);
 }
 
-Node *create_huffman_tree(Node *leaves_nodes[], int size)
+Node *create_huffman_tree(Node **leaves_nodes)
 {
     int index_smallest = -1;
     Node *new_node;
@@ -21,14 +21,13 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
     while (1)
     {
         int smallest, second_smallest;
-        find_two_smallest(leaves_nodes, size, &smallest, &second_smallest);
+        find_two_smallest(leaves_nodes, MAX_CHAR, &smallest, &second_smallest);
 
         if (second_smallest == -1 || smallest == -1)
         {
             break;
         }
 
-        /** TODO: compute the depth of the node and update it */
         new_node = create_node('\0', leaves_nodes[smallest]->frequency + leaves_nodes[second_smallest]->frequency, 0, 0);
 
         insert_left_node(new_node, leaves_nodes[smallest]);
@@ -44,11 +43,11 @@ Node *create_huffman_tree(Node *leaves_nodes[], int size)
     return leaves_nodes[index_smallest];
 }
 
-void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
+void initialize_huffman_nodes(Node **nodes, int *tab)
 {
     int i;
 
-    for (i = 0; i < size; i++)
+    for (i = 0; i < MAX_CHAR; i++)
     {
         if (tab[i] > 0)
         {
@@ -61,55 +60,32 @@ void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size)
     }
 }
 
-static void print_bits(int size, int code)
-{
-    int i;
-    for (i = size - 1; i >= 0; i--)
-    {
-        printf("%d", (code >> i) & 1);
-    }
-}
-
-static void create_codes_helper(Node *node, int code)
+static void create_codes_helper(Node *node, int *code, int depth)
 {
     if (is_leaf(node))
     {
-        node->code = code;
+        int i;
+
+        node->code = (int *)malloc(sizeof(int) * depth);
+        for (i = 0; i < depth; i++)
+        {
+            node->code[i] = code[i];
+        }
     }
     else
     {
-        create_codes_helper(node->left, (code << 1) | 1);
-        create_codes_helper(node->right, (code << 1) | 0);
+        code[depth] = 1;
+        create_codes_helper(node->left, code, depth + 1);
+
+        code[depth] = 0;
+        create_codes_helper(node->right, code, depth + 1);
     }
 }
 
-void create_codes(Node *node) { create_codes_helper(node, 0); }
-
-static void populate_alphabet(Node *node, Node *alphabet[])
+void create_codes(Node *node)
 {
-    if (node == NULL)
-    {
-        return;
-    }
-
-    if (is_leaf(node))
-    {
-        alphabet[(int)node->ascii] = node;
-    }
-
-    populate_alphabet(node->left, alphabet);
-    populate_alphabet(node->right, alphabet);
-}
-
-void compute_alphabet(Node *root, Node *alphabet[])
-{
-    int i;
-    for (i = 0; i < MAX_CHAR; i++)
-    {
-        alphabet[i] = NULL;
-    }
-
-    populate_alphabet(root, alphabet);
+    int code[MAX_CHAR];
+    create_codes_helper(node, code, 0);
 }
 
 void print_tree_helper(Node *root, char side)
@@ -145,10 +121,10 @@ void print_tree(Node *root)
     print_tree_helper(root, '\0');
 }
 
-static void print_row(int ascii, int code, int depth)
+static void print_row(int ascii, int *code, int depth)
 {
     printf("|    '%c'    |  %3d  | ", ascii, ascii);
-    print_bits(depth, code);
+    print_code(depth, code);
     printf("\n");
 }
 

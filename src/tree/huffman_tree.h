@@ -11,10 +11,9 @@
  * @brief Create a huffman tree
  *
  * @param leaves_nodes - the array of leaves nodes
- * @param size - the size of the array
  * @return Node* - the root of the huffman tree
  */
-Node *create_huffman_tree(Node *leaves_nodes[], int size);
+Node *create_huffman_tree(Node **leaves_nodes);
 
 /**
  * @brief Create the huffman codes for each leaf
@@ -29,18 +28,8 @@ void create_codes(Node *node);
  *
  * @param nodes - the array of nodes
  * @param tab - the array of frequencies
- * @param size - the size of the array
  */
-void initialize_huffman_nodes(Node *nodes[], int tab[MAX_CHAR], int size);
-
-/**
- * @brief Compute the alphabet by traversing the huffman tree and
- * storing the leaves nodes into an array of nodes
- *
- * @param root - the root of the huffman tree
- * @param alphabet - the array of nodes
- */
-void compute_alphabet(Node *root, Node *alphabet[]);
+void initialize_huffman_nodes(Node **nodes, int *tab);
 
 /**
  * @brief Print the huffman tree

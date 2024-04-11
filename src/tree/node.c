@@ -1,14 +1,20 @@
 #include "./node.h"
 
-Node *create_node(int ascii, int frequency, int depth, int code)
+Node *create_node(int ascii, int frequency, int depth, int *code)
 {
     Node *node = (Node *)malloc(sizeof(Node));
+    int i = 0;
 
     node->ascii = ascii;
     node->frequency = frequency;
 
     node->depth = depth;
-    node->code = code;
+    node->code = (int *)calloc(depth, sizeof(int));
+
+    for (; i < depth; i++)
+    {
+        node->code[i] = code[i];
+    }
 
     node->left = NULL;
     node->right = NULL;
@@ -77,10 +83,21 @@ int get_number_of_leaves(Node *root)
     return get_number_of_leaves(root->left) + get_number_of_leaves(root->right);
 }
 
+void print_code(int size, int *code)
+{
+    int i = 0;
+    for (; i < size; i++)
+    {
+        printf("%d", code[i]);
+    }
+}
+
 void print_node(Node *node)
 {
     if (node != NULL)
     {
-        printf("Character: '%c', Frequency: %d, Depth: %d, Code: %d\n", node->ascii, node->frequency, node->depth, node->code);
+        printf("Character: '%c', Frequency: %d, Depth: %d, Code: ", node->ascii, node->frequency, node->depth);
+        print_code(node->depth, node->code);
+        printf("\n");
     }
 }

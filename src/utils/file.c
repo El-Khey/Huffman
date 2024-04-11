@@ -62,7 +62,65 @@ void check_file_opening(FILE *file, const char *filename)
 {
     if (file == NULL)
     {
-        printf("Error: Could not open file %s\n", filename);
+        fprintf(stderr, "----------------------------------------------\n");
+        fprintf(stderr, "Error: Could not open file %s\n", filename);
+        fprintf(stderr, "----------------------------------------------\n");
         exit(EXIT_FAILURE);
     }
+}
+
+void prompt_override_existing_file(FILE *file, const char *filename)
+{
+    char response;
+    int success;
+
+    if (file)
+    {
+        fprintf(stderr, "\n----------------------------------------------\n");
+        fprintf(stderr, "/!\\ The file %s already exists.\n", filename);
+        fprintf(stderr, "\n----------------------------------------------\n");
+
+        printf("Do you want to override the file? (y/n): ");
+        success = scanf(" %c", &response);
+
+        if (success != 1)
+        {
+            fprintf(stderr, "Error: Could not read the response.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        if (response == 'n' || response == 'N')
+        {
+            fprintf(stderr, "> Exiting...\n");
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
+void is_fscanf_successful(int success, const char *filename)
+{
+    if (!success)
+    {
+        fprintf(stderr, "Error: could not read the file. Scanf failed.\n");
+        fprintf(stderr, "File: %s\n", filename);
+        exit(EXIT_FAILURE);
+    }
+}
+
+char *get_filename(const char *path)
+{
+    char *filename = strrchr(path, '/');
+    if (filename == NULL)
+    {
+        return (char *)path;
+    }
+    else
+    {
+        return filename + 1;
+    }
+}
+
+int is_text_file(const char *filename)
+{
+    return strstr(filename, ".txt") != NULL;
 }
