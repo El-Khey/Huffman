@@ -44,7 +44,6 @@ static void prepare_folders_data(Data *data, char **input_folders, int number_of
     data->directories.number_of_directories = number_of_folders;
     data->directories.directories = (Directory *)malloc(number_of_folders * sizeof(Directory));
 
-    printf("List of folders Passed: %d\n\n", number_of_folders);
     for (i = 0; i < number_of_folders; i++)
     {
         data->directories.directories[i].path = (char *)malloc(strlen(input_folders[i]) + 1);
