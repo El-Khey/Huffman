@@ -35,4 +35,37 @@ void flush_bits(FILE *file, uint8_t *byte, uint8_t *bit_position);
  */
 int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position);
 
+/**
+ * @brief Convert a string into a code.
+ *
+ * @param binary_code - the binary code to convert
+ * @param length - the length of the binary code
+ * @return int* - the code
+ */
+int convert_int_array_into_int(int *code, int length);
+
+/**
+ * @brief Convert a binary code into an integer array.
+ *
+ * @param binary_code - the binary code to convert
+ * @param length - the length of the binary code
+ * @return int* - the integer array
+ */
+int *convert_binary_code_into_int_array(int binary_code, int length);
+
+/**
+ * @brief This function print a byte
+ *
+ * @param byte - the byte to print
+ */
+void print_byte(uint8_t byte);
+
+/**
+ * @brief This function print a byte array
+ *
+ * @param byte - the byte to print
+ * @param length - the length of the byte
+ */
+void print_byte_array(int *byte, int length);
+
 #endif

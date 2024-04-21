@@ -11,7 +11,8 @@ static void write_header(FILE *file, Header header, int number_of_files)
     {
         if (header.alphabet[i] != NULL)
         {
-            binary_code = convert_code_into_string(header.alphabet[i]->code, header.alphabet[i]->depth);
+            int *code = convert_binary_code_into_int_array(header.alphabet[i]->code, header.alphabet[i]->depth);
+            binary_code = convert_code_into_string(code, header.alphabet[i]->depth);
             fprintf(file, "%d %d %d %s\n",
                     header.alphabet[i]->ascii,
                     header.alphabet[i]->frequency,
@@ -65,7 +66,8 @@ static void write_encoded_data(File file, FILE *compressed_file, Node **alphabet
 
         for (i = 0; i < alphabet[ch]->depth; i++)
         {
-            write_bit(compressed_file, &byte, &bit_position, alphabet[ch]->code[i]);
+            int *code = convert_binary_code_into_int_array(alphabet[ch]->code, alphabet[ch]->depth);
+            write_bit(compressed_file, &byte, &bit_position, code[i]);
         }
     }
 

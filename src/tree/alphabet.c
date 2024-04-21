@@ -40,7 +40,8 @@ void print_alphabet(Node **alphabet)
         if (alphabet[i] != NULL)
         {
             printf("|  %3d |    '%c'   |   %6d  |   %2d  | ", alphabet[i]->ascii, (char)alphabet[i]->ascii, alphabet[i]->frequency, alphabet[i]->depth);
-            print_code(alphabet[i]->depth, alphabet[i]->code);
+            int *code = convert_binary_code_into_int_array(alphabet[i]->code, alphabet[i]->depth);
+            print_byte_array(code, alphabet[i]->depth);
             printf(" \n");
         }
     }

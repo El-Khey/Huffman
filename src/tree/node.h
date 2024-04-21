@@ -3,13 +3,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "../byte/bit.h"
 
 typedef struct Node
 {
     int ascii;     /** The ascii character of the node */
     int frequency; /** The number of occurence (frequency) of the character in the file */
     int depth;     /** The depth of the node in the tree represent the number of bits the character is encoded with */
-    int *code;     /** The code of the node */
+    int code;      /** The code of the node */
 
     struct Node *left;  /** The left child of the node */
     struct Node *right; /** The right child of the node */
@@ -24,7 +25,7 @@ typedef struct Node
  * @param code - the code of the node
  * @return Node*
  */
-Node *create_node(int ascii, int frequency, int depth, int *code);
+Node *create_node(int ascii, int frequency, int depth, int code);
 
 /**
  * @brief Create a leaf object
@@ -77,8 +78,6 @@ void find_two_smallest(Node *nodes[], int size, int *smallest, int *second_small
  * @return int - the number of leaves
  */
 int get_number_of_leaves(Node *root);
-
-void print_code(int size, int *code);
 
 /**
  * @brief Create a parent object

@@ -19,7 +19,8 @@ static void read_header(Archive *compressed_archive)
             code = (int *)malloc(size * sizeof(int));
             code = convert_string_into_code(binary_code, size);
 
-            compressed_archive->header.alphabet[i] = create_node(ascii, frequency, size, code);
+            int code_value = convert_int_array_into_int(code, size);
+            compressed_archive->header.alphabet[i] = create_node(ascii, frequency, size, code_value);
         }
         else
         {
@@ -104,7 +105,8 @@ static void decode(Header header, Content content, FILE *output)
         }
 
         code_found = 1;
-        code_found = are_arrays_equal(header.alphabet[index]->code, content.encoded_data, processed_length, header.alphabet[index]->depth);
+        int *code = convert_binary_code_into_int_array(header.alphabet[index]->code, header.alphabet[index]->depth);
+        code_found = are_arrays_equal(code, content.encoded_data, processed_length, header.alphabet[index]->depth);
 
         if (code_found)
         {
