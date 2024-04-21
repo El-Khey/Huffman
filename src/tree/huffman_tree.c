@@ -60,32 +60,22 @@ void initialize_huffman_nodes(Node **nodes, int *tab)
     }
 }
 
-static void create_codes_helper(Node *node, int *code, int depth)
+static void create_codes_helper(Node *node, int code)
 {
     if (is_leaf(node))
     {
-        int i;
-
-        node->code = (int *)malloc(sizeof(int) * depth);
-        for (i = 0; i < depth; i++)
-        {
-            node->code[i] = code[i];
-        }
+        node->code = code;
     }
     else
     {
-        code[depth] = 1;
-        create_codes_helper(node->left, code, depth + 1);
-
-        code[depth] = 0;
-        create_codes_helper(node->right, code, depth + 1);
+        create_codes_helper(node->left, (code << 1) | 1);
+        create_codes_helper(node->right, (code << 1) | 0);
     }
 }
 
 void create_codes(Node *node)
 {
-    int code[MAX_CHAR];
-    create_codes_helper(node, code, 0);
+    create_codes_helper(node, 0);
 }
 
 void print_tree_helper(Node *root, char side)
@@ -124,7 +114,7 @@ void print_tree(Node *root)
 static void print_row(int ascii, int *code, int depth)
 {
     printf("|    '%c'    |  %3d  | ", ascii, ascii);
-    print_code(depth, code);
+    print_byte_array(code, depth);
     printf("\n");
 }
 
@@ -137,7 +127,8 @@ static void print_codes_helper(Node *root)
 
     if (is_leaf(root))
     {
-        print_row(root->ascii, root->code, root->depth);
+        int *code = convert_binary_code_into_int_array(root->code, root->depth);
+        print_row(root->ascii, code, root->depth);
     }
 
     print_codes_helper(root->left);

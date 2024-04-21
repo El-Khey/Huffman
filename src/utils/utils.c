@@ -91,16 +91,6 @@ void display_char_frequencies(int *char_frequencies)
     printf("\n\n");
 }
 
-void print_byte(uint8_t byte)
-{
-    int i;
-    for (i = 0; i < 8; i++)
-    {
-        printf("%d", (byte & 0x80) ? 1 : 0);
-        byte <<= 1;
-    }
-}
-
 void str_cat_prefix(char *str, const char *prefix)
 {
     char *temp = (char *)malloc(strlen(str) + strlen(prefix) + 1);
