@@ -4,14 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../../components/window/window.h"
 #include "../../manager/mouse_manager/mouse_manager.h"
+#include "../../components/window/window.h"
+#include "../../components/topbar/topbar.h"
 
 typedef struct
 {
     MouseManager mouse_manager;
     Window window;
-    NavBar navbar;
+    TopBar topbar;
 } HomePage;
 
 /**

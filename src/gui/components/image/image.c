@@ -6,15 +6,13 @@ Image construct_image(char *path, Position position, Dimension dimension)
 
     MLV_Image *loaded_image = MLV_load_image(path);
     is_image_loaded_successfully(loaded_image, path);
-
     MLV_resize_image(loaded_image, dimension.width, dimension.height);
 
     image.image = loaded_image;
     image.rectangle.dimension = dimension;
+    image.rectangle.position = position;
 
-    image.rectangle.position = construct_position(0, 0);
     strcpy(image.path, path);
-
     return image;
 }
 

@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <MLV/MLV_all.h>
 
-#include "../navbar/navbar.h"
 #include "../color/color.h"
+#include "../color/theme.h"
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 600
