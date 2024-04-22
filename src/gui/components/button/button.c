@@ -1,102 +1,88 @@
 #include "button.h"
 
-Button construct_button_with_image(Image image, Position position, Dimension dimension)
+Button construct_button(Position position, Dimension dimension, int border_width, Color background, Color border_color)
 {
     Button button;
-
-    button.image = image;
-    set_image_position(&button.image, position);
-
-    button.position = position;
-    button.dimension = dimension;
+    button.rectangle = construct_rectangle(position, dimension, border_width, background, border_color);
 
     return button;
 }
 
-Button construct_button_with_text(char *text, Position position, Dimension dimension, MLV_Color foreground, MLV_Color background)
+void add_button_text(Button *button, char *text, char *font_path, int font_size, Color color)
 {
-    Button button;
-    Text t = construct_text(text, position, "assets/fonts/Play-Bold.ttf", 20, foreground);
-    set_text_position(
-        &t,
-        construct_position(get_x(position) + (get_width(dimension) - get_text_width(t)) / 2,
-                           get_y(position) + (get_height(dimension) - get_text_height(t)) / 2));
-
-    button.position = position;
-    button.dimension = dimension;
-    button.text = t;
-
-    button.background = background;
-    button.foreground = foreground;
-
-    return button;
+    // TODO: add text to button center it
 }
 
-void set_button_position(Button *button, Position position)
+void add_button_image(Button *button, char *image_path)
 {
-    button->position = position;
-}
-
-void set_button_dimension(Button *button, Dimension dimension)
-{
-    button->dimension = dimension;
-}
-
-void draw_filled_button_with_hover_effect(Button button, Position mouse_position, MLV_Color border_color, MLV_Color background)
-{
-    if (is_button_hovered(button, mouse_position))
-    {
-        draw_filled_rectangle(button.position, button.dimension, 2, border_color, background);
-    }
-    else
-    {
-        draw_filled_rectangle(button.position, button.dimension, 2, button.background, button.background);
-    }
-
-    draw_button_text(button);
-}
-
-void draw_hovered_button(Button button, Position mouse_position, MLV_Color border_color, MLV_Color background)
-{
-    if (is_button_hovered(button, mouse_position))
-    {
-        draw_filled_rectangle(button.position, button.dimension, 2, border_color, background);
-    }
-    else
-    {
-        draw_filled_rectangle(button.position, button.dimension, 2, button.background, button.background);
-    }
+    // TODO: add image to button
 }
 
 int is_button_hovered(Button button, Position p)
 {
-    return get_x(p) >= get_x(button.position) &&
-           get_x(p) <= get_x(button.position) + get_width(button.dimension) &&
-           get_y(p) >= get_y(button.position) &&
-           get_y(p) <= get_y(button.position) + get_height(button.dimension);
+    return get_x(p) >= get_x(button.rectangle.position) &&
+           get_x(p) <= get_x(button.rectangle.position) + get_width(button.rectangle.dimension) &&
+           get_y(p) >= get_y(button.rectangle.position) &&
+           get_y(p) <= get_y(button.rectangle.position) + get_height(button.rectangle.dimension);
 }
 
-int is_button_clicked(Button button, MouseManager mouse_manager)
+void set_button_position(Button *button, Position position)
 {
-    return is_button_hovered(button, get_mouse_position(mouse_manager)) && is_left_button_clicked(mouse_manager);
+    button->rectangle.position = position;
 }
 
-void draw_button_image(Button button)
+void set_button_dimension(Button *button, Dimension dimension)
 {
-    draw_image(&button.image);
+    button->rectangle.dimension = dimension;
 }
 
-void draw_button_text(Button button)
-{
-    draw_text(button.text);
-}
+// void draw_filled_button_with_hover_effect(Button button, Position mouse_position, Color border_color)
+// {
+//     if (is_button_hovered(button, mouse_position))
+//     {
+//         draw_filled_rectangle_with_border(button.rectangle, 2, border_color);
+//     }
+//     else
+//     {
+//         draw_filled_rectangle_with_border(button.rectangle, 2, button.background);
+//     }
 
-void free_button_image(Button *button)
-{
-    free_image(&button->image);
-}
+//     draw_button_text(button);
+// }
 
-void free_button_text(Button *button)
-{
-    free_text(&button->text);
-}
+// void draw_hovered_button(Button button, Position mouse_position, MLV_Color border_color, MLV_Color background)
+// {
+//     if (is_button_hovered(button, mouse_position))
+//     {
+//         draw_filled_rectangle(button.position, button.dimension, 2, border_color, background);
+//     }
+//     else
+//     {
+//         draw_filled_rectangle(button.position, button.dimension, 2, button.background, button.background);
+//     }
+// }
+
+// int is_button_clicked(Button button, MouseManager mouse_manager)
+// {
+//     return is_button_hovered(button, get_mouse_position(mouse_manager)) && is_left_button_clicked(mouse_manager);
+// }
+
+// void draw_button_image(Button button)
+// {
+//     draw_image(&button.image);
+// }
+
+// void draw_button_text(Button button)
+// {
+//     draw_text(button.text);
+// }
+
+// void free_button_image(Button *button)
+// {
+//     free_image(&button->image);
+// }
+
+// void free_button_text(Button *button)
+// {
+//     free_text(&button->text);
+// }

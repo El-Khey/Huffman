@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     Action action = NOTHING;
     int launch_gui = 0;
 
-    while ((opt = getopt(argc, argv, "c:d:h:g")) != -1)
+    while ((opt = getopt(argc, argv, "c:d:h:m")) != -1)
     {
         switch (opt)
         {
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
             printf("Output directory: %s\n", output_directory);
             break;
 
-        case 'g':
+        case 'm':
             launch_gui = 1;
             break;
 

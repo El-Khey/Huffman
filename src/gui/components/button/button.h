@@ -5,9 +5,9 @@
 
 #include "../../utils/dimension/dimension.h"
 #include "../../utils/position/position.h"
+#include "../shape/rectangle/rectangle.h"
 #include "../image/image.h"
 #include "../text/text.h"
-#include "../shape/shape.h"
 
 /**
  * @struct Button
@@ -16,15 +16,22 @@
  * Cette structure contient les informations nécessaires pour afficher et gérer un bouton.
  * Elle inclut une image, une animation, une position, une dimension, un texte, ainsi que les couleurs de fond et de premier plan.
  */
+
+typedef enum
+{
+    BUTTON_IMAGE,
+    BUTTON_TEXT
+} ButtonType;
+
 typedef struct
 {
-    Image image;          /** L'image du bouton */
-    Position position;    /** La position du bouton */
-    Dimension dimension;  /** Les dimensions du bouton */
-    Text text;            /** Le texte du bouton */
-    MLV_Color background; /** La couleur de fond du bouton */
-    MLV_Color foreground; /** La couleur de premier plan du bouton */
+    ButtonType type;     /** Le type du bouton */
+    Rectangle rectangle; /** Le rectangle du bouton */
+    Image image;         /** L'image du bouton */
+    Text text;           /** Le texte du bouton */
 } Button;
+
+Button construct_button(Position position, Dimension dimension, int border_width, Color background, Color border_color);
 
 /**
  * @brief Construit un nouvel objet Button avec une image

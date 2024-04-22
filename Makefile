@@ -6,7 +6,7 @@ CODEC = huffman_tree.o node.o alphabet.o compression.o decompression.o data.o
 UTILS = utils.o file.o folder.o bit.o
 DEBUG = debug.o
 
-COMPONENTS = gui.o button.o image.o shape.o text.o window.o color.o
+COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o
 GUI_UTILS = position.o dimension.o
 PAGES = home.o
 MANAGER = mouse_manager.o
@@ -95,8 +95,11 @@ button.o: ./src/gui/components/button/button.c
 image.o: ./src/gui/components/image/image.c
 	$(CC) $(CFLAGS) -c ./src/gui/components/image/image.c
 
-shape.o: ./src/gui/components/shape/shape.c
-	$(CC) $(CFLAGS) -c ./src/gui/components/shape/shape.c
+rectangle.o: ./src/gui/components/shape/rectangle/rectangle.c
+	$(CC) $(CFLAGS) -c ./src/gui/components/shape/rectangle/rectangle.c
+
+cross.o: ./src/gui/components/shape/cross/cross.c
+	$(CC) $(CFLAGS) -c ./src/gui/components/shape/cross/cross.c
 
 text.o: ./src/gui/components/text/text.c
 	$(CC) $(CFLAGS) -c ./src/gui/components/text/text.c
