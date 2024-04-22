@@ -22,6 +22,15 @@ typedef struct
 Position construct_position(int x, int y);
 
 /**
+ * @brief Définit les coordonnées de la position donnée
+ *
+ * @param p La position
+ * @param x La nouvelle coordonnée x
+ * @param y La nouvelle coordonnée y
+ */
+void set_position(Position *p, int x, int y);
+
+/**
  * @brief Obtient la coordonnée x de la position donnée
  *
  * @param p La position

@@ -11,6 +11,7 @@ typedef struct
 {
     MouseManager mouse_manager;
     Window window;
+    NavBar navbar;
 } HomePage;
 
 /**
@@ -32,6 +33,6 @@ void update_home_page(HomePage *home_page);
  *
  * @param home_page - the home page
  */
-void draw_home_page(HomePage *home_page);
+void draw_home_page(HomePage home_page);
 
 #endif /** _HOME_PAGE_H */

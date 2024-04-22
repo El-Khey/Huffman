@@ -9,6 +9,12 @@ Position construct_position(int x, int y)
     return p;
 }
 
+void set_position(Position *p, int x, int y)
+{
+    p->x = x;
+    p->y = y;
+}
+
 int get_x(Position p) { return p.x; }
 
 int get_y(Position p) { return p.y; }

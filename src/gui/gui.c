@@ -6,5 +6,6 @@ void launch_graphical_interface()
     while (1)
     {
         update_home_page(&home_page);
+        draw_home_page(home_page);
     }
 }

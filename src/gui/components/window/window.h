@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <MLV/MLV_all.h>
 
+#include "../navbar/navbar.h"
 #include "../color/color.h"
 
 #define WINDOW_WIDTH 1000
@@ -20,5 +21,7 @@ typedef struct
 } Window;
 
 Window construct_window();
+
+void draw_window(Window window);
 
 #endif /** WINDOW_H */

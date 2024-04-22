@@ -1,8 +1,10 @@
 #ifndef TEXT_H
 #define TEXT_H
 
-#include "../../utils/position/position.h"
 #include "../../utils/dimension/dimension.h"
+#include "../../utils/position/position.h"
+#include "../shape/rectangle/rectangle.h"
+#include "../color/color.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -16,12 +18,13 @@
 typedef struct
 {
     char *text;          /**< Le contenu du texte */
-    Dimension dimension; /**< La dimension du texte */
-    Position position;   /**< La position du texte */
-    MLV_Color color;     /**< La couleur du texte */
-    MLV_Font *font;      /**< La police du texte */
-    int font_size;       /**< La taille de la police du texte */
-    char *font_path;     /**< Le chemin de la police du texte */
+    Rectangle rectangle; /**< Le rectangle du texte */
+
+    Color color;    /**< La couleur du texte */
+    MLV_Font *font; /**< La police du texte */
+
+    int font_size;   /**< La taille de la police du texte */
+    char *font_path; /**< Le chemin de la police du texte */
 } Text;
 
 /**
@@ -34,7 +37,7 @@ typedef struct
  * @param color La couleur du texte
  * @return Texte
  */
-Text construct_text(char *text, Position position, char *font_path, int font_size, MLV_Color color);
+Text construct_text(char *text, Position position, char *font_path, int font_size, Color color);
 
 /**
  * @brief Définit le contenu du texte

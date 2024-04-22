@@ -5,8 +5,7 @@ HomePage construct_home_page()
     HomePage home_page;
 
     home_page.window = construct_window();
-    MLV_create_window("Huffman Compressor", "Huffman Compressor", home_page.window.width, home_page.window.height);
-    MLV_change_frame_rate(home_page.window.frame_rate);
+    home_page.navbar = construct_navbar(construct_position(0, 0), construct_dimension(WINDOW_WIDTH, 75));
 
     home_page.mouse_manager = construct_mouse_manager();
     return home_page;
@@ -20,7 +19,10 @@ void update_home_page(HomePage *home_page)
         printf("Left button clicked\n");
         print_position(home_page->mouse_manager.position);
     }
+}
 
-    MLV_clear_window(MLV_COLOR_BLACK);
-    MLV_actualise_window();
+void draw_home_page(HomePage home_page)
+{
+    draw_window(home_page.window);
+    draw_navbar(home_page.navbar);
 }

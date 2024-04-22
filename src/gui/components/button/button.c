@@ -8,14 +8,17 @@ Button construct_button(Position position, Dimension dimension, int border_width
     return button;
 }
 
-void add_button_text(Button *button, char *text, char *font_path, int font_size, Color color)
+void add_button_text(Button *button, Text text, LayoutType layout_type)
 {
-    // TODO: add text to button center it
+    button->text = text;
+    button->type = BUTTON_TEXT;
+    layout_manager(layout_type, &button->rectangle, &button->text.rectangle, construct_paddings(0, 0, 0, 0));
 }
 
 void add_button_image(Button *button, char *image_path)
 {
     // TODO: add image to button
+    button->type = BUTTON_IMAGE;
 }
 
 int is_button_hovered(Button button, Position p)
@@ -36,53 +39,8 @@ void set_button_dimension(Button *button, Dimension dimension)
     button->rectangle.dimension = dimension;
 }
 
-// void draw_filled_button_with_hover_effect(Button button, Position mouse_position, Color border_color)
-// {
-//     if (is_button_hovered(button, mouse_position))
-//     {
-//         draw_filled_rectangle_with_border(button.rectangle, 2, border_color);
-//     }
-//     else
-//     {
-//         draw_filled_rectangle_with_border(button.rectangle, 2, button.background);
-//     }
-
-//     draw_button_text(button);
-// }
-
-// void draw_hovered_button(Button button, Position mouse_position, MLV_Color border_color, MLV_Color background)
-// {
-//     if (is_button_hovered(button, mouse_position))
-//     {
-//         draw_filled_rectangle(button.position, button.dimension, 2, border_color, background);
-//     }
-//     else
-//     {
-//         draw_filled_rectangle(button.position, button.dimension, 2, button.background, button.background);
-//     }
-// }
-
-// int is_button_clicked(Button button, MouseManager mouse_manager)
-// {
-//     return is_button_hovered(button, get_mouse_position(mouse_manager)) && is_left_button_clicked(mouse_manager);
-// }
-
-// void draw_button_image(Button button)
-// {
-//     draw_image(&button.image);
-// }
-
-// void draw_button_text(Button button)
-// {
-//     draw_text(button.text);
-// }
-
-// void free_button_image(Button *button)
-// {
-//     free_image(&button->image);
-// }
-
-// void free_button_text(Button *button)
-// {
-//     free_text(&button->text);
-// }
+void draw_button(Button button)
+{
+    draw_filled_rectangle(button.rectangle);
+    (button.type == BUTTON_TEXT) ? draw_text(button.text) : draw_image(&button.image);
+}
