@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../byte/bit.h"
+#include "../../../utils/byte/bit.h"
 
 typedef struct Node
 {

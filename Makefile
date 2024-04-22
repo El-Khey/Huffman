@@ -2,10 +2,8 @@ CC = gcc
 CFLAGS = -g -W -Wall -std=c99 -pedantic -O2
 CLIBS = -lm -lMLV
 
-TREE = huffman_tree.o node.o alphabet.o
-UTILS = utils.o file.o folder.o 
-COMPRESSION = compression.o decompression.o data.o
-BYTE = bit.o
+CODEC = huffman_tree.o node.o alphabet.o compression.o decompression.o data.o
+UTILS = utils.o file.o folder.o bit.o
 DEBUG = debug.o
 
 COMPONENTS = gui.o button.o image.o shape.o text.o window.o color.o
@@ -18,8 +16,8 @@ all: build simple-clean
 clean-example:
 	rm -rf ./example/*/*.bin ./example/*/decompressed_*
 
-build: main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES)
-	$(CC) main.o $(TREE) $(UTILS) $(BYTE) $(COMPRESSION) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES) -o main $(CLIBS)
+build: main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES)
+	$(CC) main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES) -o main $(CLIBS)
 
 install:
 	./setup.sh
@@ -30,25 +28,31 @@ install:
 main.o: ./src/main.c
 	$(CC) $(CFLAGS) -c ./src/main.c
 
+# ---------------------------------------------------- #
+#                        HUFFMAN 					   #
+# ---------------------------------------------------- #
 
 # ----------- #
-# TREE 
+# CODEC 
 # ----------- #
-huffman_tree.o: ./src/tree/huffman_tree.c
-	$(CC) $(CFLAGS) -c ./src/tree/huffman_tree.c
+huffman_tree.o: ./src/huffman/codec/coding/tree/huffman_tree.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/coding/tree/huffman_tree.c
 
-node.o: ./src/tree/node.c
-	$(CC) $(CFLAGS) -c ./src/tree/node.c
+node.o: ./src/huffman/codec/coding/tree/node.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/coding/tree/node.c
 
-alphabet.o: ./src/tree/alphabet.c
-	$(CC) $(CFLAGS) -c ./src/tree/alphabet.c
+alphabet.o: ./src/huffman/codec/coding/alphabet/alphabet.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/coding/alphabet/alphabet.c
 
+compression.o: ./src/huffman/codec/compression/compression.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/compression/compression.c
 
-# ----------- #
-# BYTE
-# ----------- #
-bit.o: ./src/byte/bit.c
-	$(CC) $(CFLAGS) -c ./src/byte/bit.c
+data.o: ./src/huffman/codec/compression/data.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/compression/data.c
+
+decompression.o: ./src/huffman/codec/decompression/decompression.c
+	$(CC) $(CFLAGS) -c ./src/huffman/codec/decompression/decompression.c
+
 
 
 # ----------- #
@@ -61,23 +65,17 @@ debug.o: ./src/debug/debug.c
 # ----------- #
 # UTILS
 # ----------- #
-utils.o: ./src/utils/utils.c
-	$(CC) $(CFLAGS) -c ./src/utils/utils.c
+utils.o: ./src/huffman/utils/utils.c
+	$(CC) $(CFLAGS) -c ./src/huffman/utils/utils.c
 
-file.o: ./src/utils/file.c
-	$(CC) $(CFLAGS) -c ./src/utils/file.c
+file.o: ./src/huffman/utils/file/file.c
+	$(CC) $(CFLAGS) -c ./src/huffman/utils/file/file.c
 
-compression.o: ./src/compression/compression.c
-	$(CC) $(CFLAGS) -c ./src/compression/compression.c
+folder.o: ./src/huffman/utils/folder/folder.c
+	$(CC) $(CFLAGS) -c ./src/huffman/utils/folder/folder.c
 
-data.o: ./src/compression/data.c
-	$(CC) $(CFLAGS) -c ./src/compression/data.c
-
-decompression.o: ./src/decompression/decompression.c
-	$(CC) $(CFLAGS) -c ./src/decompression/decompression.c
-
-folder.o: ./src/utils/folder.c
-	$(CC) $(CFLAGS) -c ./src/utils/folder.c
+bit.o: ./src/huffman/utils/byte/bit.c
+	$(CC) $(CFLAGS) -c ./src/huffman/utils/byte/bit.c
 
 
 

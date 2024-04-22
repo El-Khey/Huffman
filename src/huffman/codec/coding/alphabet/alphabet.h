@@ -1,8 +1,8 @@
 #ifndef _ALPHABET_H_
 #define _ALPHABET_H_
 
-#include "../constants.h"
-#include "node.h"
+#include "../../../../constants.h"
+#include "../tree/node.h"
 
 /**
  * @brief This function compute the alphabet of a huffman tree

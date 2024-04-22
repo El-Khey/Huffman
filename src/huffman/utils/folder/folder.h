@@ -1,7 +1,7 @@
 #ifndef _FOLDER_H_
 #define _FOLDER_H_
 
-#include "utils.h"
+#include "../utils.h"
 #include <sys/stat.h>
 #include <string.h>
 #include <stdlib.h>

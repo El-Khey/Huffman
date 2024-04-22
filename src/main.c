@@ -4,10 +4,10 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "./utils/utils.h"
-#include "./tree/huffman_tree.h"
-#include "./compression/compression.h"
-#include "./decompression/decompression.h"
+#include "./huffman/utils/utils.h"
+#include "./huffman/codec/coding/tree/huffman_tree.h"
+#include "./huffman/codec/compression/compression.h"
+#include "./huffman/codec/decompression/decompression.h"
 #include "./gui/gui.h"
 
 static void usage()

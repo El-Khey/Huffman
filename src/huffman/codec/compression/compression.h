@@ -2,14 +2,15 @@
 #define _COMPRESSION_H_
 
 #include "../decompression/decompression.h"
-#include "../tree/huffman_tree.h"
-#include "../tree/alphabet.h"
-#include "../utils/folder.h"
-#include "../debug/debug.h"
-#include "../utils/utils.h"
-#include "../utils/file.h"
-#include "../constants.h"
-#include "../byte/bit.h"
+#include "../coding/tree/huffman_tree.h"
+#include "../coding/alphabet/alphabet.h"
+#include "../../utils/folder/folder.h"
+#include "../../utils/file/file.h"
+#include "../../utils/byte/bit.h"
+#include "../../../debug/debug.h"
+#include "../../../constants.h"
+#include "../../utils/utils.h"
+
 #include "data.h"
 
 #include <stdio.h>

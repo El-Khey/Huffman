@@ -1,19 +1,19 @@
 #ifndef _DECOMPRESSION_H_
 #define _DECOMPRESSION_H_
 
-#include "../tree/huffman_tree.h"
-#include "../tree/alphabet.h"
-#include "../utils/folder.h"
-#include "../debug/debug.h"
-#include "../utils/utils.h"
-#include "../utils/file.h"
-#include "../constants.h"
-#include "../byte/bit.h"
+#include "../coding/tree/huffman_tree.h"
+#include "../coding/alphabet/alphabet.h"
+#include "../../utils/folder/folder.h"
+#include "../../utils/file/file.h"
+#include "../../utils/byte/bit.h"
+#include "../../../debug/debug.h"
+#include "../../../constants.h"
+#include "../../utils/utils.h"
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 
 typedef struct Header
 {

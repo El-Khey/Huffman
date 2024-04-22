@@ -1,13 +1,13 @@
 #ifndef _DATA_H_
 #define _DATA_H_
 
-#include "../utils/folder.h"
-#include "../utils/file.h"
-#include "../constants.h"
+#include "../../utils/folder/folder.h"
+#include "../../utils/file/file.h"
+#include "../../../constants.h"
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
 
 typedef struct File
 {
