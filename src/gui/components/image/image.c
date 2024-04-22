@@ -1,6 +1,6 @@
 #include "image.h"
 
-Image load_image(char *path, Dimension dimension)
+Image construct_image(char *path, Position position, Dimension dimension)
 {
     Image image;
 
@@ -10,9 +10,9 @@ Image load_image(char *path, Dimension dimension)
     MLV_resize_image(loaded_image, dimension.width, dimension.height);
 
     image.image = loaded_image;
-    image.dimension = dimension;
+    image.rectangle.dimension = dimension;
 
-    image.position = construct_position(0, 0);
+    image.rectangle.position = construct_position(0, 0);
     strcpy(image.path, path);
 
     return image;
@@ -21,9 +21,7 @@ Image load_image(char *path, Dimension dimension)
 Dimension get_image_dimension(MLV_Image *image)
 {
     Dimension dimension;
-
     MLV_get_image_size(image, &dimension.width, &dimension.height);
-
     return dimension;
 }
 
@@ -45,17 +43,17 @@ void vertical_image_mirror(Image *image)
 
 void set_image_position(Image *image, Position position)
 {
-    image->position = position;
+    image->rectangle.position = position;
 }
 
 void set_image_dimension(Image *image, Dimension dimension)
 {
-    image->dimension = dimension;
+    image->rectangle.dimension = dimension;
 }
 
 void draw_image(Image *image)
 {
-    MLV_draw_image(image->image, get_x(image->position), get_y(image->position));
+    MLV_draw_image(image->image, get_x(image->rectangle.position), get_y(image->rectangle.position));
 }
 
 void free_image(Image *image)

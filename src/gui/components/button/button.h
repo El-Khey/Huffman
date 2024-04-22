@@ -35,7 +35,7 @@ Button construct_button(Position position, Dimension dimension, int border_width
 
 void add_button_text(Button *button, Text text, LayoutType layout_type);
 
-void add_button_image(Button *button, char *image_path);
+void add_button_image(Button *button, Image image, LayoutType layout_type);
 
 int is_button_hovered(Button button, Position p);
 

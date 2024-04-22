@@ -15,10 +15,11 @@ void add_button_text(Button *button, Text text, LayoutType layout_type)
     layout_manager(layout_type, &button->rectangle, &button->text.rectangle, construct_paddings(0, 0, 0, 0));
 }
 
-void add_button_image(Button *button, char *image_path)
+void add_button_image(Button *button, Image image, LayoutType layout_type)
 {
-    // TODO: add image to button
+    button->image = image;
     button->type = BUTTON_IMAGE;
+    layout_manager(layout_type, &button->rectangle, &button->image.rectangle, construct_paddings(0, 0, 0, 0));
 }
 
 int is_button_hovered(Button button, Position p)

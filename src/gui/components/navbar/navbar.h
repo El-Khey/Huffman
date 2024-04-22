@@ -4,13 +4,19 @@
 #include "../button/button.h"
 #include "../color/theme.h"
 
+typedef enum
+{
+    COMPRESSION,
+    EXTRACTION,
+    VIEW,
+    DELETE,
+    DESELECT,
+    number_of_buttons
+} NavBarButtonType;
+
 typedef struct
 {
-    Button compression_button;
-    Button decompression_button;
-    Button help_button;
-    Button exit_button;
-
+    Button buttons[number_of_buttons];
     Rectangle rectangle;
 } NavBar;
 

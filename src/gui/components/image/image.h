@@ -3,6 +3,7 @@
 
 #include "../../utils/position/position.h"
 #include "../../utils/dimension/dimension.h"
+#include "../shape/rectangle/rectangle.h"
 #include <MLV/MLV_all.h>
 
 #define MAX_CHARACTERS 250
@@ -13,20 +14,20 @@
  */
 typedef struct
 {
-    Dimension dimension;       /**< La dimension de l'image */
-    Position position;         /**< La position de l'image */
-    char path[MAX_CHARACTERS]; /**< Le chemin d'accès de l'image */
+    Rectangle rectangle;       /**< Le rectangle de l'image */
     MLV_Image *image;          /**< L'image MLV */
+    char path[MAX_CHARACTERS]; /**< Le chemin d'accès de l'image */
 } Image;
 
 /**
- * @brief Charge une image à partir d'un chemin et la redimensionne aux dimensions données.
+ * @brief Construit un objet Image.
  *
- * @param path Le chemin vers l'image.
- * @param dimension Les dimensions pour redimensionner l'image.
- * @return Image* Un pointeur vers l'image chargée et redimensionnée.
+ * @param path Le chemin d'accès de l'image.
+ * @param position La position de l'image.
+ * @param dimension La dimension de l'image.
+ * @return Image L'image construite.
  */
-Image load_image(char *path, Dimension dimension);
+Image construct_image(char *path, Position position, Dimension dimension);
 
 /**
  * @brief Effectue un miroir vertical de l'image.
