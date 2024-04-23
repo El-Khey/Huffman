@@ -7,12 +7,14 @@
 #include "../../manager/mouse_manager/mouse_manager.h"
 #include "../../components/window/window.h"
 #include "../../components/topbar/topbar.h"
+#include "../../components/navbar/navbar.h"
 
 typedef struct
 {
     MouseManager mouse_manager;
     Window window;
     TopBar topbar;
+    NavBar navbar;
 } HomePage;
 
 /**

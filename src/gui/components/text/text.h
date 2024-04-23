@@ -56,6 +56,14 @@ void set_text_content(Text *text, char *content);
 void set_text_position(Text *text, Position position);
 
 /**
+ * @brief Définit les dimensions du texte
+ *
+ * @param text Le texte dont on veut définir les dimensions
+ * @param dimension Les dimensions à définir
+ */
+void set_text_dimensions(Text *text, Dimension dimension);
+
+/**
  * @brief Obtient la largeur du texte
  *
  * @param text Le texte dont on veut obtenir la largeur

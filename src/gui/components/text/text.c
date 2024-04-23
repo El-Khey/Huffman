@@ -35,6 +35,11 @@ void set_text_position(Text *text, Position position)
     text->rectangle.position = position;
 }
 
+void set_text_dimensions(Text *text, Dimension dimension)
+{
+    text->rectangle.dimension = dimension;
+}
+
 int get_text_width(Text text)
 {
     return text.rectangle.dimension.width;
@@ -47,6 +52,7 @@ int get_text_height(Text text)
 
 void draw_text(Text text)
 {
+    draw_filled_rectangle(text.rectangle);
     MLV_draw_text_with_font(
         get_x(text.rectangle.position),
         get_y(text.rectangle.position),

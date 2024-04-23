@@ -1,8 +1,12 @@
 #ifndef _TOP_BAR_H
 #define _TOP_BAR_H
 
+#include "../window/window.h"
 #include "../button/button.h"
 #include "../color/theme.h"
+
+#define TOP_BAR_WIDTH WINDOW_WIDTH
+#define TOP_BAR_HEIGHT 110
 
 typedef enum
 {
