@@ -97,6 +97,5 @@ class CharacterAnalyzer:
         plt.xlabel("Character")
         plt.ylabel("Frequency")
         plt.xticks(rotation=90)
-        plt.tight_layout()
         filename = self.text_file.split("/")[-1].split(".txt")[0]
         plt.savefig(f"{PLOTS_FOLDER}/{filename}_char_distribution.png")

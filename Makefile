@@ -229,4 +229,4 @@ clean: simple-clean
 	rm -rf main && rm -rf $(MAIN_DIR)/__pycache__ 
 
 clean-test:
-	rm -rf ./study/test/compressed/*
+	rm -rf ./study/test/compressed/* ./study/test/raw/*/*.txt ./study/test/raw/*/*/*.json ./study/plots/*.png
