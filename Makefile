@@ -1,6 +1,16 @@
+# ################################## #
+#  C O M P I L A T I O N   S E T U P #
+# ################################## #
+
+# ---------------------------------------------------- #
+
+
 CC = gcc 
 CFLAGS = -g -W -Wall -std=c99 -pedantic -O2
 CLIBS = -lm -lMLV
+
+
+# ---------------------------------------------------- #
 
 CODEC = huffman_tree.o node.o alphabet.o compression.o decompression.o data.o
 UTILS = utils.o file.o folder.o bit.o
@@ -13,14 +23,78 @@ MANAGER = mouse_manager.o layout_manager.o
 
 all: build simple-clean
 
-clean-example:
-	rm -rf ./example/*/*.bin ./example/*/decompressed_*
-
 build: main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES)
 	$(CC) main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) $(PAGES) -o main $(CLIBS)
 
 install:
 	./setup.sh
+
+generate-test:
+	./study/generator/generator.sh
+
+create-compressed-dirs:
+	mkdir -p ./study/test/compressed/linear/ ./study/test/compressed/uniform/ \
+	./study/test/compressed/normal/ ./study/test/compressed/zipf/ \
+	./study/test/compressed/random/
+
+run-test-linear:
+	./main -c ./study/test/compressed/linear/linear_1000.bin ./study/test/raw/linear/linear_1000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_5000.bin ./study/test/raw/linear/linear_5000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_10000.bin ./study/test/raw/linear/linear_10000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000.bin ./study/test/raw/linear/linear_50000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_100000.bin ./study/test/raw/linear/linear_100000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_500000.bin ./study/test/raw/linear/linear_500000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_1000000.bin ./study/test/raw/linear/linear_1000000.txt &&\
+	./main -c ./study/test/compressed/linear/linear_5000000.bin ./study/test/raw/linear/linear_5000000.txt
+
+run-test-uniform:
+	./main -c ./study/test/compressed/uniform/uniform_1000.bin ./study/test/raw/uniform/uniform_1000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_5000.bin ./study/test/raw/uniform/uniform_5000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_10000.bin ./study/test/raw/uniform/uniform_10000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000.bin ./study/test/raw/uniform/uniform_50000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_100000.bin ./study/test/raw/uniform/uniform_100000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_500000.bin ./study/test/raw/uniform/uniform_500000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_1000000.bin ./study/test/raw/uniform/uniform_1000000.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_5000000.bin ./study/test/raw/uniform/uniform_5000000.txt
+
+run-test-normal:
+	./main -c ./study/test/compressed/normal/normal_1000.bin ./study/test/raw/normal/normal_1000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_5000.bin ./study/test/raw/normal/normal_5000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_10000.bin ./study/test/raw/normal/normal_10000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_50000.bin ./study/test/raw/normal/normal_50000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_100000.bin ./study/test/raw/normal/normal_100000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_500000.bin ./study/test/raw/normal/normal_500000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_1000000.bin ./study/test/raw/normal/normal_1000000.txt  &&\
+	./main -c ./study/test/compressed/normal/normal_5000000.bin ./study/test/raw/normal/normal_5000000.txt
+
+run-test-zipf:
+	./main -c ./study/test/compressed/zipf/zipf_1000.bin ./study/test/raw/zipf/zipf_1000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_5000.bin ./study/test/raw/zipf/zipf_5000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_10000.bin ./study/test/raw/zipf/zipf_10000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000.bin ./study/test/raw/zipf/zipf_50000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_100000.bin ./study/test/raw/zipf/zipf_100000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_500000.bin ./study/test/raw/zipf/zipf_500000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_1000000.bin ./study/test/raw/zipf/zipf_1000000.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_5000000.bin ./study/test/raw/zipf/zipf_5000000.txt
+
+run-test-random:
+	./main -c ./study/test/compressed/random/random_1000.bin ./study/test/raw/random/random_1000.txt &&\
+	./main -c ./study/test/compressed/random/random_5000.bin ./study/test/raw/random/random_5000.txt &&\
+	./main -c ./study/test/compressed/random/random_10000.bin ./study/test/raw/random/random_10000.txt &&\
+	./main -c ./study/test/compressed/random/random_50000.bin ./study/test/raw/random/random_50000.txt &&\
+	./main -c ./study/test/compressed/random/random_100000.bin ./study/test/raw/random/random_100000.txt &&\
+	./main -c ./study/test/compressed/random/random_500000.bin ./study/test/raw/random/random_500000.txt &&\
+	./main -c ./study/test/compressed/random/random_1000000.bin ./study/test/raw/random/random_1000000.txt &&\
+	./main -c ./study/test/compressed/random/random_5000000.bin ./study/test/raw/random/random_5000000.txt
+
+run-linear: all create-compressed-dirs run-test-linear
+run-uniform: all create-compressed-dirs run-test-uniform
+run-normal: all create-compressed-dirs run-test-normal
+run-zipf: all create-compressed-dirs run-test-zipf
+run-random: all create-compressed-dirs run-test-random
+
+run-all-test: all create-compressed-dirs run-test-linear run-test-uniform run-test-normal run-test-zipf run-test-random 
+
 
 # ----------- #
 # Main file 
@@ -152,4 +226,7 @@ simple-clean:
 
 # Clean removes all the .o files and the executable
 clean: simple-clean
-	rm -rf main
+	rm -rf main && rm -rf $(MAIN_DIR)/__pycache__ 
+
+clean-test:
+	rm -rf ./study/test/compressed/*

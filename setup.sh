@@ -7,3 +7,7 @@ sudo apt-get install -y libsdl-image1.2-dev
 
 sudo dpkg -i ./lib/libmlv0_2.0.2-1_amd64.deb ./lib/libmlv0-dev_2.0.2-1_amd64.deb
 sudo apt-get install build-essential
+
+sudo apt update
+sudo apt install python3
+sudo apt install python3-pip
