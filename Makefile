@@ -37,63 +37,104 @@ create-compressed-dirs:
 	./study/test/compressed/normal/ ./study/test/compressed/zipf/ \
 	./study/test/compressed/random/
 
-run-test-linear:
-	./main -c ./study/test/compressed/linear/linear_1000.bin ./study/test/raw/linear/linear_1000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_5000.bin ./study/test/raw/linear/linear_5000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_10000.bin ./study/test/raw/linear/linear_10000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_50000.bin ./study/test/raw/linear/linear_50000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_100000.bin ./study/test/raw/linear/linear_100000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_500000.bin ./study/test/raw/linear/linear_500000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_1000000.bin ./study/test/raw/linear/linear_1000000.txt &&\
-	./main -c ./study/test/compressed/linear/linear_5000000.bin ./study/test/raw/linear/linear_5000000.txt
+run-linear:
+	./main -c ./study/test/compressed/linear/linear_1000_94.bin ./study/test/raw/linear/linear_1000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_5000_94.bin ./study/test/raw/linear/linear_5000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_10000_94.bin ./study/test/raw/linear/linear_10000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000_94.bin ./study/test/raw/linear/linear_50000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_100000_94.bin ./study/test/raw/linear/linear_100000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_500000_94.bin ./study/test/raw/linear/linear_500000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_1000000_94.bin ./study/test/raw/linear/linear_1000000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_5000000_94.bin ./study/test/raw/linear/linear_5000000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_10000000_94.bin ./study/test/raw/linear/linear_10000000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_94.bin ./study/test/raw/linear/linear_50000000_94.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_2.bin ./study/test/raw/linear/linear_50000000_2.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_4.bin ./study/test/raw/linear/linear_50000000_4.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_8.bin ./study/test/raw/linear/linear_50000000_8.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_16.bin ./study/test/raw/linear/linear_50000000_16.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_32.bin ./study/test/raw/linear/linear_50000000_32.txt &&\
+	./main -c ./study/test/compressed/linear/linear_50000000_64.bin ./study/test/raw/linear/linear_50000000_64.txt
 
-run-test-uniform:
-	./main -c ./study/test/compressed/uniform/uniform_1000.bin ./study/test/raw/uniform/uniform_1000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_5000.bin ./study/test/raw/uniform/uniform_5000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_10000.bin ./study/test/raw/uniform/uniform_10000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_50000.bin ./study/test/raw/uniform/uniform_50000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_100000.bin ./study/test/raw/uniform/uniform_100000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_500000.bin ./study/test/raw/uniform/uniform_500000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_1000000.bin ./study/test/raw/uniform/uniform_1000000.txt &&\
-	./main -c ./study/test/compressed/uniform/uniform_5000000.bin ./study/test/raw/uniform/uniform_5000000.txt
+run-uniform:
+	./main -c ./study/test/compressed/uniform/uniform_1000_94.bin ./study/test/raw/uniform/uniform_1000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_5000_94.bin ./study/test/raw/uniform/uniform_5000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_10000_94.bin ./study/test/raw/uniform/uniform_10000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000_94.bin ./study/test/raw/uniform/uniform_50000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_100000_94.bin ./study/test/raw/uniform/uniform_100000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_500000_94.bin ./study/test/raw/uniform/uniform_500000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_1000000_94.bin ./study/test/raw/uniform/uniform_1000000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_5000000_94.bin ./study/test/raw/uniform/uniform_5000000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_10000000_94.bin ./study/test/raw/uniform/uniform_10000000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_94.bin ./study/test/raw/uniform/uniform_50000000_94.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_2.bin ./study/test/raw/uniform/uniform_50000000_2.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_4.bin ./study/test/raw/uniform/uniform_50000000_4.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_8.bin ./study/test/raw/uniform/uniform_50000000_8.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_16.bin ./study/test/raw/uniform/uniform_50000000_16.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_32.bin ./study/test/raw/uniform/uniform_50000000_32.txt &&\
+	./main -c ./study/test/compressed/uniform/uniform_50000000_64.bin ./study/test/raw/uniform/uniform_50000000_64.txt
 
-run-test-normal:
-	./main -c ./study/test/compressed/normal/normal_1000.bin ./study/test/raw/normal/normal_1000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_5000.bin ./study/test/raw/normal/normal_5000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_10000.bin ./study/test/raw/normal/normal_10000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_50000.bin ./study/test/raw/normal/normal_50000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_100000.bin ./study/test/raw/normal/normal_100000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_500000.bin ./study/test/raw/normal/normal_500000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_1000000.bin ./study/test/raw/normal/normal_1000000.txt  &&\
-	./main -c ./study/test/compressed/normal/normal_5000000.bin ./study/test/raw/normal/normal_5000000.txt
+run-normal:
+	./main -c ./study/test/compressed/normal/normal_1000_94.bin ./study/test/raw/normal/normal_1000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_5000_94.bin ./study/test/raw/normal/normal_5000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_10000_94.bin ./study/test/raw/normal/normal_10000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000_94.bin ./study/test/raw/normal/normal_50000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_100000_94.bin ./study/test/raw/normal/normal_100000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_500000_94.bin ./study/test/raw/normal/normal_500000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_1000000_94.bin ./study/test/raw/normal/normal_1000000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_5000000_94.bin ./study/test/raw/normal/normal_5000000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_10000000_94.bin ./study/test/raw/normal/normal_10000000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_94.bin ./study/test/raw/normal/normal_50000000_94.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_2.bin ./study/test/raw/normal/normal_50000000_2.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_4.bin ./study/test/raw/normal/normal_50000000_4.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_8.bin ./study/test/raw/normal/normal_50000000_8.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_16.bin ./study/test/raw/normal/normal_50000000_16.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_32.bin ./study/test/raw/normal/normal_50000000_32.txt &&\
+	./main -c ./study/test/compressed/normal/normal_50000000_64.bin ./study/test/raw/normal/normal_50000000_64.txt
 
-run-test-zipf:
-	./main -c ./study/test/compressed/zipf/zipf_1000.bin ./study/test/raw/zipf/zipf_1000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_5000.bin ./study/test/raw/zipf/zipf_5000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_10000.bin ./study/test/raw/zipf/zipf_10000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_50000.bin ./study/test/raw/zipf/zipf_50000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_100000.bin ./study/test/raw/zipf/zipf_100000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_500000.bin ./study/test/raw/zipf/zipf_500000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_1000000.bin ./study/test/raw/zipf/zipf_1000000.txt &&\
-	./main -c ./study/test/compressed/zipf/zipf_5000000.bin ./study/test/raw/zipf/zipf_5000000.txt
+run-zipf:
+	./main -c ./study/test/compressed/zipf/zipf_1000_94.bin ./study/test/raw/zipf/zipf_1000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_5000_94.bin ./study/test/raw/zipf/zipf_5000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_10000_94.bin ./study/test/raw/zipf/zipf_10000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000_94.bin ./study/test/raw/zipf/zipf_50000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_100000_94.bin ./study/test/raw/zipf/zipf_100000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_500000_94.bin ./study/test/raw/zipf/zipf_500000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_1000000_94.bin ./study/test/raw/zipf/zipf_1000000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_5000000_94.bin ./study/test/raw/zipf/zipf_5000000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_10000000_94.bin ./study/test/raw/zipf/zipf_10000000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_94.bin ./study/test/raw/zipf/zipf_50000000_94.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_2.bin ./study/test/raw/zipf/zipf_50000000_2.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_4.bin ./study/test/raw/zipf/zipf_50000000_4.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_8.bin ./study/test/raw/zipf/zipf_50000000_8.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_16.bin ./study/test/raw/zipf/zipf_50000000_16.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_32.bin ./study/test/raw/zipf/zipf_50000000_32.txt &&\
+	./main -c ./study/test/compressed/zipf/zipf_50000000_64.bin ./study/test/raw/zipf/zipf_50000000_64.txt
 
-run-test-random:
-	./main -c ./study/test/compressed/random/random_1000.bin ./study/test/raw/random/random_1000.txt &&\
-	./main -c ./study/test/compressed/random/random_5000.bin ./study/test/raw/random/random_5000.txt &&\
-	./main -c ./study/test/compressed/random/random_10000.bin ./study/test/raw/random/random_10000.txt &&\
-	./main -c ./study/test/compressed/random/random_50000.bin ./study/test/raw/random/random_50000.txt &&\
-	./main -c ./study/test/compressed/random/random_100000.bin ./study/test/raw/random/random_100000.txt &&\
-	./main -c ./study/test/compressed/random/random_500000.bin ./study/test/raw/random/random_500000.txt &&\
-	./main -c ./study/test/compressed/random/random_1000000.bin ./study/test/raw/random/random_1000000.txt &&\
-	./main -c ./study/test/compressed/random/random_5000000.bin ./study/test/raw/random/random_5000000.txt
+run-random:
+	./main -c ./study/test/compressed/random/random_1000_94.bin ./study/test/raw/random/random_1000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_5000_94.bin ./study/test/raw/random/random_5000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_10000_94.bin ./study/test/raw/random/random_10000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_50000_94.bin ./study/test/raw/random/random_50000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_100000_94.bin ./study/test/raw/random/random_100000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_500000_94.bin ./study/test/raw/random/random_500000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_1000000_94.bin ./study/test/raw/random/random_1000000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_5000000_94.bin ./study/test/raw/random/random_5000000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_10000000_94.bin ./study/test/raw/random/random_10000000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_94.bin ./study/test/raw/random/random_50000000_94.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_2.bin ./study/test/raw/random/random_50000000_2.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_4.bin ./study/test/raw/random/random_50000000_4.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_8.bin ./study/test/raw/random/random_50000000_8.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_16.bin ./study/test/raw/random/random_50000000_16.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_32.bin ./study/test/raw/random/random_50000000_32.txt &&\
+	./main -c ./study/test/compressed/random/random_50000000_64.bin ./study/test/raw/random/random_50000000_64.txt
 
-run-linear: all create-compressed-dirs run-test-linear
-run-uniform: all create-compressed-dirs run-test-uniform
-run-normal: all create-compressed-dirs run-test-normal
-run-zipf: all create-compressed-dirs run-test-zipf
-run-random: all create-compressed-dirs run-test-random
 
-run-all-test: all create-compressed-dirs run-test-linear run-test-uniform run-test-normal run-test-zipf run-test-random 
+run-test-linear: all create-compressed-dirs run-linear
+run-test-uniform: all create-compressed-dirs run-uniform
+run-test-normal: all create-compressed-dirs run-normal
+run-test-zipf: all create-compressed-dirs run-zipf
+run-test-random: all create-compressed-dirs run-random
+
+run-all-test: all create-compressed-dirs run-linear run-uniform run-normal run-zipf run-random 
 
 
 # ----------- #
@@ -228,5 +269,11 @@ simple-clean:
 clean: simple-clean
 	rm -rf main && rm -rf $(MAIN_DIR)/__pycache__ 
 
-clean-test:
-	rm -rf ./study/test/compressed/* ./study/test/raw/*/*.txt ./study/test/raw/*/*/*.json ./study/plots/*.png
+
+clean-test: clean-compressed clean-raw
+
+clean-compressed:
+	rm -rf ./study/test/compressed/*
+
+clean-raw:
+	rm -rf ./study/test/raw/*/*.txt ./study/test/raw/*/*/*.json ./study/plots/*.png

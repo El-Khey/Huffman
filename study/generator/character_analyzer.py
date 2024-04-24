@@ -92,6 +92,7 @@ class CharacterAnalyzer:
         Plot character distribution curve.
         """
         plt.figure(figsize=(10, 6))
+        
         plt.plot(self.chars, self.frequencies, marker='o', linestyle='-')
         plt.title("Character Distribution in Text File")
         plt.xlabel("Character")

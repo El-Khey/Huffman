@@ -35,7 +35,7 @@ class TextFileGenerator(CharacterAnalyzer):
 
     def linear_frequencies(self):
         num_chars = self.end_char - self.start_char
-        total_frequency = sum(range(1, num_chars))  # Somme des nombres de 1 à num_chars
+        total_frequency = sum(range(1, num_chars + 1))  # Corrected to include the upper bound
         frequencies = {}
         for i, char in enumerate(range(self.start_char, self.end_char)):
             frequencies[chr(char)] = (i + 1) / total_frequency

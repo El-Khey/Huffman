@@ -1,0 +1,9 @@
+{
+    "total_chars": 49951,
+    "unique_chars": 93,
+    "most_common_char": "/",
+    "most_common_freq": 1073,
+    "mean_freq": 537.11,
+    "median_freq": 485.0,
+    "std_dev": 318.93
+}
