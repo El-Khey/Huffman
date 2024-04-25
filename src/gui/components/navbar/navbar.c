@@ -12,18 +12,35 @@ NavBar construct_navbar(Position position, Dimension dimension)
     navbar.displayed_path = construct_text("",
                                            construct_position(get_x(navbar.back.rectangle.position) + get_width(navbar.back.rectangle.dimension),
                                                               get_y(navbar.back.rectangle.position)),
-                                           "assets/fonts/Raleway/static/Raleway-MediumItalic.ttf", 20, DARK_COLOR);
+                                           "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 20, DARK_COLOR);
 
     int border_width = 2;
     set_text_dimensions(&navbar.displayed_path, construct_dimension(NAV_BAR_WIDTH - get_width(navbar.back.rectangle.dimension) - 30, NAV_BAR_HEIGHT - border_width * 4));
     layout_manager(EAST, &navbar.background, &navbar.displayed_path.rectangle, construct_paddings(0, 0, 0, get_width(navbar.back.rectangle.dimension) + 25));
 
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_BOTTOM, border_width, BLACK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_TOP, border_width, BLACK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_LEFT, border_width, BLACK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_RIGHT, border_width, BLACK_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_BOTTOM, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_TOP, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_LEFT, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_RIGHT, border_width, DARK_COLOR);
 
     return navbar;
+}
+
+void update_navbar_text(NavBar *navbar, char *absolute_path)
+{
+    navbar->displayed_path = construct_text(absolute_path,
+                                            construct_position(get_x(navbar->back.rectangle.position) + get_width(navbar->back.rectangle.dimension),
+                                                               get_y(navbar->back.rectangle.position)),
+                                            "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 20, DARK_COLOR);
+
+    int border_width = 2;
+    set_text_dimensions(&navbar->displayed_path, construct_dimension(NAV_BAR_WIDTH - get_width(navbar->back.rectangle.dimension) - 30, NAV_BAR_HEIGHT - border_width * 4));
+    layout_manager(EAST, &navbar->background, &navbar->displayed_path.rectangle, construct_paddings(0, 0, 0, get_width(navbar->back.rectangle.dimension) + 25));
+
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_BOTTOM, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_TOP, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_LEFT, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_RIGHT, border_width, DARK_COLOR);
 }
 
 void draw_navbar(NavBar navbar)

@@ -25,6 +25,15 @@ typedef struct
 NavBar construct_navbar(Position position, Dimension dimension);
 
 /**
+ * @brief Update the NavBar text
+ *
+ * @param navbar the NavBar to update
+ * @param absolute_path the absolute path to set
+ * @return void
+ */
+void update_navbar_text(NavBar *navbar, char *absolute_path);
+
+/**
  * @brief Draw the NavBar
  *
  * @param NavBar the NavBar to draw

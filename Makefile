@@ -16,10 +16,10 @@ CODEC = huffman_tree.o node.o alphabet.o compression.o decompression.o data.o
 UTILS = utils.o file.o folder.o bit.o
 DEBUG = debug.o
 
-COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o padding.o topbar.o navbar.o
+COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o padding.o topbar.o navbar.o table.o checkbox.o
 GUI_UTILS = position.o dimension.o
 PAGES = home.o
-MANAGER = mouse_manager.o layout_manager.o
+MANAGER = mouse_manager.o layout_manager.o explorer.o
 
 all: build simple-clean
 
@@ -234,6 +234,12 @@ navbar.o: ./src/gui/components/navbar/navbar.c
 padding.o: ./src/gui/components/padding/padding.c
 	$(CC) $(CFLAGS) -c ./src/gui/components/padding/padding.c
 
+table.o: ./src/gui/components/table/table.c
+	$(CC) $(CFLAGS) -c ./src/gui/components/table/table.c
+
+checkbox.o: ./src/gui/components/checkbox/checkbox.c
+	$(CC) $(CFLAGS) -c ./src/gui/components/checkbox/checkbox.c
+
 # ----------- #
 # GUI UTILS
 # ----------- #
@@ -252,6 +258,9 @@ mouse_manager.o: ./src/gui/manager/mouse_manager/mouse_manager.c
 
 layout_manager.o: ./src/gui/manager/layout_manager/layout_manager.c
 	$(CC) $(CFLAGS) -c ./src/gui/manager/layout_manager/layout_manager.c
+
+explorer.o: ./src/gui/manager/explorer/explorer.c
+	$(CC) $(CFLAGS) -c ./src/gui/manager/explorer/explorer.c
 
 # ----------- #
 # PAGES

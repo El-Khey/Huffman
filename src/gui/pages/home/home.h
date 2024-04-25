@@ -5,9 +5,11 @@
 #include <stdlib.h>
 
 #include "../../manager/mouse_manager/mouse_manager.h"
+#include "../../manager/explorer/explorer.h"
 #include "../../components/window/window.h"
 #include "../../components/topbar/topbar.h"
 #include "../../components/navbar/navbar.h"
+#include "../../components/table/table.h"
 
 typedef struct
 {
@@ -15,6 +17,8 @@ typedef struct
     Window window;
     TopBar topbar;
     NavBar navbar;
+    Explorer explorer;
+    Table table;
 } HomePage;
 
 /**

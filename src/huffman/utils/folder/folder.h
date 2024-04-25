@@ -4,10 +4,10 @@
 #include "../utils.h"
 #include <sys/stat.h>
 #include <string.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <stdio.h>
 #include <dirent.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * @brief Check if a folder exists
@@ -24,6 +24,14 @@ int exists(const char *directory);
  * @return The name of the folder
  */
 char *get_folder_name(char *directory);
+
+/**
+ * @brief Get the absolute path of a folder
+ *
+ * @param directory - The directory to get the absolute path from
+ * @return The absolute path of the folder
+ */
+char *get_absolute_path(char *directory);
 
 /**
  * @brief Create intermediate folders if they don't exist
@@ -99,5 +107,13 @@ void list_files_in_folder_at_level(char *dir_path, int level, char **files_list)
  * @param directory_name - The name of the directory
  */
 void check_folder_opening(DIR *dir, const char *directory_name);
+
+/**
+ * @brief Count the number of directories inside a folder
+ *
+ * @param directory - The directory to check
+ * @return The number of directories inside the folder
+ */
+int count_number_dir_inside_folder(char *directory);
 
 #endif

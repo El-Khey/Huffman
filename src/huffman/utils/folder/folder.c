@@ -13,6 +13,18 @@ char *get_folder_name(char *directory)
     return parts[size - 1];
 }
 
+char *get_absolute_path(char *directory)
+{
+    char *absolute_path = realpath(directory, NULL);
+    if (absolute_path == NULL)
+    {
+        perror("realpath");
+        return directory;
+    }
+
+    return absolute_path;
+}
+
 void fix_folder_name(char *directory)
 {
     if (directory[strlen(directory) - 1] != '/')
@@ -238,4 +250,25 @@ void check_folder_opening(DIR *dir, const char *directory_name)
         fprintf(stderr, "----------------------------------------------\n");
         exit(EXIT_FAILURE);
     }
+}
+
+int count_number_dir_inside_folder(char *directory)
+{
+    DIR *dir;
+    struct dirent *entry;
+    int number_of_directories = 0;
+
+    dir = opendir(directory);
+    check_folder_opening(dir, directory);
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+        {
+            number_of_directories++;
+        }
+    }
+
+    closedir(dir);
+    return number_of_directories;
 }
