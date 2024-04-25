@@ -8,7 +8,6 @@ HomePage construct_home_page()
     HomePage home_page;
 
     home_page.window = construct_window();
-
     home_page.topbar = construct_topbar(construct_position(0, 0), construct_dimension(TOP_BAR_WIDTH, TOP_BAR_HEIGHT));
     home_page.navbar = construct_navbar(construct_position(0, TOP_BAR_HEIGHT), construct_dimension(NAV_BAR_WIDTH, NAV_BAR_HEIGHT));
 
@@ -63,8 +62,10 @@ static void initialize_table_rows(HomePage *home_page, int direction)
             add_row(&home_page->table, home_page->explorer.directories.list[i].path,
                     home_page->explorer.directories.list[i].name, home_page->explorer.directories.list[i].metadata.size,
                     home_page->explorer.directories.list[i].metadata.type, home_page->explorer.directories.list[i].metadata.last_modified);
+
             displayed_rows++;
         }
+
         // Add file row if available
         else if (i - home_page->explorer.directories.number_of_directories < home_page->explorer.files.number_of_files)
         {
@@ -75,6 +76,18 @@ static void initialize_table_rows(HomePage *home_page, int direction)
             displayed_rows++;
         }
         i++;
+    }
+
+    // if the created rows are present inside the DocToCompress list, check the checkbox
+    for (int i = 0; i < home_page->table.rows_to_compress.number_saved_files; i++)
+    {
+        for (int j = 0; j < home_page->table.row_index; j++)
+        {
+            if (strcmp(home_page->table.rows[j].path, home_page->table.rows_to_compress.list[i].path) == 0)
+            {
+                check(&home_page->table.rows[j].checkbox);
+            }
+        }
     }
 }
 

@@ -18,6 +18,10 @@ Table construct_table(Position position, Dimension dimension, int max_rows, int 
     table.row_index = 0;
     table.scroll_index = 0;
 
+    table.rows_to_compress.number_saved_files = 0;
+    table.rows_to_compress.list = (DocToCompress *)malloc(max_rows * sizeof(DocToCompress));
+    table.rows_to_compress.max_slots = 5;
+
     return table;
 }
 
@@ -101,6 +105,31 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->row_index++;
 }
 
+static void remove_row_to_compress(Table *table, char *path)
+{
+    int i = 0;
+    for (; i < table->rows_to_compress.number_saved_files; i++)
+    {
+        if (strcmp(table->rows_to_compress.list[i].path, path) == 0)
+        {
+            break;
+        }
+    }
+
+    for (; i < table->rows_to_compress.number_saved_files - 1; i++)
+    {
+        table->rows_to_compress.list[i] = table->rows_to_compress.list[i + 1];
+    }
+
+    table->rows_to_compress.number_saved_files--;
+}
+
+static void save_row_to_compress(Table *table, char *path)
+{
+    table->rows_to_compress.list[table->rows_to_compress.number_saved_files].path = path;
+    table->rows_to_compress.number_saved_files++;
+}
+
 void clear_table_rows(Table *table)
 {
     for (int i = 0; i < table->row_index; i++)
@@ -122,6 +151,8 @@ void handle_table_selection(Table *table, MouseManager mouse_manager)
         if (is_button_clicked(table->rows[i].checkbox.button, mouse_manager))
         {
             check(&table->rows[i].checkbox);
+            (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path)
+                                                 : remove_row_to_compress(table, table->rows[i].path);
         }
     }
 }

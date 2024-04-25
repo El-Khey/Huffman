@@ -10,6 +10,18 @@
 
 typedef struct
 {
+    char *path;
+} DocToCompress;
+
+typedef struct
+{
+    int max_slots;
+    DocToCompress *list;
+    int number_saved_files;
+} RowsToCompress;
+
+typedef struct
+{
     Rectangle rectangle;
     Button button;
 
@@ -33,6 +45,8 @@ typedef struct
 
 typedef struct
 {
+    RowsToCompress rows_to_compress;
+
     Rectangle rectangle;
     int scroll_index;
 
