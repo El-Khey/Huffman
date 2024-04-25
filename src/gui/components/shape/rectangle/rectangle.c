@@ -21,6 +21,14 @@ Rectangle construct_rectangle(Position position, Dimension dimension, int border
     return rectangle;
 }
 
+int is_rectangle_hovered(Rectangle rectangle, Position p)
+{
+    return get_x(p) >= get_x(rectangle.position) &&
+           get_x(p) <= get_x(rectangle.position) + get_width(rectangle.dimension) &&
+           get_y(p) >= get_y(rectangle.position) &&
+           get_y(p) <= get_y(rectangle.position) + get_height(rectangle.dimension);
+}
+
 void add_border_to_rectangle(Rectangle *rectangle, BorderType border_type, int border_width, Color border_color)
 {
     rectangle->borders[border_type].is_visible = 1;

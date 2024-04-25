@@ -129,3 +129,13 @@ int split_string(char *str, char **parts, const char *delimiter)
     free(str_copy);
     return num_parts; // Return the number of parts
 }
+
+int max(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+
+int min(int a, int b)
+{
+    return (a < b) ? a : b;
+}

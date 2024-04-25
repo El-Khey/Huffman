@@ -34,8 +34,9 @@ typedef struct
 typedef struct
 {
     Rectangle rectangle;
+    int scroll_index;
 
-    int number_rows;
+    int max_rows;
     Row *rows;
     int row_index;
 
@@ -52,13 +53,13 @@ typedef struct
  *
  * @param position - La position du tableau.
  * @param dimension - La dimension du tableau.
- * @param number_rows - Le nombre de lignes du tableau.
+ * @param max_rows - Le nombre de lignes du tableau.
  * @param number_columns - Le nombre de colonnes du tableau.
  * @param bacground_color - La couleur de fond du tableau.
  * @param text_color - La couleur du texte du tableau.
  * @return Table
  */
-Table construct_table(Position position, Dimension dimension, int number_rows, int number_columns, Color bacground_color, Color text_color);
+Table construct_table(Position position, Dimension dimension, int max_rows, int number_columns, Color bacground_color, Color text_color);
 
 /**
  * @brief Ajoute une colonne au tableau.
@@ -81,6 +82,13 @@ void add_column(Table *table, Position position, Dimension dimension, char *text
  * @param last_modified - La date de dernière modification de la ligne.
  */
 void add_row(Table *table, char *path, char *filename, long size, char *type, char *last_modified);
+
+/**
+ * @brief Nettoie les lignes du tableau.
+ *
+ * @param table - Le tableau.
+ */
+void clear_table_rows(Table *table);
 
 /**
  * @brief Gère la sélection d'une ligne du tableau.

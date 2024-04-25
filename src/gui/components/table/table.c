@@ -1,11 +1,11 @@
 #include "table.h"
 
-Table construct_table(Position position, Dimension dimension, int number_rows, int number_columns, Color bacground_color, Color text_color)
+Table construct_table(Position position, Dimension dimension, int max_rows, int number_columns, Color bacground_color, Color text_color)
 {
     Table table;
 
-    table.number_rows = number_rows;
-    table.rows = (Row *)malloc(number_rows * sizeof(Row));
+    table.max_rows = max_rows;
+    table.rows = (Row *)malloc(max_rows * sizeof(Row));
 
     table.number_columns = number_columns;
     table.columns = (Column *)malloc(number_columns * sizeof(Column));
@@ -16,6 +16,7 @@ Table construct_table(Position position, Dimension dimension, int number_rows, i
     table.rectangle = construct_rectangle(position, dimension, 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
     table.column_index = 0;
     table.row_index = 0;
+    table.scroll_index = 0;
 
     return table;
 }
@@ -38,9 +39,9 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
 {
     int height = 30;
 
-    if (table->row_index >= table->number_rows)
+    if (table->row_index >= table->max_rows)
     {
-        fprintf(stderr, "<warning> Table rows limit reached, maximum rows allowed: %d\n", table->number_rows);
+        fprintf(stderr, "<warning> Table rows limit reached, maximum rows allowed: %d\n", table->max_rows);
         return;
     }
 
@@ -100,6 +101,19 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->row_index++;
 }
 
+void clear_table_rows(Table *table)
+{
+    for (int i = 0; i < table->row_index; i++)
+    {
+        free(table->rows[i].filename.text);
+        free(table->rows[i].size.text);
+        free(table->rows[i].type.text);
+        free(table->rows[i].last_modified.text);
+    }
+
+    table->row_index = 0;
+}
+
 void handle_table_selection(Table *table, MouseManager mouse_manager)
 {
     int i = 0;
@@ -121,9 +135,9 @@ static void draw_columns(Column *columns, int number_columns)
     }
 }
 
-static void draw_rows(Row *rows, int number_rows)
+static void draw_rows(Row *rows, int max_rows)
 {
-    for (int i = 0; i < number_rows; i++)
+    for (int i = 0; i < max_rows; i++)
     {
         draw_filled_rectangle(rows[i].rectangle);
         draw_checkbox(rows[i].checkbox);

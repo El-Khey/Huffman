@@ -34,6 +34,8 @@ typedef struct
     MouseState mouse_state;      /** L'état actuel de la souris. */
     MouseState last_mouse_state; /** L'état précédent de la souris. */
     MouseEvent mouse_event;      /** L'événement de la souris. */
+    int wheel;                   /** La molette de la souris. */
+    int previous_wheel;          /** La molette précédente de la souris. */
 } MouseManager;
 /**
  * @brief Construit un nouvel objet Mouse Manager avec des valeurs par défaut
@@ -81,5 +83,20 @@ void set_mouse_released(MouseManager *mouse_manager);
  * @return Position
  */
 Position get_mouse_position(MouseManager mouse_manager);
+
+/**
+ * @brief Vérifie si la molette de la souris a été déplacée
+ *
+ * @param mouse_manager L'objet Mouse Manager
+ * @return int
+ */
+int is_wheel_scrolled(MouseManager mouse_manager);
+
+/**
+ * @brief Gère les événements de la molette de la souris
+ *
+ * @param mouse_manager L'objet Mouse Manager
+ */
+void handle_mouse_wheel_event(MouseManager *mouse_manager);
 
 #endif

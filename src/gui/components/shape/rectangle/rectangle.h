@@ -42,6 +42,15 @@ typedef struct
 Rectangle construct_rectangle(Position position, Dimension dimension, int border_width, Color background, Color border_color);
 
 /**
+ * @brief check if a rectangle is hovered
+ *
+ * @param rectangle rectangle
+ * @param p position
+ * @return int
+ */
+int is_rectangle_hovered(Rectangle rectangle, Position p);
+
+/**
  * @brief add a border to a rectangle
  *
  * @param rectangle rectangle

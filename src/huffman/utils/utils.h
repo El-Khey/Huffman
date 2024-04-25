@@ -78,4 +78,21 @@ void str_cat_prefix(char *str, const char *prefix);
  */
 int split_string(char *str, char **parts, const char *delimiter);
 
+/**
+ * @brief This function get the number of digits of a number
+ *
+ * @param number - the number
+ * @return int - the number of digits
+ */
+int max(int a, int b);
+
+/**
+ * @brief This function get the minimum of two numbers
+ *
+ * @param a - the first number
+ * @param b - the second number
+ * @return int - the minimum
+ */
+int min(int a, int b);
+
 #endif

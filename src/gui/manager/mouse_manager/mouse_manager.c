@@ -4,6 +4,10 @@ MouseManager construct_mouse_manager()
 {
     MouseManager mouse_manager;
     mouse_manager.position = construct_position(0, 0);
+
+    mouse_manager.previous_wheel = 0;
+    mouse_manager.wheel = 0;
+
     return mouse_manager;
 }
 
@@ -57,3 +61,27 @@ void set_mouse_released(MouseManager *mouse_manager)
 }
 
 Position get_mouse_position(MouseManager mouse_manager) { return mouse_manager.position; }
+
+int is_wheel_scrolled(MouseManager mouse_manager)
+{
+    return mouse_manager.wheel != mouse_manager.previous_wheel;
+}
+
+void handle_mouse_wheel_event(MouseManager *mouse_manager)
+{
+    SDL_Event event;
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
+        {
+            if (event.button.button == SDL_BUTTON_WHEELUP)
+            {
+                mouse_manager->wheel -= 1;
+            }
+            else if (event.button.button == SDL_BUTTON_WHEELDOWN)
+            {
+                mouse_manager->wheel += 1;
+            }
+        }
+    }
+}

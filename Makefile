@@ -7,7 +7,7 @@
 
 CC = gcc 
 CFLAGS = -g -W -Wall -std=c99 -pedantic -O2
-CLIBS = -lm -lMLV
+CLIBS = -lm -lMLV -lSDL
 
 
 # ---------------------------------------------------- #

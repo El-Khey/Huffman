@@ -4,6 +4,7 @@ Button construct_button(Position position, Dimension dimension, int border_width
 {
     Button button;
     button.rectangle = construct_rectangle(position, dimension, border_width, background, border_color);
+    button.type = BUTTON_NONE;
 
     return button;
 }
@@ -48,7 +49,6 @@ void set_button_dimension(Button *button, Dimension dimension)
 void draw_button(Button button)
 {
     draw_filled_rectangle(button.rectangle);
-
     if (button.type == BUTTON_TEXT)
     {
         draw_text(button.text);
