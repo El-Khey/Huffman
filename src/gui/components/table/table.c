@@ -58,8 +58,8 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
         construct_position(
             get_x(table->columns[0].rectangle.position),
             get_y(table->columns[0].rectangle.position) + (table->columns[0].rectangle.dimension.height) + (table->row_index * height)),
-        construct_dimension(25, 25), 3, LIGHT_COLOR, DARK_COLOR, construct_color(0.5, 0.5, 0.4, 1));
-    layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].checkbox.rectangle, construct_paddings(0, 0, 0, 0));
+        construct_dimension(25, 25), 3, LIGHT_COLOR, DARK_COLOR, construct_color(1, 0, 0, 1));
+    layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].checkbox.button.rectangle, construct_paddings(0, 0, 0, 0));
 
     char *icon_path = (strcmp(type, "Directory") == 0) ? "assets/icons/folder.png" : "assets/icons/file.png";
     table->rows[table->row_index].icon = construct_image(icon_path,
@@ -100,6 +100,18 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->row_index++;
 }
 
+void handle_table_selection(Table *table, MouseManager mouse_manager)
+{
+    int i = 0;
+    for (; i < table->row_index; i++)
+    {
+        if (is_button_clicked(table->rows[i].checkbox.button, mouse_manager))
+        {
+            check(&table->rows[i].checkbox);
+        }
+    }
+}
+
 static void draw_columns(Column *columns, int number_columns)
 {
     for (int i = 0; i < number_columns; i++)
@@ -109,19 +121,24 @@ static void draw_columns(Column *columns, int number_columns)
     }
 }
 
+static void draw_rows(Row *rows, int number_rows)
+{
+    for (int i = 0; i < number_rows; i++)
+    {
+        draw_filled_rectangle(rows[i].rectangle);
+        draw_checkbox(rows[i].checkbox);
+        draw_image(&rows[i].icon);
+        draw_text(rows[i].filename);
+        draw_text(rows[i].size);
+        draw_text(rows[i].type);
+        draw_text(rows[i].last_modified);
+    }
+}
+
 void draw_table(Table table)
 {
     draw_filled_rectangle(table.rectangle);
-    draw_columns(table.columns, table.number_columns);
 
-    for (int i = 0; i < table.row_index; i++)
-    {
-        draw_filled_rectangle(table.rows[i].rectangle);
-        draw_checkbox(table.rows[i].checkbox);
-        draw_image(&table.rows[i].icon);
-        draw_text(table.rows[i].filename);
-        draw_text(table.rows[i].size);
-        draw_text(table.rows[i].type);
-        draw_text(table.rows[i].last_modified);
-    }
+    draw_columns(table.columns, table.number_columns);
+    draw_rows(table.rows, table.row_index);
 }

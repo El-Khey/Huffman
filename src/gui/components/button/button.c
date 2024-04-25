@@ -30,6 +30,11 @@ int is_button_hovered(Button button, Position p)
            get_y(p) <= get_y(button.rectangle.position) + get_height(button.rectangle.dimension);
 }
 
+int is_button_clicked(Button button, MouseManager mouse_manager)
+{
+    return is_button_hovered(button, get_mouse_position(mouse_manager)) && is_left_button_clicked(mouse_manager);
+}
+
 void set_button_position(Button *button, Position position)
 {
     button->rectangle.position = position;
@@ -43,5 +48,13 @@ void set_button_dimension(Button *button, Dimension dimension)
 void draw_button(Button button)
 {
     draw_filled_rectangle(button.rectangle);
-    (button.type == BUTTON_TEXT) ? draw_text(button.text) : draw_image(&button.image);
+
+    if (button.type == BUTTON_TEXT)
+    {
+        draw_text(button.text);
+    }
+    else if (button.type == BUTTON_IMAGE)
+    {
+        draw_image(&button.image);
+    }
 }
