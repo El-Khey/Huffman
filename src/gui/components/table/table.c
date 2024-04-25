@@ -1,14 +1,14 @@
 #include "table.h"
 
-Table construct_table(Position position, Dimension dimension, int max_rows, int number_columns, Color bacground_color, Color text_color)
+Table construct_table(Position position, Dimension dimension, int max_rows, int max_columns, Color bacground_color, Color text_color)
 {
     Table table;
 
     table.max_rows = max_rows;
     table.rows = (Row *)malloc(max_rows * sizeof(Row));
 
-    table.number_columns = number_columns;
-    table.columns = (Column *)malloc(number_columns * sizeof(Column));
+    table.max_columns = max_columns;
+    table.columns = (Column *)malloc(max_columns * sizeof(Column));
 
     table.background_color = bacground_color;
     table.text_color = text_color;
@@ -27,9 +27,9 @@ Table construct_table(Position position, Dimension dimension, int max_rows, int 
 
 void add_column(Table *table, Position position, Dimension dimension, char *text)
 {
-    if (table->column_index >= table->number_columns)
+    if (table->column_index >= table->max_columns)
     {
-        fprintf(stderr, "<warning> Table columns limit reached, maximum columns allowed: %d\n", table->number_columns);
+        fprintf(stderr, "<warning> Table columns limit reached, maximum columns allowed: %d\n", table->max_columns);
         return;
     }
 
@@ -42,7 +42,6 @@ void add_column(Table *table, Position position, Dimension dimension, char *text
 void add_row(Table *table, char *path, char *filename, long size, char *type, char *last_modified)
 {
     int height = 30;
-
     if (table->row_index >= table->max_rows)
     {
         fprintf(stderr, "<warning> Table rows limit reached, maximum rows allowed: %d\n", table->max_rows);
@@ -55,9 +54,15 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->rows[table->row_index].rectangle = construct_rectangle(
         construct_position(
             get_x(table->columns[0].rectangle.position) - 25,
-            y + 2),
+            y),
         construct_dimension(table->rectangle.dimension.width, height), 0,
         TRANSPARENT_COLOR, TRANSPARENT_COLOR);
+
+    table->rows[table->row_index].button = construct_button(
+        construct_position(
+            get_x(table->columns[2].rectangle.position),
+            y),
+        construct_dimension(table->rectangle.dimension.width, height), 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
 
     table->rows[table->row_index].checkbox = construct_checkbox(
         construct_position(
@@ -157,9 +162,9 @@ void handle_table_selection(Table *table, MouseManager mouse_manager)
     }
 }
 
-static void draw_columns(Column *columns, int number_columns)
+static void draw_columns(Column *columns, int max_columns)
 {
-    for (int i = 0; i < number_columns; i++)
+    for (int i = 0; i < max_columns; i++)
     {
         draw_filled_rectangle(columns[i].rectangle);
         draw_text(columns[i].text);
@@ -171,6 +176,7 @@ static void draw_rows(Row *rows, int max_rows)
     for (int i = 0; i < max_rows; i++)
     {
         draw_filled_rectangle(rows[i].rectangle);
+        draw_button(rows[i].button);
         draw_checkbox(rows[i].checkbox);
         draw_image(&rows[i].icon);
         draw_text(rows[i].filename);
@@ -184,6 +190,6 @@ void draw_table(Table table)
 {
     draw_filled_rectangle(table.rectangle);
 
-    draw_columns(table.columns, table.number_columns);
+    draw_columns(table.columns, table.max_columns);
     draw_rows(table.rows, table.row_index);
 }

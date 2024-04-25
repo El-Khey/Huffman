@@ -34,6 +34,14 @@ char *get_folder_name(char *directory);
 char *get_absolute_path(char *directory);
 
 /**
+ * @brief Get the parent directory of a folder
+ *
+ * @param directory - The directory to get the parent directory from
+ * @return The parent directory of the folder
+ */
+char *get_parent_directory(char *directory);
+
+/**
  * @brief Create intermediate folders if they don't exist
  *
  * @param directory - The directory to create

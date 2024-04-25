@@ -12,9 +12,12 @@ HomePage construct_home_page()
     home_page.navbar = construct_navbar(construct_position(0, TOP_BAR_HEIGHT), construct_dimension(NAV_BAR_WIDTH, NAV_BAR_HEIGHT));
 
     home_page.mouse_manager = construct_mouse_manager();
-    home_page.explorer = construct_explorer(".");
+    home_page.explorer = construct_explorer();
 
-    explore(&home_page.explorer, ".");
+    char *absolute_path = get_absolute_path(".");
+    explore(&home_page.explorer, absolute_path);
+
+    update_navbar_text(&home_page.navbar, absolute_path);
     order_directories(&home_page.explorer.directories);
     order_files(&home_page.explorer.files);
 
@@ -27,9 +30,6 @@ HomePage construct_home_page()
 
 static void initialize_table_header(HomePage *home_page)
 {
-    char *absolute_path = get_absolute_path(home_page->explorer.current_directory.path);
-    update_navbar_text(&home_page->navbar, absolute_path);
-
     home_page->table = construct_table(construct_position(0, TOP_BAR_HEIGHT + NAV_BAR_HEIGHT),
                                        construct_dimension(WINDOW_WIDTH, WINDOW_HEIGHT - TOP_BAR_HEIGHT - NAV_BAR_HEIGHT),
                                        10, 6, TRANSPARENT_COLOR, LIGHT_COLOR);
@@ -106,6 +106,32 @@ void update_home_page(HomePage *home_page)
             clear_table_rows(&home_page->table);
             initialize_table_rows(home_page, direction);
             home_page->mouse_manager.previous_wheel = home_page->mouse_manager.wheel;
+        }
+    }
+    else if (is_button_clicked(home_page->navbar.back, home_page->mouse_manager))
+    {
+        char *parent_directory = get_parent_directory(home_page->explorer.current_directory.path);
+        explore(&home_page->explorer, parent_directory);
+        order_directories(&home_page->explorer.directories);
+        order_files(&home_page->explorer.files);
+
+        update_navbar_text(&home_page->navbar, parent_directory);
+        clear_table_rows(&home_page->table);
+        initialize_table_rows(home_page, home_page->mouse_manager.wheel);
+    }
+
+    for (int i = 0; i < home_page->table.row_index; i++)
+    {
+        if (is_button_clicked(home_page->table.rows[i].button, home_page->mouse_manager))
+        {
+            char *path = home_page->table.rows[i].path;
+            explore(&home_page->explorer, path);
+            order_directories(&home_page->explorer.directories);
+            order_files(&home_page->explorer.files);
+
+            update_navbar_text(&home_page->navbar, path);
+            clear_table_rows(&home_page->table);
+            initialize_table_rows(home_page, home_page->mouse_manager.wheel);
         }
     }
 }

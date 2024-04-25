@@ -1,21 +1,11 @@
 #include "explorer.h"
 
-Explorer construct_explorer(char *path)
+Explorer construct_explorer()
 {
     Explorer explorer;
 
-    int max_directories = count_number_dir_inside_folder(path);
-    int max_files = get_number_files(path, 0);
-
-    explorer.current_directory.path = path;
-    explorer.current_directory.name = get_folder_name(path);
-    explorer.current_directory.dir = opendir(path);
-
     explorer.directories.number_of_directories = 0;
     explorer.files.number_of_files = 0;
-
-    explorer.directories.list = (Dir *)malloc(max_directories * sizeof(Dir));
-    explorer.files.list = (Doc *)malloc(max_files * sizeof(Doc));
 
     return explorer;
 }
@@ -62,12 +52,21 @@ static long get_directory_size(const char *path)
 
 void explore(Explorer *explorer, char *path)
 {
+    struct dirent *entry;
+    struct stat file_stat;
+
     explorer->current_directory.path = path;
     explorer->current_directory.name = get_folder_name(path);
     explorer->current_directory.dir = opendir(path);
 
-    struct dirent *entry;
-    struct stat file_stat;
+    explorer->directories.number_of_directories = count_number_dir_inside_folder(path);
+    explorer->files.number_of_files = get_number_files(path, 0);
+
+    explorer->directories.list = malloc(explorer->directories.number_of_directories * sizeof(Dir));
+    explorer->files.list = malloc(explorer->files.number_of_files * sizeof(Doc));
+
+    int number_of_directories = 0;
+    int number_of_files = 0;
 
     while ((entry = readdir(explorer->current_directory.dir)) != NULL)
     {
@@ -97,10 +96,10 @@ void explore(Explorer *explorer, char *path)
                 metadata.type = "Directory";
                 directory.metadata = metadata;
 
-                explorer->directories.list[explorer->directories.number_of_directories] = directory;
-                explorer->directories.number_of_directories++;
+                explorer->directories.list[number_of_directories] = directory;
+                number_of_directories++;
             }
-            else if (S_ISREG(file_stat.st_mode))
+            else if (S_ISREG(file_stat.st_mode) && is_text_file(entry_path))
             {
                 Doc file;
                 time_t mod_time = file_stat.st_mtime;
@@ -116,8 +115,8 @@ void explore(Explorer *explorer, char *path)
                 metadata.type = "File";
                 file.metadata = metadata;
 
-                explorer->files.list[explorer->files.number_of_files] = file;
-                explorer->files.number_of_files++;
+                explorer->files.list[number_of_files] = file;
+                number_of_files++;
             }
         }
     }

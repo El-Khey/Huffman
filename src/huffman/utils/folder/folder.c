@@ -25,6 +25,22 @@ char *get_absolute_path(char *directory)
     return absolute_path;
 }
 
+char *get_parent_directory(char *directory)
+{
+    char *parts[1024]; // TODO: decide a length for the parts array based on linux/windows limits
+    int size = split_string(directory, parts, "/");
+
+    char *parent_directory = (char *)malloc(1024 * sizeof(char));
+    strcpy(parent_directory, "/");
+    for (int i = 0; i < size - 1; i++)
+    {
+        strcat(parent_directory, parts[i]);
+        strcat(parent_directory, "/");
+    }
+
+    return parent_directory;
+}
+
 void fix_folder_name(char *directory)
 {
     if (directory[strlen(directory) - 1] != '/')
@@ -256,6 +272,8 @@ int count_number_dir_inside_folder(char *directory)
 {
     DIR *dir;
     struct dirent *entry;
+    struct stat file_stat;
+
     int number_of_directories = 0;
 
     dir = opendir(directory);
@@ -263,9 +281,15 @@ int count_number_dir_inside_folder(char *directory)
 
     while ((entry = readdir(dir)) != NULL)
     {
-        if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0)
+        char *entry_path = malloc(strlen(directory) + strlen(entry->d_name) + 2);
+        sprintf(entry_path, "%s/%s", directory, entry->d_name);
+
+        if (stat(entry_path, &file_stat) == 0)
         {
-            number_of_directories++;
+            if (strcmp(entry->d_name, ".") != 0 && strcmp(entry->d_name, "..") != 0 && S_ISDIR(file_stat.st_mode))
+            {
+                number_of_directories++;
+            }
         }
     }
 

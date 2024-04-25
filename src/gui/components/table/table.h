@@ -48,15 +48,17 @@ typedef struct
     RowsToCompress rows_to_compress;
 
     Rectangle rectangle;
-    int scroll_index;
+    Button button;
 
+    int scroll_index;
     int max_rows;
+
     Row *rows;
     int row_index;
 
-    int number_columns;
     Column *columns;
     int column_index;
+    int max_columns;
 
     Color background_color;
     Color text_color;
@@ -68,12 +70,12 @@ typedef struct
  * @param position - La position du tableau.
  * @param dimension - La dimension du tableau.
  * @param max_rows - Le nombre de lignes du tableau.
- * @param number_columns - Le nombre de colonnes du tableau.
+ * @param max_columns - Le nombre de colonnes du tableau.
  * @param bacground_color - La couleur de fond du tableau.
  * @param text_color - La couleur du texte du tableau.
  * @return Table
  */
-Table construct_table(Position position, Dimension dimension, int max_rows, int number_columns, Color bacground_color, Color text_color);
+Table construct_table(Position position, Dimension dimension, int max_rows, int max_columns, Color bacground_color, Color text_color);
 
 /**
  * @brief Ajoute une colonne au tableau.

@@ -60,7 +60,7 @@ typedef struct
  * @param path The path to explore
  * @return Explorer
  */
-Explorer construct_explorer(char *path);
+Explorer construct_explorer();
 
 /**
  * @brief Explore the path
