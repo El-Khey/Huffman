@@ -34,6 +34,13 @@ Checkbox construct_checkbox(Position position, Dimension dimension, int border_w
 void check(Checkbox *checkbox);
 
 /**
+ * @brief Décoche une case à cocher.
+ *
+ * @param checkbox - La case à cocher.
+ */
+void uncheck(Checkbox *checkbox);
+
+/**
  * @brief Dessine une case à cocher.
  *
  * @param checkbox - La case à cocher.

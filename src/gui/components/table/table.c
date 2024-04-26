@@ -20,8 +20,8 @@ Table construct_table(Position position, Dimension dimension, int max_rows, int 
     table.row_index = 0;
 
     table.rows_to_compress.number_saved_files = 0;
-    table.rows_to_compress.list = (DocToCompress *)malloc(max_rows * sizeof(DocToCompress));
-    table.rows_to_compress.max_slots = 5;
+    table.rows_to_compress.max_slots = 500;
+    table.rows_to_compress.list = (DocToCompress *)malloc(table.rows_to_compress.max_slots * sizeof(DocToCompress));
 
     return table;
 }
@@ -186,6 +186,18 @@ void handle_table_selection(Table *table, MouseManager mouse_manager)
             (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path, table->rows[i].size.text)
                                                  : remove_row_to_compress(table, table->rows[i].path, table->rows[i].size.text);
         }
+    }
+}
+
+void deselect_all(Table *table)
+{
+    int i = 0;
+    table->rows_to_compress.total_size = 0;
+    table->rows_to_compress.number_saved_files = 0;
+
+    for (; i < table->row_index; i++)
+    {
+        uncheck(&table->rows[i].checkbox);
     }
 }
 

@@ -24,6 +24,12 @@ void check(Checkbox *checkbox)
     checkbox->button.rectangle.background_color = (checkbox->is_checked) ? checkbox->checked_color : checkbox->default_color;
 }
 
+void uncheck(Checkbox *checkbox)
+{
+    checkbox->is_checked = 0;
+    checkbox->button.rectangle.background_color = checkbox->default_color;
+}
+
 void draw_checkbox(Checkbox checkbox)
 {
     draw_button(checkbox.button);

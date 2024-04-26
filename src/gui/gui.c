@@ -6,6 +6,7 @@ static void initialize_table_rows(GraphicalInterface *graphical_interface, int d
 GraphicalInterface construct_graphical_interface()
 {
     GraphicalInterface graphical_interface;
+    char *absolute_path = get_absolute_path(".");
 
     graphical_interface.window = construct_window();
     graphical_interface.topbar = construct_topbar(construct_position(0, 0), construct_dimension(TOP_BAR_WIDTH, TOP_BAR_HEIGHT));
@@ -14,20 +15,18 @@ GraphicalInterface construct_graphical_interface()
     graphical_interface.mouse_manager = construct_mouse_manager();
     graphical_interface.explorer = construct_explorer();
 
-    char *absolute_path = get_absolute_path(".");
     explore(&graphical_interface.explorer, absolute_path);
-
     update_navbar_text(&graphical_interface.navbar, absolute_path);
+
     order_directories(&graphical_interface.explorer.directories);
     order_files(&graphical_interface.explorer.files);
 
     initialize_table_header(&graphical_interface);
     initialize_table_rows(&graphical_interface, graphical_interface.mouse_manager.wheel);
 
-    graphical_interface.footer = construct_footer(construct_position(0,
-                                                                     WINDOW_HEIGHT - FOOTER_HEIGHT),
-                                                  construct_dimension(WINDOW_WIDTH, FOOTER_HEIGHT), "0 Elements selected - Total Size 0 byte ");
-
+    graphical_interface.footer = construct_footer(construct_position(0, WINDOW_HEIGHT - FOOTER_HEIGHT),
+                                                  construct_dimension(WINDOW_WIDTH, FOOTER_HEIGHT),
+                                                  "0 Elements selected - Total Size 0 byte ");
     return graphical_interface;
 }
 
@@ -134,6 +133,10 @@ void update_graphical_interface(GraphicalInterface *graphical_interface)
         update_navbar_text(&graphical_interface->navbar, parent_directory);
         clear_table_rows(&graphical_interface->table);
         initialize_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+    }
+    else if (is_button_clicked(graphical_interface->topbar.buttons[DESELECT], graphical_interface->mouse_manager))
+    {
+        deselect_all(&graphical_interface->table);
     }
 
     for (int i = 0; i < graphical_interface->table.row_index; i++)

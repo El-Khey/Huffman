@@ -15,7 +15,7 @@ typedef struct
 
 typedef struct
 {
-    int max_slots;
+    int max_slots; // ! maximum number of files that can be compressed at the same time
     DocToCompress *list;
     int number_saved_files;
     long total_size;
@@ -106,6 +106,16 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
  * @param table - Le tableau.
  */
 void clear_table_rows(Table *table);
+
+/**
+ * @brief Vérifie si une ligne est sélectionnée.
+ *
+ * @param table - Le tableau.
+ * @param row - La ligne.
+ * @return true
+ * @return false
+ */
+void deselect_all(Table *table);
 
 /**
  * @brief Gère la sélection d'une ligne du tableau.
