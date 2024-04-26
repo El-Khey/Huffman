@@ -161,12 +161,8 @@ static int compare_dir(const void *a, const void *b)
     return strcmp(dir_a->name, dir_b->name);
 }
 
-void order_directories(Dirs *directories)
+void order_explorer(Explorer *explorer)
 {
-    qsort(directories->list, directories->number_of_directories, sizeof(Dir), compare_dir);
-}
-
-void order_files(Docs *files)
-{
-    qsort(files->list, files->number_of_files, sizeof(Doc), compare_file);
+    qsort(explorer->directories.list, explorer->directories.number_of_directories, sizeof(Dir), compare_dir);
+    qsort(explorer->files.list, explorer->files.number_of_files, sizeof(Doc), compare_file);
 }

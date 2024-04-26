@@ -21,7 +21,7 @@ UTILS = utils.o file.o folder.o bit.o
 DEBUG = debug.o
 
 GUI_UTILS = position.o dimension.o
-MANAGER = mouse_manager.o layout_manager.o explorer.o
+MANAGER = mouse_manager.o layout_manager.o explorer.o gui_manager.o gui_event_manager.o
 COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o padding.o topbar.o \
 			 navbar.o table.o checkbox.o footer.o
 
@@ -155,6 +155,12 @@ layout_manager.o: ./src/gui/manager/layout_manager/layout_manager.c
 
 explorer.o: ./src/gui/manager/explorer/explorer.c
 	$(CC) $(CFLAGS) -c ./src/gui/manager/explorer/explorer.c
+
+gui_manager.o: ./src/gui/manager/gui_manager/gui_manager.c
+	$(CC) $(CFLAGS) -c ./src/gui/manager/gui_manager/gui_manager.c
+
+gui_event_manager.o: ./src/gui/manager/gui_manager/gui_event_manager.c
+	$(CC) $(CFLAGS) -c ./src/gui/manager/gui_manager/gui_event_manager.c
 
 
 # ==================================================== #

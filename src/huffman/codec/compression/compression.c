@@ -142,6 +142,9 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     check_file_opening(archive.file, output_file);
     write_data(data, archive);
 
+    // free_data(&data);
+    // free_archive(&archive);
+
     fprintf(stdout, "\n\n========================================\n");
     fprintf(stdout, "  Compression completed successfully!\n");
     fprintf(stdout, "========================================\n\n");

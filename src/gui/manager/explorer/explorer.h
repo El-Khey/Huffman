@@ -71,18 +71,11 @@ Explorer construct_explorer();
 void explore(Explorer *explorer, char *path);
 
 /**
- * @brief Order the files
- *
- * @param files The files
- */
-void order_files(Docs *files);
-
-/**
  * @brief Order the directories
  *
  * @param directories The directories
  */
-void order_directories(Dirs *directories);
+void order_explorer(Explorer *explorer);
 
 /**
  * @brief Print the explorer

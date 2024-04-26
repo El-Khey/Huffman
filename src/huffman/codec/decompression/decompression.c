@@ -144,3 +144,17 @@ void decompress(char *input_file, char *output_dir)
 
     fclose(compressed_archive.file);
 }
+
+void free_archive(Archive *archive)
+{
+    int i = 0;
+    for (; i < archive->number_of_files; i++)
+    {
+        free(archive->content[i].path);
+        free(archive->content[i].encoded_data);
+        free(archive->content[i].filename);
+    }
+
+    free(archive->content);
+    fclose(archive->file);
+}

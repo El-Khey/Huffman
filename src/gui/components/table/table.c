@@ -169,13 +169,16 @@ void clear_table_rows(Table *table)
 {
     for (int i = 0; i < table->row_index; i++)
     {
-        free(table->rows[i].filename.text);
-        free(table->rows[i].size.text);
-        free(table->rows[i].type.text);
-        free(table->rows[i].last_modified.text);
+        free_text(&table->rows[i].filename);
+        free_text(&table->rows[i].size);
+        free_text(&table->rows[i].type);
+        free_text(&table->rows[i].last_modified);
+        free_image(&table->rows[i].icon);
     }
 
+    free(table->rows);
     table->row_index = 0;
+    table->rows = (Row *)malloc(table->max_rows * sizeof(Row));
 }
 
 void handle_table_selection(Table *table, MouseManager mouse_manager)

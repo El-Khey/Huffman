@@ -52,4 +52,11 @@ typedef struct Archive
  */
 void decompress(char *input_file, char *output_dir);
 
+/**
+ * @brief Read the header of the compressed archive.
+ *
+ * @param compressed_archive - the compressed archive
+ */
+void free_archive(Archive *archive);
+
 #endif

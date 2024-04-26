@@ -113,3 +113,32 @@ void prepare_data(Data *data, char **inputs, int number_of_inputs, Type archive_
     prepare_files_data(data, files, number_of_files);
     data->type = (BOTH_TYPE == archive_type) ? BOTH_TYPE : archive_type;
 }
+
+static void free_files(Files *files)
+{
+    int i;
+    for (i = 0; i < files->number_of_files; i++)
+    {
+        free(files->files[i].path);
+        free(files->files[i].name);
+    }
+    free(files->files);
+}
+
+static void free_directories(Directories *directories)
+{
+    int i;
+    for (i = 0; i < directories->number_of_directories; i++)
+    {
+        free_files(&directories->directories[i].list);
+        free(directories->directories[i].path);
+        free(directories->directories[i].name);
+    }
+    free(directories->directories);
+}
+
+void free_data(Data *data)
+{
+    free_files(&data->files);
+    free_directories(&data->directories);
+}

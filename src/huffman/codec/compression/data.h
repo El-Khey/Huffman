@@ -56,4 +56,6 @@ int get_number_files_in_directories(Directories directories);
 
 void prepare_data(Data *data, char **inputs, int number_of_inputs, Type archive_type);
 
+void free_data(Data *data);
+
 #endif

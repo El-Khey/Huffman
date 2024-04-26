@@ -4,26 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../huffman/codec/decompression/decompression.h"
-#include "../huffman/codec/compression/compression.h"
-#include "manager/mouse_manager/mouse_manager.h"
-#include "manager/explorer/explorer.h"
-#include "components/window/window.h"
-#include "components/topbar/topbar.h"
-#include "components/navbar/navbar.h"
-#include "components/footer/footer.h"
-#include "components/table/table.h"
-
-typedef struct
-{
-    MouseManager mouse_manager;
-    Window window;
-    TopBar topbar;
-    NavBar navbar;
-    Explorer explorer;
-    Table table;
-    Footer footer;
-} GraphicalInterface;
+#include "manager/gui_manager/gui_manager.h"
 
 /**
  * @brief launch the graphical interface
