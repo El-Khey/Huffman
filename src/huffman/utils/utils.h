@@ -6,6 +6,7 @@
 #include <stdint.h>
 #include <dirent.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "../../constants.h"
 
@@ -94,5 +95,13 @@ int max(int a, int b);
  * @return int - the minimum
  */
 int min(int a, int b);
+
+/**
+ * @brief This function delete a file or a directory
+ *
+ * @param path - the path of the file or directory
+ * @return int - 1 if the deletion is successful, 0 otherwise
+ */
+int delete_file_or_directory(const char *path);
 
 #endif

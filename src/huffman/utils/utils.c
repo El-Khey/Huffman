@@ -139,3 +139,30 @@ int min(int a, int b)
 {
     return (a < b) ? a : b;
 }
+
+int delete_file_or_directory(const char *path)
+{
+    char command[256];
+    if (strchr(path, ' ') != NULL)
+    {
+        snprintf(command, sizeof(command), "rm -rf \"%s\"", path);
+    }
+    else
+    {
+        snprintf(command, sizeof(command), "rm -rf %s", path);
+    }
+
+    if (access(path, F_OK) != 0)
+    {
+        fprintf(stderr, "<Error>: Impossible to delete! File or directory '%s' does not exist.\n", path);
+        return -1;
+    }
+
+    if (system(command) != 0)
+    {
+        fprintf(stderr, "<Error>: Failed to delete file or directory '%s'\n", path);
+        return -1;
+    }
+
+    return 0;
+}

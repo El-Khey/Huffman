@@ -115,6 +115,7 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->rows[table->row_index].filename.rectangle.background_color = TRANSPARENT_COLOR;
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].filename.rectangle, construct_paddings(0, 0, 0, 0));
 
+    table->rows[table->row_index].size_in_bytes = size;
     table->rows[table->row_index].size = construct_text(format_size(size),
                                                         construct_position(get_x(table->columns[3].text.rectangle.position),
                                                                            get_y(table->columns[3].rectangle.position) + (table->columns[3].rectangle.dimension.height) + (table->row_index * height)),
@@ -135,7 +136,7 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->row_index++;
 }
 
-static void remove_row_to_compress(Table *table, char *path, char *size)
+static void remove_row_to_compress(Table *table, char *path, long size)
 {
     int i = 0;
     for (; i < table->rows_to_compress.number_saved_files; i++)
@@ -151,14 +152,14 @@ static void remove_row_to_compress(Table *table, char *path, char *size)
         table->rows_to_compress.list[i] = table->rows_to_compress.list[i + 1];
     }
 
-    table->rows_to_compress.total_size -= strtol(size, NULL, 10);
+    table->rows_to_compress.total_size -= size;
     table->rows_to_compress.number_saved_files--;
 }
 
-static void save_row_to_compress(Table *table, char *path, char *size)
+static void save_row_to_compress(Table *table, char *path, long size)
 {
     table->rows_to_compress.list[table->rows_to_compress.number_saved_files].path = path;
-    table->rows_to_compress.total_size += strtol(size, NULL, 10);
+    table->rows_to_compress.total_size += size;
     table->rows_to_compress.number_saved_files++;
 }
 
@@ -183,8 +184,8 @@ void handle_table_selection(Table *table, MouseManager mouse_manager)
         if (is_button_clicked(table->rows[i].checkbox.button, mouse_manager))
         {
             check(&table->rows[i].checkbox);
-            (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path, table->rows[i].size.text)
-                                                 : remove_row_to_compress(table, table->rows[i].path, table->rows[i].size.text);
+            (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path, table->rows[i].size_in_bytes)
+                                                 : remove_row_to_compress(table, table->rows[i].path, table->rows[i].size_in_bytes);
         }
     }
 }

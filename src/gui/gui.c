@@ -138,6 +138,24 @@ void update_graphical_interface(GraphicalInterface *graphical_interface)
     {
         deselect_all(&graphical_interface->table);
     }
+    else if (is_button_clicked(graphical_interface->topbar.buttons[DELETE], graphical_interface->mouse_manager))
+    {
+        for (int i = 0; i < graphical_interface->table.rows_to_compress.number_saved_files; i++)
+        {
+            delete_file_or_directory(graphical_interface->table.rows_to_compress.list[i].path);
+        }
+
+        graphical_interface->table.rows_to_compress.number_saved_files = 0;
+        graphical_interface->table.rows_to_compress.total_size = 0;
+        update_footer_text(&graphical_interface->footer, format_footer_text(graphical_interface->table.rows_to_compress.number_saved_files, graphical_interface->table.rows_to_compress.total_size));
+
+        explore(&graphical_interface->explorer, graphical_interface->explorer.current_directory.path);
+        order_directories(&graphical_interface->explorer.directories);
+        order_files(&graphical_interface->explorer.files);
+
+        clear_table_rows(&graphical_interface->table);
+        initialize_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+    }
 
     for (int i = 0; i < graphical_interface->table.row_index; i++)
     {

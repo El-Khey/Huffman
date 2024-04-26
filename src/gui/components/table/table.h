@@ -31,6 +31,7 @@ typedef struct
 
     Text filename;
     Text size;
+    long size_in_bytes;
 
     Text type;
     Text last_modified;
