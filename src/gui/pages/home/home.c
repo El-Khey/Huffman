@@ -111,6 +111,8 @@ void update_home_page(HomePage *home_page)
     else if (is_button_clicked(home_page->navbar.back, home_page->mouse_manager))
     {
         char *parent_directory = get_parent_directory(home_page->explorer.current_directory.path);
+        parent_directory[strlen(parent_directory) - 1] = '\0';
+
         explore(&home_page->explorer, parent_directory);
         order_directories(&home_page->explorer.directories);
         order_files(&home_page->explorer.files);

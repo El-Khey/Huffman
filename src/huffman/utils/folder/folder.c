@@ -38,6 +38,7 @@ char *get_parent_directory(char *directory)
         strcat(parent_directory, "/");
     }
 
+    fix_folder_name(parent_directory);
     return parent_directory;
 }
 
