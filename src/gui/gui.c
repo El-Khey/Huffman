@@ -74,7 +74,6 @@ static void initialize_table_rows(GraphicalInterface *graphical_interface, int d
             add_row(&graphical_interface->table, graphical_interface->explorer.directories.list[i].path,
                     graphical_interface->explorer.directories.list[i].name, graphical_interface->explorer.directories.list[i].metadata.size,
                     graphical_interface->explorer.directories.list[i].metadata.type, graphical_interface->explorer.directories.list[i].metadata.last_modified);
-
             displayed_rows++;
         }
 
@@ -155,6 +154,37 @@ void update_graphical_interface(GraphicalInterface *graphical_interface)
 
         clear_table_rows(&graphical_interface->table);
         initialize_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+    }
+    else if (is_button_clicked(graphical_interface->topbar.buttons[COMPRESS], graphical_interface->mouse_manager))
+    {
+        char **paths = (char **)malloc(graphical_interface->table.rows_to_compress.number_saved_files * sizeof(char *));
+        int number_text_files = 0;
+        for (int i = 0; i < graphical_interface->table.rows_to_compress.number_saved_files; i++)
+        {
+            if (!is_archive_file(graphical_interface->table.rows_to_compress.list[i].path))
+            {
+                paths[number_text_files] = graphical_interface->table.rows_to_compress.list[i].path;
+                number_text_files++;
+            }
+        }
+
+        if (number_text_files > 0)
+        {
+            Type compression_type = compute_compression_type(paths, number_text_files);
+            char *archive_full_path = (char *)malloc(strlen(graphical_interface->explorer.current_directory.path) + strlen("/compressed.bin") + 1);
+            strcpy(archive_full_path, graphical_interface->explorer.current_directory.path);
+            archive_full_path = strcat(archive_full_path, "/compressed.bin");
+
+            compress(paths, archive_full_path, number_text_files, compression_type);
+            deselect_all(&graphical_interface->table);
+
+            explore(&graphical_interface->explorer, graphical_interface->explorer.current_directory.path);
+            order_directories(&graphical_interface->explorer.directories);
+            order_files(&graphical_interface->explorer.files);
+
+            clear_table_rows(&graphical_interface->table);
+            initialize_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+        }
     }
 
     for (int i = 0; i < graphical_interface->table.row_index; i++)

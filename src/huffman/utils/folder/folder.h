@@ -85,9 +85,10 @@ void find_deepest_level(char *base_path, char *dir_path, int *level);
  *
  * @param dir_path - The directory to check
  * @param level - The level of the directory
+ * @param extension - The extension of the files
  * @return The number of files in the directory
  */
-int get_number_files(char *dir_path, int level);
+int get_number_files(char *dir_path, int level, char *extension);
 
 /**
  * @brief Get the relative level of a folder

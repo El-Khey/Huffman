@@ -9,6 +9,7 @@
 #include <unistd.h>
 
 #include "../../constants.h"
+#include "./file/file.h"
 
 /**
  * @brief This function convert a code into a string
@@ -103,5 +104,14 @@ int min(int a, int b);
  * @return int - 1 if the deletion is successful, 0 otherwise
  */
 int delete_file_or_directory(const char *path);
+
+/**
+ * @brief Compute the compression type
+ *
+ * @param path - the path of the files
+ * @param num_files - the number of files
+ * @return Type - the compression type
+ */
+Type compute_compression_type(char **path, int num_files);
 
 #endif

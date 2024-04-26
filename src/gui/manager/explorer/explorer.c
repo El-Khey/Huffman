@@ -60,7 +60,7 @@ void explore(Explorer *explorer, char *path)
     explorer->current_directory.dir = opendir(path);
 
     explorer->directories.number_of_directories = count_number_dir_inside_folder(path);
-    explorer->files.number_of_files = get_number_files(path, 0);
+    explorer->files.number_of_files = get_number_files(path, 0, ".txt") + get_number_files(path, 0, ".bin");
 
     explorer->directories.list = malloc(explorer->directories.number_of_directories * sizeof(Dir));
     explorer->files.list = malloc(explorer->files.number_of_files * sizeof(Doc));
@@ -99,7 +99,7 @@ void explore(Explorer *explorer, char *path)
                 explorer->directories.list[number_of_directories] = directory;
                 number_of_directories++;
             }
-            else if (S_ISREG(file_stat.st_mode) && is_text_file(entry_path))
+            else if (S_ISREG(file_stat.st_mode) && (is_text_file(entry_path) || is_archive_file(entry_path)))
             {
                 Doc file;
                 time_t mod_time = file_stat.st_mtime;
@@ -112,7 +112,8 @@ void explore(Explorer *explorer, char *path)
                 metadata.size = file_stat.st_size;
 
                 strftime(metadata.last_modified, sizeof(metadata.last_modified), "%Y-%m-%d %H:%M:%S", tm_info);
-                metadata.type = "File";
+                metadata.type = (is_text_file(entry_path)) ? "File" : "Archive";
+
                 file.metadata = metadata;
 
                 explorer->files.list[number_of_files] = file;

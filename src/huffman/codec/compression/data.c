@@ -53,7 +53,7 @@ static void prepare_folders_data(Data *data, char **input_folders, int number_of
         strcpy(data->directories.directories[i].name, get_folder_name(input_folders[i]));
 
         find_deepest_level(input_folders[i], input_folders[i], &level);
-        data->directories.directories[i].list.number_of_files = get_number_files(input_folders[i], level);
+        data->directories.directories[i].list.number_of_files = get_number_files(input_folders[i], level, ".txt");
 
         files_path = (char **)malloc(data->directories.directories[i].list.number_of_files * sizeof(char *));
         list_files_in_folder_at_level(input_folders[i], level, files_path);

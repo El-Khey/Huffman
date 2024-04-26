@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../huffman/codec/decompression/decompression.h"
+#include "../huffman/codec/compression/compression.h"
 #include "manager/mouse_manager/mouse_manager.h"
 #include "manager/explorer/explorer.h"
 #include "components/window/window.h"

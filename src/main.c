@@ -28,32 +28,6 @@ static void usage()
     exit(EXIT_FAILURE);
 }
 
-static void compute_type(char *path, Type *type)
-{
-    if (is_text_file(path))
-    {
-        if (*type == FOLDER_TYPE)
-        {
-            *type = BOTH_TYPE;
-        }
-        else
-        {
-            *type = FILE_TYPE;
-        }
-    }
-    else
-    {
-        if (*type == FILE_TYPE)
-        {
-            *type = BOTH_TYPE;
-        }
-        else
-        {
-            *type = FOLDER_TYPE;
-        }
-    }
-}
-
 int main(int argc, char *argv[])
 {
     char *output_directory = NULL;
@@ -80,8 +54,9 @@ int main(int argc, char *argv[])
             for (i = 0; i < num_files; i++)
             {
                 input_files[i] = argv[optind + i];
-                compute_type(input_files[i], &compression_type);
             }
+
+            compression_type = compute_compression_type(input_files, num_files);
             break;
 
         case 'd':

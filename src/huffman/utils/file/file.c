@@ -124,3 +124,8 @@ int is_text_file(const char *filename)
 {
     return strstr(filename, ".txt") != NULL;
 }
+
+int is_archive_file(const char *filename)
+{
+    return strstr(filename, ".bin") != NULL;
+}

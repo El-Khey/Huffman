@@ -166,3 +166,37 @@ int delete_file_or_directory(const char *path)
 
     return 0;
 }
+
+Type compute_compression_type(char **path, int num_files)
+{
+    int i;
+    Type type = NONE_TYPE;
+
+    for (i = 0; i < num_files; i++)
+    {
+        if (is_text_file(path[i]))
+        {
+            if (type == FOLDER_TYPE)
+            {
+                type = BOTH_TYPE;
+            }
+            else
+            {
+                type = FILE_TYPE;
+            }
+        }
+        else
+        {
+            if (type == FILE_TYPE)
+            {
+                type = BOTH_TYPE;
+            }
+            else
+            {
+                type = FOLDER_TYPE;
+            }
+        }
+    }
+
+    return type;
+}

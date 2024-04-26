@@ -59,4 +59,12 @@ char *get_filename(const char *path);
  */
 int is_text_file(const char *filename);
 
+/**
+ * @brief Check if the file is an archive file
+ *
+ * @param filename - the filename
+ * @return 1 if the file is an archive file, 0 otherwise
+ */
+int is_archive_file(const char *filename);
+
 #endif

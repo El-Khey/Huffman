@@ -155,7 +155,7 @@ int get_folder_relative_level(char *base_dir, char *sub_dir)
     return target_size - base_size;
 }
 
-static int get_number_files_helper(char *base_path, char *dir_path, int level)
+static int get_number_files_helper(char *base_path, char *dir_path, int level, char *extension)
 {
     DIR *dir;
     struct dirent *entry;
@@ -182,14 +182,14 @@ static int get_number_files_helper(char *base_path, char *dir_path, int level)
                 int cmp_lvl = get_folder_relative_level(base_path, file_path);
                 if (cmp_lvl <= level)
                 {
-                    num_files += get_number_files_helper(base_path, file_path, level);
+                    num_files += get_number_files_helper(base_path, file_path, level, extension);
                 }
 
                 closedir(sub_dir);
             }
             else
             {
-                if (strstr(entry->d_name, ".txt") != NULL)
+                if (strstr(entry->d_name, extension) != NULL)
                 {
                     num_files++;
                 }
@@ -201,9 +201,9 @@ static int get_number_files_helper(char *base_path, char *dir_path, int level)
     return num_files;
 }
 
-int get_number_files(char *dir_path, int level)
+int get_number_files(char *dir_path, int level, char *extension)
 {
-    return get_number_files_helper(dir_path, dir_path, level);
+    return get_number_files_helper(dir_path, dir_path, level, extension);
 }
 
 void list_files_in_folder_at_level_helper(char *base_path, char *dir_path, int level, char **files_list, int *num_files)
