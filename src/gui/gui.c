@@ -3,16 +3,6 @@
 static void initialize_table_header(GraphicalInterface *graphical_interface);
 static void initialize_table_rows(GraphicalInterface *graphical_interface, int direction);
 
-void launch_graphical_interface()
-{
-    GraphicalInterface graphical_interface = construct_graphical_interface();
-    while (1)
-    {
-        update_graphical_interface(&graphical_interface);
-        draw_graphical_interface(graphical_interface);
-    }
-}
-
 GraphicalInterface construct_graphical_interface()
 {
     GraphicalInterface graphical_interface;
@@ -34,8 +24,21 @@ GraphicalInterface construct_graphical_interface()
     initialize_table_header(&graphical_interface);
     initialize_table_rows(&graphical_interface, graphical_interface.mouse_manager.wheel);
 
-    print_explorer(graphical_interface.explorer);
+    graphical_interface.footer = construct_footer(construct_position(0,
+                                                                     WINDOW_HEIGHT - FOOTER_HEIGHT),
+                                                  construct_dimension(WINDOW_WIDTH, FOOTER_HEIGHT), "0 Elements selected - Total Size 0 byte ");
+
     return graphical_interface;
+}
+
+void launch_graphical_interface()
+{
+    GraphicalInterface graphical_interface = construct_graphical_interface();
+    while (1)
+    {
+        update_graphical_interface(&graphical_interface);
+        draw_graphical_interface(graphical_interface);
+    }
 }
 
 static void initialize_table_header(GraphicalInterface *graphical_interface)
@@ -106,6 +109,7 @@ void update_graphical_interface(GraphicalInterface *graphical_interface)
     handle_mouse_events(&graphical_interface->mouse_manager);
     handle_table_selection(&graphical_interface->table, graphical_interface->mouse_manager);
 
+    update_footer_text(&graphical_interface->footer, format_footer_text(graphical_interface->table.rows_to_compress.number_saved_files, graphical_interface->table.rows_to_compress.total_size));
     if (is_rectangle_hovered(graphical_interface->table.rectangle, get_mouse_position(graphical_interface->mouse_manager)))
     {
         handle_mouse_wheel_event(&graphical_interface->mouse_manager);
@@ -154,4 +158,5 @@ void draw_graphical_interface(GraphicalInterface graphical_interface)
     draw_topbar(graphical_interface.topbar);
     draw_navbar(graphical_interface.navbar);
     draw_table(graphical_interface.table);
+    draw_footer(graphical_interface.footer);
 }

@@ -4,6 +4,7 @@
 #include "../../utils/dimension/dimension.h"
 #include "../../utils/position/position.h"
 #include "../shape/rectangle/rectangle.h"
+#include "../color/theme.h"
 #include "../color/color.h"
 
 #include <string.h>

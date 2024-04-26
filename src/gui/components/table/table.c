@@ -14,9 +14,10 @@ Table construct_table(Position position, Dimension dimension, int max_rows, int 
     table.text_color = text_color;
 
     table.rectangle = construct_rectangle(position, dimension, 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
+    table.rows_to_compress.total_size = 0;
     table.column_index = 0;
-    table.row_index = 0;
     table.scroll_index = 0;
+    table.row_index = 0;
 
     table.rows_to_compress.number_saved_files = 0;
     table.rows_to_compress.list = (DocToCompress *)malloc(max_rows * sizeof(DocToCompress));
@@ -37,6 +38,33 @@ void add_column(Table *table, Position position, Dimension dimension, char *text
     table->columns[table->column_index].text = construct_text(text, position, "assets/fonts/Roboto/Roboto-Black.ttf", 16, table->text_color);
     layout_manager(CENTER, &table->columns[table->column_index].rectangle, &table->columns[table->column_index].text.rectangle, construct_paddings(0, 0, 0, 0));
     table->column_index++;
+}
+
+static char *format_size(long size)
+{
+    char *size_str = (char *)malloc(100 * sizeof(char));
+    double size_in_kb = size / 1024.0;
+    double size_in_mb = size_in_kb / 1024.0;
+    double size_in_gb = size_in_mb / 1024.0;
+
+    if (size_in_gb >= 1.0)
+    {
+        sprintf(size_str, "%.2f GB", size_in_gb);
+    }
+    else if (size_in_mb >= 1.0)
+    {
+        sprintf(size_str, "%.2f MB", size_in_mb);
+    }
+    else if (size_in_kb >= 1.0)
+    {
+        sprintf(size_str, "%.2f KB", size_in_kb);
+    }
+    else
+    {
+        sprintf(size_str, "%ld bytes", size);
+    }
+
+    return size_str;
 }
 
 void add_row(Table *table, char *path, char *filename, long size, char *type, char *last_modified)
@@ -87,9 +115,7 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->rows[table->row_index].filename.rectangle.background_color = TRANSPARENT_COLOR;
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].filename.rectangle, construct_paddings(0, 0, 0, 0));
 
-    char size_str[100];
-    sprintf(size_str, "%ld", size);
-    table->rows[table->row_index].size = construct_text(size_str,
+    table->rows[table->row_index].size = construct_text(format_size(size),
                                                         construct_position(get_x(table->columns[3].text.rectangle.position),
                                                                            get_y(table->columns[3].rectangle.position) + (table->columns[3].rectangle.dimension.height) + (table->row_index * height)),
                                                         "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
@@ -106,11 +132,10 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
                                                                                     get_y(table->columns[5].rectangle.position) + (table->columns[5].rectangle.dimension.height) + (table->row_index * height)),
                                                                  "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].last_modified.rectangle, construct_paddings(0, 0, 0, 0));
-
     table->row_index++;
 }
 
-static void remove_row_to_compress(Table *table, char *path)
+static void remove_row_to_compress(Table *table, char *path, char *size)
 {
     int i = 0;
     for (; i < table->rows_to_compress.number_saved_files; i++)
@@ -126,12 +151,14 @@ static void remove_row_to_compress(Table *table, char *path)
         table->rows_to_compress.list[i] = table->rows_to_compress.list[i + 1];
     }
 
+    table->rows_to_compress.total_size -= strtol(size, NULL, 10);
     table->rows_to_compress.number_saved_files--;
 }
 
-static void save_row_to_compress(Table *table, char *path)
+static void save_row_to_compress(Table *table, char *path, char *size)
 {
     table->rows_to_compress.list[table->rows_to_compress.number_saved_files].path = path;
+    table->rows_to_compress.total_size += strtol(size, NULL, 10);
     table->rows_to_compress.number_saved_files++;
 }
 
@@ -156,8 +183,8 @@ void handle_table_selection(Table *table, MouseManager mouse_manager)
         if (is_button_clicked(table->rows[i].checkbox.button, mouse_manager))
         {
             check(&table->rows[i].checkbox);
-            (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path)
-                                                 : remove_row_to_compress(table, table->rows[i].path);
+            (table->rows[i].checkbox.is_checked) ? save_row_to_compress(table, table->rows[i].path, table->rows[i].size.text)
+                                                 : remove_row_to_compress(table, table->rows[i].path, table->rows[i].size.text);
         }
     }
 }

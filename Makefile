@@ -20,9 +20,10 @@ CODEC = huffman_tree.o node.o alphabet.o compression.o decompression.o data.o
 UTILS = utils.o file.o folder.o bit.o
 DEBUG = debug.o
 
-COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o padding.o topbar.o navbar.o table.o checkbox.o
 GUI_UTILS = position.o dimension.o
 MANAGER = mouse_manager.o layout_manager.o explorer.o
+COMPONENTS = gui.o button.o image.o text.o window.o color.o rectangle.o cross.o padding.o topbar.o \
+			 navbar.o table.o checkbox.o footer.o
 
 all: build simple-clean
 
@@ -129,6 +130,9 @@ table.o: ./src/gui/components/table/table.c
 
 checkbox.o: ./src/gui/components/checkbox/checkbox.c
 	$(CC) $(CFLAGS) -c ./src/gui/components/checkbox/checkbox.c
+
+footer.o: ./src/gui/components/footer/footer.c
+	$(CC) $(CFLAGS) -c ./src/gui/components/footer/footer.c
 
 # ----------- #
 # GUI UTILS

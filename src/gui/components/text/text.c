@@ -7,14 +7,14 @@ Text construct_text(char *text, Position position, char *font_path, int font_siz
     t.text = (char *)malloc(strlen(text) + 1);
     strcpy(t.text, text);
 
-    t.rectangle.position = position;
-
     t.font_path = font_path;
     t.font_size = font_size;
 
     t.color = color;
 
     MLV_get_size_of_text_with_font(t.text, &t.rectangle.dimension.width, &t.rectangle.dimension.height, MLV_load_font(font_path, font_size));
+    t.rectangle = construct_rectangle(position, t.rectangle.dimension, 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
+
     t.font = MLV_load_font(t.font_path, t.font_size);
 
     return t;

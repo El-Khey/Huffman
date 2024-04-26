@@ -9,6 +9,7 @@
 #include "components/window/window.h"
 #include "components/topbar/topbar.h"
 #include "components/navbar/navbar.h"
+#include "components/footer/footer.h"
 #include "components/table/table.h"
 
 typedef struct
@@ -19,6 +20,7 @@ typedef struct
     NavBar navbar;
     Explorer explorer;
     Table table;
+    Footer footer;
 } GraphicalInterface;
 
 /**

@@ -18,6 +18,7 @@ typedef struct
     int max_slots;
     DocToCompress *list;
     int number_saved_files;
+    long total_size;
 } RowsToCompress;
 
 typedef struct
