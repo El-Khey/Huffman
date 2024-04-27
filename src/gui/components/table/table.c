@@ -113,7 +113,7 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->rows[table->row_index].filename = construct_text(filename,
                                                             construct_position(get_x(table->columns[2].text.rectangle.position),
                                                                                get_y(table->columns[2].rectangle.position) + (table->columns[2].rectangle.dimension.height) + (table->row_index * height)),
-                                                            "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
+                                                            "assets/fonts/Roboto/Roboto-Bold.ttf", 16, table->text_color);
     table->rows[table->row_index].filename.rectangle.background_color = TRANSPARENT_COLOR;
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].filename.rectangle, construct_paddings(0, 0, 0, 0));
 
@@ -121,19 +121,19 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
     table->rows[table->row_index].size = construct_text(format_size(size),
                                                         construct_position(get_x(table->columns[3].text.rectangle.position),
                                                                            get_y(table->columns[3].rectangle.position) + (table->columns[3].rectangle.dimension.height) + (table->row_index * height)),
-                                                        "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
+                                                        "assets/fonts/Roboto/Roboto-Bold.ttf", 16, table->text_color);
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].size.rectangle, construct_paddings(0, 0, 0, 0));
 
     table->rows[table->row_index].type = construct_text(type,
                                                         construct_position(get_x(table->columns[4].text.rectangle.position),
                                                                            get_y(table->columns[4].rectangle.position) + (table->columns[4].rectangle.dimension.height) + (table->row_index * height)),
-                                                        "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
+                                                        "assets/fonts/Roboto/Roboto-Bold.ttf", 16, table->text_color);
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].type.rectangle, construct_paddings(0, 0, 0, 0));
 
     table->rows[table->row_index].last_modified = construct_text(last_modified,
                                                                  construct_position(get_x(table->columns[5].text.rectangle.position),
                                                                                     get_y(table->columns[5].rectangle.position) + (table->columns[5].rectangle.dimension.height) + (table->row_index * height)),
-                                                                 "assets/fonts/Roboto/Roboto-Regular.ttf", 16, table->text_color);
+                                                                 "assets/fonts/Roboto/Roboto-Bold.ttf", 16, table->text_color);
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].last_modified.rectangle, construct_paddings(0, 0, 0, 0));
     table->row_index++;
 }

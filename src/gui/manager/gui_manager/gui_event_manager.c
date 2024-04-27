@@ -153,6 +153,7 @@ static void update_theme(GraphicalInterface *graphical_interface)
 
     graphical_interface->footer.theme_button.rectangle.background_color = SPECIAL_COLOR;
     graphical_interface->footer.theme_button.text.color = TEXT_COLOR;
+    add_border_to_rectangle(&graphical_interface->footer.rectangle, BORDER_TOP, 5, SPECIAL_COLOR);
 
     for (int i = 0; i < graphical_interface->table.column_index; i++)
     {
