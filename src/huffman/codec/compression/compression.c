@@ -51,7 +51,7 @@ static void write_encoded_data(File file, FILE *compressed_file, Node **alphabet
     uint8_t bit_position = 0;
     int i = 0;
 
-    debug_file_size(file.name, file.total_size, file.flush_size); // ! TODO: use a debug flag to trigger this line
+    // debug_file_size(file.name, file.total_size, file.flush_size); // ! TODO: use a debug flag to trigger this line
     fprintf(compressed_file, "\nlength:%d\n", (int)strlen(file.name));
     fprintf(compressed_file, "file:%s encoded_size:%d flush_size:%d\n", file.name, file.total_size, file.flush_size);
 

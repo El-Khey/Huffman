@@ -4,11 +4,10 @@
 #include <unistd.h>
 #include <string.h>
 
-#include "./huffman/utils/utils.h"
-#include "./huffman/codec/coding/tree/huffman_tree.h"
-#include "./huffman/codec/compression/compression.h"
-#include "./huffman/codec/decompression/decompression.h"
-#include "./gui/gui.h"
+#include "../huffman/utils/utils.h"
+#include "../huffman/codec/coding/tree/huffman_tree.h"
+#include "../huffman/codec/compression/compression.h"
+#include "../huffman/codec/decompression/decompression.h"
 
 static void usage()
 {
@@ -17,7 +16,6 @@ static void usage()
     printf("Options:\n");
     printf("  -c <archive_name> <input_files/directories> : Compress files/directories\n");
     printf("  -d <input_file> [output_directory]          : Decompress archive to optional directory\n");
-    printf("  -m                                          : Launch the graphical interface\n");
     printf("  -h                                          : Display help\n\n");
 
     printf("Example usages:\n");
@@ -38,9 +36,8 @@ int main(int argc, char *argv[])
 
     Type compression_type = NONE_TYPE;
     Action action = NOTHING;
-    int launch_gui = 0;
 
-    while ((opt = getopt(argc, argv, "c:d:h:m")) != -1)
+    while ((opt = getopt(argc, argv, "c:d:h")) != -1)
     {
         switch (opt)
         {
@@ -66,10 +63,6 @@ int main(int argc, char *argv[])
             printf("Output directory: %s\n", output_directory);
             break;
 
-        case 'm':
-            launch_gui = 1;
-            break;
-
         case 'h':
             usage();
             break;
@@ -83,29 +76,22 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (launch_gui)
+    if (action == COMPRESS)
     {
-        launch_graphical_interface();
+        if (archive_name == NULL || input_files == NULL || num_files == 0)
+        {
+            fprintf(stderr, "\n--------------------------------------\n");
+            fprintf(stderr, "/!\\ No valid options provided. /!\\");
+            fprintf(stderr, "\n--------------------------------------\n");
+            usage();
+        }
+        compress(input_files, archive_name, num_files, compression_type);
     }
-    else
+    else if (archive_name != NULL && action == DECOMPRESS)
     {
-        if (action == COMPRESS)
-        {
-            if (archive_name == NULL || input_files == NULL || num_files == 0)
-            {
-                fprintf(stderr, "\n--------------------------------------\n");
-                fprintf(stderr, "/!\\ No valid options provided. /!\\");
-                fprintf(stderr, "\n--------------------------------------\n");
-                usage();
-            }
-            compress(input_files, archive_name, num_files, compression_type);
-        }
-        else if (archive_name != NULL && action == DECOMPRESS)
-        {
-            printf("Decompressing...\n");
-            printf("output_directory: %s\n", output_directory);
-            decompress(archive_name, output_directory);
-        }
+        printf("Decompressing...\n");
+        printf("output_directory: %s\n", output_directory);
+        decompress(archive_name, output_directory);
     }
 
     exit(EXIT_SUCCESS);

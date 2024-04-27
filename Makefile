@@ -33,13 +33,58 @@ build: main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
 install:
 	./setup.sh
 
+# ==================================================== #
+#            	 H U F F  V E R S I O N S              #
+# ==================================================== #
+# 		   defines the targets of the versions         #
 # ---------------------------------------------------- #
-main.o: ./src/main.c
-	$(CC) $(CFLAGS) -c ./src/main.c
+
+MAIN_VERSIONS = main_v1.o main_v2.o main_v3.o main_v4.o main_v5.o
+
+build-v1: main_v1.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
+	$(CC) main_v1.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) -o main_v1 $(CLIBS)
+
+build-v2: main_v2.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
+	$(CC) main_v2.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) -o main_v2 $(CLIBS)
+
+build-v3: main_v3.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
+	$(CC) main_v3.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) -o main_v3 $(CLIBS)
+
+build-v4: main_v4.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
+	$(CC) main_v4.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) -o main_v4 $(CLIBS)
+
+build-v5: main_v5.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
+	$(CC) main_v5.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER) -o main_v5 $(CLIBS)
+
+main_v1.o: ./src/version/main_v1.c
+	$(CC) $(CFLAGS) -c ./src/version/main_v1.c
+
+main_v2.o: ./src/version/main_v2.c
+	$(CC) $(CFLAGS) -c ./src/version/main_v2.c
+
+main_v3.o: ./src/version/main_v3.c
+	$(CC) $(CFLAGS) -c ./src/version/main_v3.c
+
+main_v4.o: ./src/version/main_v4.c
+	$(CC) $(CFLAGS) -c ./src/version/main_v4.c
+
+main_v5.o: ./src/version/main_v5.c
+	$(CC) $(CFLAGS) -c ./src/version/main_v5.c
+
+v1: build-v1 simple-clean
+v2: build-v2 simple-clean
+v3: build-v3 simple-clean
+v4: build-v4 simple-clean
+v5: build-v5 simple-clean
+v-all: build-v1 build-v2 build-v3 build-v4 build-v5 simple-clean
+
 
 # ---------------------------------------------------- #
 #                        HUFFMAN 					   #
 # ---------------------------------------------------- #
+
+main.o: ./src/main.c
+	$(CC) $(CFLAGS) -c ./src/main.c
 
 # ----------- #
 # CODEC 
@@ -278,8 +323,6 @@ run-all-test: all create-compressed-dirs run-linear run-uniform run-normal run-z
 
 
 
-
-
 # ==================================================== #
 #                        C L E A N                     #
 # ==================================================== #
@@ -290,7 +333,7 @@ simple-clean:
 	rm -rf *.o
 
 clean: simple-clean
-	rm -rf main && rm -rf $(MAIN_DIR)/__pycache__ 
+	rm -rf mainm main_v? && rm -rf $(MAIN_DIR)/__pycache__ 
 
 
 # ---------------------------------------------------- #

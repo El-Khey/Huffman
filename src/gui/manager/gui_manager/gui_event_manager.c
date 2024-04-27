@@ -110,7 +110,10 @@ void handle_rows_button_event(GraphicalInterface *graphical_interface)
                 char *command = (char *)malloc(strlen("xdg-open ") + strlen(path) + 1);
                 strcpy(command, "xdg-open ");
                 command = strcat(command, path);
-                system(command);
+                if (system(command) == -1)
+                {
+                    fprintf(stderr, "<Error> Could not open file %s\n", path);
+                }
                 return;
             }
 
