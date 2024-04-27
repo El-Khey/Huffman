@@ -109,6 +109,7 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     Archive archive;
     Data data;
 
+    // Prepare the data
     prepare_data(&data, inputs, number_of_inputs, archive_type);
 
     // Prepare the compressed archive
@@ -122,7 +123,13 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     compute_char_frequencies_in_files(data.files, char_frequencies);
 
     number_of_files = get_number_files_in_directories(data.directories) + data.files.number_of_files;
-    display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
+    if (!number_of_files)
+    {
+        fprintf(stderr, "<Warning>: Skipping compression because no files were found.\n");
+        return;
+    }
+
+    // display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
 
     // Step 1: Create the Huffman tree
     initialize_huffman_nodes(leaves_nodes, char_frequencies);
@@ -132,7 +139,7 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     // Step 2: Create the codes for each character and compute the alphabet
     create_codes(huffman_tree);
     compute_alphabet(huffman_tree, archive.header.alphabet);
-    print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
+    // print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
 
     // Step 4: Write the header and the encoded data to the compressed archive
     write_header(archive.file, archive.header, number_of_files);
@@ -141,9 +148,6 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     archive.file = fopen(output_file, "ab");
     check_file_opening(archive.file, output_file);
     write_data(data, archive);
-
-    // free_data(&data);
-    // free_archive(&archive);
 
     fprintf(stdout, "\n\n========================================\n");
     fprintf(stdout, "  Compression completed successfully!\n");

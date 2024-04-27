@@ -6,6 +6,7 @@
 
 #include "../../manager/layout_manager/layout_manager.h"
 #include "../shape/rectangle/rectangle.h"
+#include "../button/button.h"
 #include "../color/theme.h"
 #include "../text/text.h"
 
@@ -15,6 +16,8 @@ typedef struct
 {
     Rectangle rectangle;
     Text text;
+
+    Button theme_button;
 } Footer;
 
 /**

@@ -126,7 +126,7 @@ int split_string(char *str, char **parts, const char *delimiter)
         token = strtok(NULL, delimiter); // Get the next token
     }
 
-    free(str_copy);
+    // free(str_copy); // ! ARRACHEUR DE SAROUAL ! TU OSE SEGFAULTER ICI ?!
     return num_parts; // Return the number of parts
 }
 

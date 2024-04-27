@@ -96,7 +96,7 @@ void add_row(Table *table, char *path, char *filename, long size, char *type, ch
         construct_position(
             get_x(table->columns[0].rectangle.position),
             get_y(table->columns[0].rectangle.position) + (table->columns[0].rectangle.dimension.height) + (table->row_index * height)),
-        construct_dimension(25, 25), 3, LIGHT_COLOR, DARK_COLOR, construct_color(1, 0, 0, 1));
+        construct_dimension(25, 25), 3, PRIMARY_COLOR, TEXT_COLOR, SPECIAL_COLOR);
     layout_manager(VERTICAL_CENTER, &table->rows[table->row_index].rectangle, &table->rows[table->row_index].checkbox.button.rectangle, construct_paddings(0, 0, 0, 0));
     char *icon_path = (strcmp(type, "Directory") == 0) ? "assets/icons/folder.png"
                                                        : ((strcmp(type, "File") == 0) ? "assets/icons/file.png"

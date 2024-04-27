@@ -1,13 +1,17 @@
 #ifndef _THEME_H
 #define _THEME_H
 
-#define PRIMARY_COLOR construct_color(0.29, 0.29, 0.29, 1.0)  // Dark gray background
-#define SECONDARY_COLOR construct_color(0.42, 0.22, 1.0, 1.0) // Light gray text color
-#define TERTIARY_COLOR construct_color(0.18, 0.18, 0.18, 1.0) // Darker background for elements
+extern Color PRIMARY_COLOR;
+extern Color SECONDARY_COLOR;
+extern Color SPECIAL_COLOR;
+extern Color TEXT_COLOR;
 
 #define TRANSPARENT_COLOR construct_color(0.0, 0.0, 0.0, 0.0)
-#define LIGHT_COLOR construct_color(1.0, 1.0, 1.0, 1.0)
-#define DARK_COLOR construct_color(0.11, 0.11, 0.11, 1.0)
-#define BLACK_COLOR construct_color(0.0, 0.0, 0.0, 1.0)
+
+void light_theme();
+
+void dark_theme();
+
+int is_dark_theme();
 
 #endif

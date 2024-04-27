@@ -18,7 +18,7 @@ GraphicalInterface construct_graphical_interface()
     order_explorer(&graphical_interface.explorer);
     graphical_interface.table = construct_table(construct_position(0, TOP_BAR_HEIGHT + NAV_BAR_HEIGHT),
                                                 construct_dimension(WINDOW_WIDTH, WINDOW_HEIGHT - TOP_BAR_HEIGHT - NAV_BAR_HEIGHT),
-                                                10, 6, TRANSPARENT_COLOR, LIGHT_COLOR);
+                                                10, 6, TRANSPARENT_COLOR, TEXT_COLOR);
     add_column(&graphical_interface.table, construct_position(25, get_y(graphical_interface.table.rectangle.position)), construct_dimension(100, 50), "");
     add_column(&graphical_interface.table, construct_position(50, get_y(graphical_interface.table.rectangle.position)), construct_dimension(50, 50), "");
     add_column(&graphical_interface.table, construct_position(125, get_y(graphical_interface.table.rectangle.position)), construct_dimension(150, 50), "Name");
@@ -35,7 +35,9 @@ GraphicalInterface construct_graphical_interface()
 
 void launch_graphical_interface()
 {
+    dark_theme();
     GraphicalInterface graphical_interface = construct_graphical_interface();
+
     while (1)
     {
         update_graphical_interface(&graphical_interface);

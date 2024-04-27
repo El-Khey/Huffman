@@ -4,7 +4,10 @@ NavBar construct_navbar(Position position, Dimension dimension)
 {
     NavBar navbar;
 
-    navbar.background = construct_rectangle(position, dimension, 0, LIGHT_COLOR, TRANSPARENT_COLOR);
+    navbar.background = construct_rectangle(position, dimension, 0, PRIMARY_COLOR, TRANSPARENT_COLOR);
+    add_border_to_rectangle(&navbar.background, BORDER_BOTTOM, 5, SPECIAL_COLOR);
+    add_border_to_rectangle(&navbar.background, BORDER_TOP, 5, SPECIAL_COLOR);
+
     navbar.back = construct_button(construct_position(0, 0), construct_dimension(35, 35), 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
     layout_manager(EAST, &navbar.background, &navbar.back.rectangle, construct_paddings(0, 0, 0, 20));
     add_button_image(&navbar.back, construct_image("assets/icons/arrow-backward.png", navbar.back.rectangle.position, navbar.back.rectangle.dimension), CENTER);
@@ -12,16 +15,16 @@ NavBar construct_navbar(Position position, Dimension dimension)
     navbar.displayed_path = construct_text("",
                                            construct_position(get_x(navbar.back.rectangle.position) + get_width(navbar.back.rectangle.dimension),
                                                               get_y(navbar.back.rectangle.position)),
-                                           "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 20, DARK_COLOR);
+                                           "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 10, TEXT_COLOR);
 
     int border_width = 2;
     set_text_dimensions(&navbar.displayed_path, construct_dimension(NAV_BAR_WIDTH - get_width(navbar.back.rectangle.dimension) - 30, NAV_BAR_HEIGHT - border_width * 4));
     layout_manager(EAST, &navbar.background, &navbar.displayed_path.rectangle, construct_paddings(0, 0, 0, get_width(navbar.back.rectangle.dimension) + 25));
 
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_BOTTOM, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_TOP, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_LEFT, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_RIGHT, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_BOTTOM, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_TOP, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_LEFT, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar.displayed_path.rectangle, BORDER_RIGHT, border_width, TEXT_COLOR);
 
     return navbar;
 }
@@ -31,16 +34,16 @@ void update_navbar_text(NavBar *navbar, char *absolute_path)
     navbar->displayed_path = construct_text(absolute_path,
                                             construct_position(get_x(navbar->back.rectangle.position) + get_width(navbar->back.rectangle.dimension),
                                                                get_y(navbar->back.rectangle.position)),
-                                            "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 20, DARK_COLOR);
+                                            "assets/fonts/Raleway/static/Raleway-BoldItalic.ttf", 15, TEXT_COLOR);
 
     int border_width = 2;
-    set_text_dimensions(&navbar->displayed_path, construct_dimension(NAV_BAR_WIDTH - get_width(navbar->back.rectangle.dimension) - 30, NAV_BAR_HEIGHT - border_width * 4));
+    set_text_dimensions(&navbar->displayed_path, construct_dimension(NAV_BAR_WIDTH - get_width(navbar->back.rectangle.dimension) - 30, NAV_BAR_HEIGHT - border_width * 8));
     layout_manager(EAST, &navbar->background, &navbar->displayed_path.rectangle, construct_paddings(0, 0, 0, get_width(navbar->back.rectangle.dimension) + 25));
 
-    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_BOTTOM, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_TOP, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_LEFT, border_width, DARK_COLOR);
-    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_RIGHT, border_width, DARK_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_BOTTOM, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_TOP, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_LEFT, border_width, TEXT_COLOR);
+    add_border_to_rectangle(&navbar->displayed_path.rectangle, BORDER_RIGHT, border_width, TEXT_COLOR);
 }
 
 void draw_navbar(NavBar navbar)

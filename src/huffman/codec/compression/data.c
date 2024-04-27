@@ -62,9 +62,11 @@ static void prepare_folders_data(Data *data, char **input_folders, int number_of
         for (int j = 0; j < data->directories.directories[i].list.number_of_files; j++)
         {
             data->directories.directories[i].list.files[j].path = (char *)malloc(strlen(files_path[j]) + 1 * sizeof(char));
-            strcpy(data->directories.directories[i].list.files[j].path, files_path[j]);
+            data->directories.directories[i].list.files[j].name = (char *)malloc(strlen(files_path[j]) + 1 * sizeof(char));
 
-            data->directories.directories[i].list.files[j].name = files_path[j];
+            strcpy(data->directories.directories[i].list.files[j].path, files_path[j]);
+            strcpy(data->directories.directories[i].list.files[j].name, files_path[j]);
+
             data->directories.directories[i].list.files[j].name += strlen(input_folders[i]);
             str_cat_prefix(data->directories.directories[i].list.files[j].name, get_folder_name(input_folders[i]));
         }
@@ -80,8 +82,8 @@ static void prepare_files_data(Data *data, char **input_files, int number_of_fil
     for (int i = 0; i < number_of_files; i++)
     {
         data->files.files[i].path = (char *)malloc(strlen(input_files[i]) + 1 * sizeof(char));
-        strcpy(data->files.files[i].path, input_files[i]);
 
+        strcpy(data->files.files[i].path, input_files[i]);
         data->files.files[i].name = get_filename(input_files[i]);
     }
 }
@@ -90,20 +92,18 @@ void prepare_data(Data *data, char **inputs, int number_of_inputs, Type archive_
 {
     int number_of_files = 0;
     int number_of_folders = 0;
-    char **folders = NULL;
-    char **files = NULL;
+    char **folders = (char **)malloc(number_of_inputs * sizeof(char *));
+    char **files = (char **)malloc(number_of_inputs * sizeof(char *));
 
     for (int i = 0; i < number_of_inputs; i++)
     {
         if (is_text_file(inputs[i]))
         {
-            files = (char **)realloc(files, number_of_files * sizeof(char *));
             files[number_of_files] = inputs[i];
             number_of_files++;
         }
         else
         {
-            folders = (char **)realloc(folders, number_of_folders * sizeof(char *));
             folders[number_of_folders] = inputs[i];
             number_of_folders++;
         }
@@ -112,33 +112,4 @@ void prepare_data(Data *data, char **inputs, int number_of_inputs, Type archive_
     prepare_folders_data(data, folders, number_of_folders);
     prepare_files_data(data, files, number_of_files);
     data->type = (BOTH_TYPE == archive_type) ? BOTH_TYPE : archive_type;
-}
-
-static void free_files(Files *files)
-{
-    int i;
-    for (i = 0; i < files->number_of_files; i++)
-    {
-        free(files->files[i].path);
-        free(files->files[i].name);
-    }
-    free(files->files);
-}
-
-static void free_directories(Directories *directories)
-{
-    int i;
-    for (i = 0; i < directories->number_of_directories; i++)
-    {
-        free_files(&directories->directories[i].list);
-        free(directories->directories[i].path);
-        free(directories->directories[i].name);
-    }
-    free(directories->directories);
-}
-
-void free_data(Data *data)
-{
-    free_files(&data->files);
-    free_directories(&data->directories);
 }

@@ -4,10 +4,20 @@ Footer construct_footer(Position position, Dimension dimension, char *text)
 {
     Footer footer;
 
-    footer.rectangle = construct_rectangle(position, dimension, 0, LIGHT_COLOR, LIGHT_COLOR);
-    footer.text = construct_text(text, position, "assets/fonts/Roboto/Roboto-Black.ttf", 16, DARK_COLOR);
-    layout_manager(WEST, &footer.rectangle, &footer.text.rectangle, construct_paddings(0, 25, 0, 0));
+    footer.rectangle = construct_rectangle(position, dimension, 0, PRIMARY_COLOR, PRIMARY_COLOR);
+    footer.text = construct_text(text, position, "assets/fonts/Roboto/Roboto-Black.ttf", 16, TEXT_COLOR);
+    layout_manager(WEST, &footer.rectangle, &footer.text.rectangle, construct_paddings(0, 45, 0, 0));
+    add_border_to_rectangle(&footer.rectangle, BORDER_TOP, 5, SPECIAL_COLOR);
 
+    footer.theme_button = construct_button(construct_position(0, get_y(position)),
+                                           construct_dimension(100, 28), 0, SPECIAL_COLOR, PRIMARY_COLOR);
+    layout_manager(EAST, &footer.rectangle, &footer.theme_button.rectangle, construct_paddings(0, 0, 0, 45));
+    add_button_text(&footer.theme_button,
+                    construct_text("Dark Theme",
+                                   footer.theme_button.rectangle.position,
+                                   "assets/fonts/Roboto/Roboto-Black.ttf",
+                                   12, PRIMARY_COLOR),
+                    CENTER);
     return footer;
 }
 
@@ -47,4 +57,5 @@ void draw_footer(Footer footer)
 {
     draw_filled_rectangle(footer.rectangle);
     draw_text(footer.text);
+    draw_button(footer.theme_button);
 }

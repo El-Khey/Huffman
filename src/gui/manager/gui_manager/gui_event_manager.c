@@ -66,24 +66,26 @@ void handle_compress_event(GraphicalInterface *graphical_interface)
     if (is_button_clicked(graphical_interface->topbar.buttons[COMPRESS], graphical_interface->mouse_manager))
     {
         char **paths = (char **)malloc(graphical_interface->table.rows_to_compress.number_saved_files * sizeof(char *));
-        int number_text_files = 0, i = 0;
+        int number_paths = 0, i = 0;
+
         for (i = 0; i < graphical_interface->table.rows_to_compress.number_saved_files; i++)
         {
             if (!is_archive_file(graphical_interface->table.rows_to_compress.list[i].path))
             {
-                paths[number_text_files] = graphical_interface->table.rows_to_compress.list[i].path;
-                number_text_files++;
+                paths[number_paths] = (char *)malloc(strlen(graphical_interface->table.rows_to_compress.list[i].path) + 1);
+                strcpy(paths[number_paths], graphical_interface->table.rows_to_compress.list[i].path);
+                number_paths++;
             }
         }
 
-        if (number_text_files > 0)
+        if (number_paths > 0)
         {
-            Type compression_type = compute_compression_type(paths, number_text_files);
+            Type compression_type = compute_compression_type(paths, number_paths);
             char *archive_full_path = (char *)malloc(strlen(graphical_interface->explorer.current_directory.path) + strlen("/compressed.bin") + 1);
             strcpy(archive_full_path, graphical_interface->explorer.current_directory.path);
             archive_full_path = strcat(archive_full_path, "/compressed.bin");
 
-            compress(paths, archive_full_path, number_text_files, compression_type);
+            compress(paths, archive_full_path, number_paths, compression_type);
             deselect_all(&graphical_interface->table);
 
             explore(&graphical_interface->explorer, graphical_interface->explorer.current_directory.path);
@@ -91,8 +93,6 @@ void handle_compress_event(GraphicalInterface *graphical_interface)
 
             clear_table_rows(&graphical_interface->table);
             update_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
-            free(paths);
-            free(archive_full_path);
         }
     }
 }
@@ -111,5 +111,78 @@ void handle_rows_button_event(GraphicalInterface *graphical_interface)
             clear_table_rows(&graphical_interface->table);
             update_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
         }
+    }
+}
+
+static void update_theme(GraphicalInterface *graphical_interface)
+{
+    graphical_interface->window.background_color = PRIMARY_COLOR;
+
+    graphical_interface->topbar.rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->topbar.buttons[DESELECT].rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->topbar.buttons[DELETE].rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->topbar.buttons[COMPRESS].rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->topbar.buttons[EXTRACTION].rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->topbar.buttons[VIEW].rectangle.background_color = PRIMARY_COLOR;
+
+    graphical_interface->navbar.background.background_color = PRIMARY_COLOR;
+    add_border_to_rectangle(&graphical_interface->navbar.background, BORDER_TOP, 5, SPECIAL_COLOR);
+    add_border_to_rectangle(&graphical_interface->navbar.background, BORDER_BOTTOM, 5, SPECIAL_COLOR);
+
+    add_border_to_rectangle(&graphical_interface->navbar.displayed_path.rectangle, BORDER_BOTTOM, 2, TEXT_COLOR);
+    add_border_to_rectangle(&graphical_interface->navbar.displayed_path.rectangle, BORDER_TOP, 2, TEXT_COLOR);
+    add_border_to_rectangle(&graphical_interface->navbar.displayed_path.rectangle, BORDER_LEFT, 2, TEXT_COLOR);
+    add_border_to_rectangle(&graphical_interface->navbar.displayed_path.rectangle, BORDER_RIGHT, 2, TEXT_COLOR);
+    graphical_interface->navbar.displayed_path.color = TEXT_COLOR;
+
+    graphical_interface->table.background_color = TRANSPARENT_COLOR;
+    graphical_interface->table.text_color = TEXT_COLOR;
+
+    graphical_interface->footer.rectangle.background_color = PRIMARY_COLOR;
+    graphical_interface->footer.text.color = TEXT_COLOR;
+
+    graphical_interface->footer.theme_button.rectangle.background_color = SPECIAL_COLOR;
+    graphical_interface->footer.theme_button.text.color = TEXT_COLOR;
+
+    for (int i = 0; i < graphical_interface->table.column_index; i++)
+    {
+        graphical_interface->table.columns[i].text.color = TEXT_COLOR;
+    }
+
+    for (int i = 0; i < graphical_interface->table.row_index; i++)
+    {
+        graphical_interface->table.rows[i].checkbox.button.rectangle.background_color = PRIMARY_COLOR;
+        add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_TOP, 2, TEXT_COLOR);
+        add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_BOTTOM, 2, TEXT_COLOR);
+        add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_LEFT, 2, TEXT_COLOR);
+        add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_RIGHT, 2, TEXT_COLOR);
+
+        graphical_interface->table.rows[i].checkbox.checked_color = SPECIAL_COLOR;
+        graphical_interface->table.rows[i].checkbox.default_color = PRIMARY_COLOR;
+
+        graphical_interface->table.rows[i].button.text.color = TEXT_COLOR;
+        graphical_interface->table.rows[i].filename.color = TEXT_COLOR;
+        graphical_interface->table.rows[i].size.color = TEXT_COLOR;
+        graphical_interface->table.rows[i].type.color = TEXT_COLOR;
+        graphical_interface->table.rows[i].last_modified.color = TEXT_COLOR;
+    }
+}
+
+void handle_theme_button_event(GraphicalInterface *graphical_interface)
+{
+    if (is_button_clicked(graphical_interface->footer.theme_button, graphical_interface->mouse_manager))
+    {
+        if (is_dark_theme())
+        {
+            light_theme();
+            set_text_content(&graphical_interface->footer.theme_button.text, "Dark Theme");
+        }
+        else
+        {
+            dark_theme();
+            set_text_content(&graphical_interface->footer.theme_button.text, "Light Theme");
+        }
+        update_theme(graphical_interface);
+        layout_manager(CENTER, &graphical_interface->footer.theme_button.rectangle, &graphical_interface->footer.theme_button.text.rectangle, construct_paddings(0, 0, 0, 0));
     }
 }

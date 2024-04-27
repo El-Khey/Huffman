@@ -8,10 +8,9 @@ TopBar construct_topbar(Position position, Dimension dimension)
     TopBar topbar;
 
     topbar.rectangle = construct_rectangle(position, dimension, 0, PRIMARY_COLOR, TRANSPARENT_COLOR);
-    add_border_to_rectangle(&topbar.rectangle, BORDER_BOTTOM, 5, SECONDARY_COLOR);
     Paddings paddings = construct_paddings(0, 22, 0, 22);
 
-    topbar.buttons[COMPRESSION] = construct_button(construct_position(get_x(position), get_y(position)), BUTTON_DIMENSION, 0, PRIMARY_COLOR, TRANSPARENT_COLOR);
+    topbar.buttons[COMPRESSION] = construct_button(construct_position(get_x(position), get_y(position)), BUTTON_DIMENSION, 0, TRANSPARENT_COLOR, TRANSPARENT_COLOR);
     layout_manager(EAST, &topbar.rectangle, &topbar.buttons[COMPRESSION].rectangle, paddings);
     Image compress_icon = construct_image("assets/icons/compress.png", topbar.buttons[COMPRESSION].rectangle.position, BUTTON_DIMENSION);
     add_button_image(&topbar.buttons[COMPRESSION], compress_icon, CENTER);

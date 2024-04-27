@@ -46,4 +46,6 @@ void handle_compress_event(GraphicalInterface *graphical_interface);
 
 void handle_rows_button_event(GraphicalInterface *graphical_interface);
 
+void handle_theme_button_event(GraphicalInterface *graphical_interface);
+
 #endif
