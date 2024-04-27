@@ -171,6 +171,11 @@ static void update_theme(GraphicalInterface *graphical_interface)
         add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_LEFT, 2, TEXT_COLOR);
         add_border_to_rectangle(&graphical_interface->table.rows[i].checkbox.button.rectangle, BORDER_RIGHT, 2, TEXT_COLOR);
 
+        if (graphical_interface->table.rows[i].checkbox.is_checked)
+        {
+            graphical_interface->table.rows[i].checkbox.button.rectangle.background_color = SPECIAL_COLOR;
+        }
+
         graphical_interface->table.rows[i].checkbox.checked_color = SPECIAL_COLOR;
         graphical_interface->table.rows[i].checkbox.default_color = PRIMARY_COLOR;
 
