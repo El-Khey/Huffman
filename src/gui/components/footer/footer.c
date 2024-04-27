@@ -42,7 +42,7 @@ char *format_footer_text(int number_of_selected_elements, long total_size)
     }
     else
     {
-        sprintf(footer_text, "%d Elements selected - Total Size %ld bytes", number_of_selected_elements, total_size);
+        sprintf(footer_text, "%d Elements selected - Total Size %ld B", number_of_selected_elements, total_size);
     }
 
     return footer_text;

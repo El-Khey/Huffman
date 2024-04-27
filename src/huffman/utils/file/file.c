@@ -16,7 +16,7 @@ void read_partial_content(const char *filename)
         exit(1);
     }
 
-    /** Reading up to 1000 bytes from the file using fread */
+    /** Reading up to 1000 B from the file using fread */
     read_size = fread(content, 1, MAX_SIZE, file);
 
     if (read_size > 0)

@@ -104,6 +104,16 @@ void handle_rows_button_event(GraphicalInterface *graphical_interface)
         if (is_button_clicked(graphical_interface->table.rows[i].button, graphical_interface->mouse_manager))
         {
             char *path = graphical_interface->table.rows[i].path;
+            if (is_text_file(path) || is_archive_file(path))
+            {
+                // TODO: A TESTER
+                char *command = (char *)malloc(strlen("xdg-open ") + strlen(path) + 1);
+                strcpy(command, "xdg-open ");
+                command = strcat(command, path);
+                system(command);
+                return;
+            }
+
             explore(&graphical_interface->explorer, path);
             order_explorer(&graphical_interface->explorer);
 

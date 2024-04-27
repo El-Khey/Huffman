@@ -61,7 +61,7 @@ static char *format_size(long size)
     }
     else
     {
-        sprintf(size_str, "%ld bytes", size);
+        sprintf(size_str, "%ld B", size);
     }
 
     return size_str;
