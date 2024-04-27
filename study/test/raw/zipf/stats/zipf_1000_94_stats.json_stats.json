@@ -1,0 +1,9 @@
+{
+    "total_chars": 949,
+    "unique_chars": 55,
+    "most_common_char": " ",
+    "most_common_freq": 415,
+    "mean_freq": 17.25,
+    "median_freq": 2.0,
+    "std_dev": 58.77
+}
