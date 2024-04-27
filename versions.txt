@@ -1,0 +1,22 @@
+Nous avons implémenté toute les versions:
+
+- Version 1 : Notre version 1 compresse un unique fichier texte passé en argument. Le fichier compressé est écrit dans un
+              fichier de sortie également passé en argument.
+
+- Version 2 : Notre version 2 permet la compression de plusieurs fichiers texte en une seule archive.
+              Elle accepte une liste de fichiers texte en argument. Lors de la décompression, tous les fichiers texte
+              d'origine sont reconstruits dans le répertoire passé en argument.
+
+- Version 3 : La version 3 prend en charge la compression de dossiers contenant des fichier textes situés dans un 
+              dossier spécifié. Ce dossier doit uniquement contenir des fichiers texte. Lors de la décompression, 
+              le dossier est recréé et les fichiers sont décompressés dans ce dossier.
+
+- Version 4 : Cette version gère la compression des fichiers textes présents dans une arborescence.
+              Le dossier passé en argument peut contenir des sous-dossiers contenant des fichiers texte.
+              Pendant la décompression, la structure de l'arborescence est recréée.
+
+- Version 5 : Notre version 5 peut traiter une liste de dossiers et/ou fichiers, y compris plusieurs arborescences
+              et fichiers texte. Pendant la décompression, les fichiers et les arborescences sont recréés.
+
+- Version 6 : La dernière version de notre logiciel peut être exécutée en ligne de commande ou en version graphique
+              (avec MLV).
