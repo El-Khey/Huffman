@@ -19,6 +19,7 @@ Exemple d'utilisation :
 ```bash
 make clean && make && ./main -c ./archive.bin ./file1.txt ./dir1
 make clean && make && ./main -d ./archive.bin ./output
+make clean && make && ./main -m
 ```
 
 Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande 
