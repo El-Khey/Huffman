@@ -19,4 +19,6 @@ Nous avons implémenté toute les versions:
               et fichiers texte. Pendant la décompression, les fichiers et les arborescences sont recréés.
 
 - Version 6 : La dernière version de notre logiciel peut être exécutée en ligne de commande ou en version graphique
-              (avec MLV).
+              (avec MLV) et possède un mode debug pour afficher les différentes étapes de la compression et de la décompression,
+              tel que la table de fréquence des caractères, l'aplphabet utilisé avec les codes associés, 
+              et les informations sur les fichiers compressés.
