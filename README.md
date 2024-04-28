@@ -13,6 +13,7 @@ Le programme supporte les options suivantes :
 - `-d` : pour décompresser une archive
 - `-m` : pour ouvrir l'inteface graphique
 - `-h` : pour afficher l'aide
+- `-g` : pour lancer le programme en mode debug
 
 Exemple d'utilisation :
 
@@ -23,7 +24,7 @@ make clean && make && ./main -m
 ```
 
 Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande 
-```bash  make v%version%``` avec %version% la version du projet (de 1 à 5).
+```make v%version%``` avec **%version%** la version du projet (de 1 à 5).
 
 Par exemple pour compiler la version 1 du projet, il suffit de lancer la commande suivante :
 
@@ -31,7 +32,7 @@ Par exemple pour compiler la version 1 du projet, il suffit de lancer la command
 make v1
 ```
 l'exécutable généré sera nommé `main_v1`.
-```bash make v2``` pour la version 2, et ainsi de suite.
+```make v2``` pour la version 2, et ainsi de suite.
 Pour générer tout les exécutables des versions précédentes, il suffit de lancer la commande suivante :
 
 ```bash
@@ -43,6 +44,9 @@ Pour supprimer tout les exécutables générés, il suffit de lancer la commande
 ```bash
 make clean
 ```
+
+L'option `-g` permet de lancer le programme en mode debug, cela va afficher des informations supplémentaires sur le déroulement du programme, 
+tel que la table de fréquence des caractères, l'aplphabet utilisé avec les codes associés, et les informations sur les fichiers compressés.
 
 # Génération des fichiers de test
 
