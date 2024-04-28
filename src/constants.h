@@ -2,6 +2,7 @@
 #define _CONSTANTS_
 
 #define MAX_CHAR 256
+extern int DEBUG;
 
 typedef enum Type
 {

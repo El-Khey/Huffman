@@ -112,7 +112,6 @@ int get_folder_tree_depth(char *directory)
     return depth;
 }
 
-// TODO: create a helper function to reduce the number of parameters (base_path, level)
 void find_deepest_level(char *base_path, char *dir_path, int *level)
 {
     DIR *dir;

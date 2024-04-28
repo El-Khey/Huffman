@@ -97,30 +97,6 @@ int get_ascii_of_unique_char(int *char_frequencies)
     return -1;
 }
 
-void display_char_frequencies(int *char_frequencies)
-{
-    int i;
-
-    printf("\n-----------------------------------\n");
-    printf("\nOccurrences of each character:\n");
-    for (i = 0; i < MAX_CHAR; i++)
-    {
-        if (char_frequencies[i] > 0)
-        {
-            printf("'%c' (ASCII: %d) : %d\n", i, i, char_frequencies[i]);
-        }
-    }
-
-    printf("\n-----------------------------------\n");
-
-    printf("\n");
-
-    printf("The number of supported characters is: %d\n", i);
-    printf("\n-----------------------------------\n");
-
-    printf("\n\n");
-}
-
 void str_cat_prefix(char *str, const char *prefix)
 {
     char *temp = (char *)malloc(strlen(str) + strlen(prefix) + 1);

@@ -10,6 +10,8 @@
 #include "./huffman/codec/decompression/decompression.h"
 #include "./gui/gui.h"
 
+int DEBUG = 0;
+
 static void usage()
 {
     printf("\nUsage: huffman [options]\n\n");
@@ -40,7 +42,7 @@ int main(int argc, char *argv[])
     Action action = NOTHING;
     int launch_gui = 0;
 
-    while ((opt = getopt(argc, argv, "c:d:h:m")) != -1)
+    while ((opt = getopt(argc, argv, "c:d:h:m:g")) != -1)
     {
         switch (opt)
         {
@@ -67,6 +69,10 @@ int main(int argc, char *argv[])
 
         case 'm':
             launch_gui = 1;
+            break;
+
+        case 'g':
+            activate_debug_mode();
             break;
 
         case 'h':

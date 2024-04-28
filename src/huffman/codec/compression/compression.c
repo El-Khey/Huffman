@@ -1,6 +1,5 @@
 #include "compression.h"
 
-// TODO : compress only 1 letter
 static void write_header(FILE *file, Header header, int number_of_files)
 {
     int i;
@@ -82,6 +81,7 @@ static void write_files_data(Files list, Archive archive)
         size = get_encoded_file_size(list.files[i].path, archive.header.alphabet);
         list.files[i].flush_size = (size % 8) ? 8 - (size % 8) : 0;
         list.files[i].total_size = size + list.files[i].flush_size;
+        debug_file_size(list.files[i].path, list.files[i].total_size, list.files[i].flush_size);
 
         write_encoded_data(list.files[i], archive.file, archive.header.alphabet);
     }
@@ -130,7 +130,7 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     }
 
     int number_of_unique_chars = get_number_of_unique_chars(char_frequencies);
-    // display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
+    debug_char_frequencies(char_frequencies);
 
     if (number_of_unique_chars == 1)
     {
@@ -150,8 +150,9 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
         // Step 2: Create the codes for each character and compute the alphabet
         create_codes(huffman_tree);
         compute_alphabet(huffman_tree, archive.header.alphabet);
-        // print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
     }
+
+    debug_alphabet(archive.header.alphabet);
 
     // Step 4: Write the header and the encoded data to the compressed archive
     write_header(archive.file, archive.header, number_of_files);

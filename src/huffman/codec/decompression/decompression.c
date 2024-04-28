@@ -75,7 +75,7 @@ static Archive read_meta(const char *filename)
 
         compressed_archive.content[i].filename = get_filename(compressed_archive.content[i].path);
 
-        // debug_file_size(compressed_archive.content[i].path, compressed_archive.content[i].size, compressed_archive.content[i].flush_size); // ! TODO: use a debug flag to trigger this line
+        debug_file_size(compressed_archive.content[i].path, compressed_archive.content[i].size, compressed_archive.content[i].flush_size);
         compressed_archive.content[i].encoded_data = (int *)malloc(compressed_archive.content[i].size * sizeof(int));
         read_encoded_data(compressed_archive.file, &compressed_archive.content[i]);
     }

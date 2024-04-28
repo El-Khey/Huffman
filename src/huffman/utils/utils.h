@@ -72,13 +72,6 @@ int get_number_of_unique_chars(int *char_frequencies);
 int get_ascii_of_unique_char(int *char_frequencies);
 
 /**
- * @brief This function display the frequencies of each character in a file
- *
- * @param char_frequencies - the array of frequencies
- */
-void display_char_frequencies(int *char_frequencies);
-
-/**
  * @brief This function concatenate a prefix to a string
  *
  * @param str - the string
