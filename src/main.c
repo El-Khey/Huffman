@@ -63,7 +63,6 @@ int main(int argc, char *argv[])
             archive_name = optarg;
             output_directory = (optind < argc) ? argv[optind] : "./";
             action = DECOMPRESS;
-            printf("Output directory: %s\n", output_directory);
             break;
 
         case 'm':
@@ -102,8 +101,6 @@ int main(int argc, char *argv[])
         }
         else if (archive_name != NULL && action == DECOMPRESS)
         {
-            printf("Decompressing...\n");
-            printf("output_directory: %s\n", output_directory);
             decompress(archive_name, output_directory);
         }
         else

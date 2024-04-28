@@ -56,6 +56,22 @@ void initialize_char_frequencies(int *char_frequencies);
 void count_char_frequencies(FILE *file, int *char_frequencies);
 
 /**
+ * @brief This function get the number of unique characters in a file
+ *
+ * @param char_frequencies - the array of frequencies
+ * @return int - the number of unique characters
+ */
+int get_number_of_unique_chars(int *char_frequencies);
+
+/**
+ * @brief This function get the ASCII value of the unique characters in a file
+ *
+ * @param char_frequencies - the array of frequencies
+ * @return int - the ASCII value
+ */
+int get_ascii_of_unique_char(int *char_frequencies);
+
+/**
  * @brief This function display the frequencies of each character in a file
  *
  * @param char_frequencies - the array of frequencies

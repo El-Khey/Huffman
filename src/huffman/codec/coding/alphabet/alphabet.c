@@ -1,6 +1,15 @@
 #include "alphabet.h"
 
-static void populate_alphabet(Node *node, Node *alphabet[])
+void initialize_alphabet(Node **alphabet)
+{
+    int i;
+    for (i = 0; i < MAX_CHAR; i++)
+    {
+        alphabet[i] = NULL;
+    }
+}
+
+static void populate_alphabet(Node *node, Node **alphabet)
 {
     if (node == NULL)
     {
@@ -18,12 +27,7 @@ static void populate_alphabet(Node *node, Node *alphabet[])
 
 void compute_alphabet(Node *root, Node **alphabet)
 {
-    int i;
-    for (i = 0; i < MAX_CHAR; i++)
-    {
-        alphabet[i] = NULL;
-    }
-
+    initialize_alphabet(alphabet);
     populate_alphabet(root, alphabet);
 }
 

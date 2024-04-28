@@ -81,12 +81,7 @@ void create_folder(char *directory)
     }
 
     fix_folder_name(directory);
-    if (exists(directory))
-    {
-        fprintf(stderr, "<Warning>: The directory %s already exists\n", directory);
-    }
-
-    else if (mkdir(directory, 0777) == -1)
+    if (!exists(directory) && mkdir(directory, 0777) == -1)
     {
         fprintf(stderr, "<Error>: Could not create the directory %s\n", directory);
         exit(EXIT_FAILURE);

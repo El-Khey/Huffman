@@ -5,6 +5,13 @@
 #include "../tree/node.h"
 
 /**
+ * @brief This function initialize the alphabet
+ *
+ * @param alphabet - the array to initialize
+ */
+void initialize_alphabet(Node **alphabet);
+
+/**
  * @brief This function compute the alphabet of a huffman tree
  *
  * @param root - the root of the huffman tree

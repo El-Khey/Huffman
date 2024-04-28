@@ -67,6 +67,36 @@ void count_char_frequencies(FILE *file, int *char_frequencies)
     }
 }
 
+int get_number_of_unique_chars(int *char_frequencies)
+{
+    int i;
+    int num_unique_chars = 0;
+
+    for (i = 0; i < MAX_CHAR; i++)
+    {
+        if (char_frequencies[i] > 0)
+        {
+            num_unique_chars++;
+        }
+    }
+
+    return num_unique_chars;
+}
+
+int get_ascii_of_unique_char(int *char_frequencies)
+{
+    int i;
+    for (i = 0; i < MAX_CHAR; i++)
+    {
+        if (char_frequencies[i] > 0)
+        {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
 void display_char_frequencies(int *char_frequencies)
 {
     int i;

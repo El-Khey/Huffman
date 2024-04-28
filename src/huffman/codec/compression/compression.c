@@ -129,17 +129,29 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
         return;
     }
 
+    int number_of_unique_chars = get_number_of_unique_chars(char_frequencies);
     // display_char_frequencies(char_frequencies); // ! TODO: use a debug flag to trigger this line
 
-    // Step 1: Create the Huffman tree
-    initialize_huffman_nodes(leaves_nodes, char_frequencies);
-    huffman_tree = create_huffman_tree(leaves_nodes);
-    archive.header.number_of_leaves = get_number_of_leaves(huffman_tree);
+    if (number_of_unique_chars == 1)
+    {
+        int ascii = get_ascii_of_unique_char(char_frequencies);
+        initialize_alphabet(archive.header.alphabet);
 
-    // Step 2: Create the codes for each character and compute the alphabet
-    create_codes(huffman_tree);
-    compute_alphabet(huffman_tree, archive.header.alphabet);
-    // print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
+        archive.header.number_of_leaves = 1;
+        archive.header.alphabet[ascii] = create_node(ascii, char_frequencies[ascii], 1, 0);
+    }
+    else
+    {
+        // Step 1: Create the Huffman tree
+        initialize_huffman_nodes(leaves_nodes, char_frequencies);
+        huffman_tree = create_huffman_tree(leaves_nodes);
+        archive.header.number_of_leaves = get_number_of_leaves(huffman_tree);
+
+        // Step 2: Create the codes for each character and compute the alphabet
+        create_codes(huffman_tree);
+        compute_alphabet(huffman_tree, archive.header.alphabet);
+        // print_alphabet(archive.header.alphabet); // ! TODO: use a debug flag to trigger this line
+    }
 
     // Step 4: Write the header and the encoded data to the compressed archive
     write_header(archive.file, archive.header, number_of_files);
