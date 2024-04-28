@@ -215,6 +215,9 @@ gui_event_manager.o: ./src/gui/manager/gui_manager/gui_event_manager.c
 # ---------------------------------------------------- #
 
 generate-test:
+	mkdir -p ./study/test/raw/linear/ ./study/test/raw/uniform/ \
+	./study/test/raw/normal/ ./study/test/raw/zipf/ \
+	./study/test/raw/random/ && \
 	./study/generator/generator.sh
 
 create-compressed-dirs:

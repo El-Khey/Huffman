@@ -106,6 +106,10 @@ int main(int argc, char *argv[])
             printf("output_directory: %s\n", output_directory);
             decompress(archive_name, output_directory);
         }
+        else
+        {
+            usage();
+        }
     }
 
     exit(EXIT_SUCCESS);
