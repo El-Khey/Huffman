@@ -336,7 +336,7 @@ simple-clean:
 	rm -rf *.o
 
 clean: simple-clean
-	rm -rf mainm main_v? && rm -rf $(MAIN_DIR)/__pycache__ 
+	rm -rf main main_v? && rm -rf $(MAIN_DIR)/__pycache__ 
 
 
 # ---------------------------------------------------- #
