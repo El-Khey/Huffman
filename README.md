@@ -3,10 +3,10 @@
 Pour compiler la dernière version du projet, il suffit de lancer la commande suivante :
 
 ```bash
-make 
+make
 ```
 
-cela va générer un exécutable nommé `main` dans le répertoire courant. 
+cela va générer un exécutable nommé `main` dans le répertoire courant.
 Le programme supporte les options suivantes :
 
 - `-c` : pour compresser des fichiers et/ou des répertoires
@@ -21,18 +21,22 @@ Exemple d'utilisation :
 make clean && make && ./main -c ./archive.bin ./file1.txt ./dir1
 make clean && make && ./main -d ./archive.bin ./output
 make clean && make && ./main -m
+make clean && make && ./main -h
+make clean && make && ./main -g -c ./archive.bin ./file1.txt ./dir1
+make clean && make && ./main -g -d ./archive.bin ./output
 ```
 
-Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande 
-```make v%version%``` avec **%version%** la version du projet (de 1 à 5).
+Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande
+`make v%version%` avec **%version%** la version du projet (de 1 à 5).
 
 Par exemple pour compiler la version 1 du projet, il suffit de lancer la commande suivante :
 
 ```bash
 make v1
 ```
+
 l'exécutable généré sera nommé `main_v1`.
-```make v2``` pour la version 2, et ainsi de suite.
+`make v2` pour la version 2, et ainsi de suite.
 Pour générer tout les exécutables des versions précédentes, il suffit de lancer la commande suivante :
 
 ```bash
@@ -45,7 +49,7 @@ Pour supprimer tout les exécutables générés, il suffit de lancer la commande
 make clean
 ```
 
-L'option `-g` permet de lancer le programme en mode debug, cela va afficher des informations supplémentaires sur le déroulement du programme, 
+L'option `-g` permet de lancer le programme en mode debug, cela va afficher des informations supplémentaires sur le déroulement du programme,
 tel que la table de fréquence des caractères, l'aplphabet utilisé avec les codes associés, et les informations sur les fichiers compressés.
 
 # Génération des fichiers de test
@@ -62,6 +66,7 @@ Vous pourrez ensuite lancé la compression sur les fichiers de tests générer e
 ```bash
 make run-all-test
 ```
+
 Cette commande va compresser tout les fichiers de test et générer les archive, en re-créant l'architecture du répertoire `raw` dans le répertoire `compressed`.
 
 Il est possible de compresser les fichiers d'un dossier spécifique, pour cela les commande suivante peuvent être utilisé :

@@ -20,6 +20,7 @@ static void usage()
     printf("  -c <archive_name> <input_files/directories> : Compress files/directories\n");
     printf("  -d <input_file> [output_directory]          : Decompress archive to optional directory\n");
     printf("  -m                                          : Launch the graphical interface\n");
+    printf("  -g                                          : Activate debug mode\n");
     printf("  -h                                          : Display help\n\n");
 
     printf("Example usages:\n");
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
     Action action = NOTHING;
     int launch_gui = 0;
 
-    while ((opt = getopt(argc, argv, "c:d:h:m:g")) != -1)
+    while ((opt = getopt(argc, argv, "gc:d:mh")) != -1)
     {
         switch (opt)
         {
