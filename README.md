@@ -18,12 +18,12 @@ Le programme supporte les options suivantes :
 Exemple d'utilisation :
 
 ```bash
-make clean && make && ./main -c ./archive.bin ./file1.txt ./dir1
-make clean && make && ./main -d ./archive.bin ./output
-make clean && make && ./main -m
-make clean && make && ./main -h
-make clean && make && ./main -g -c ./archive.bin ./file1.txt ./dir1
-make clean && make && ./main -g -d ./archive.bin ./output
+./main -c ./archive.bin ./file1.txt ./dir1
+./main -d ./archive.bin ./output
+./main -m
+./main -h
+./main -g -c ./archive.bin ./file1.txt ./dir1
+./main -g -d ./archive.bin ./output
 ```
 
 Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande
