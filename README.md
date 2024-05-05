@@ -78,3 +78,17 @@ make run-test-normal
 make run-test-zipf
 make run-test-random
 ```
+
+# Compiler et Générer la Présentation
+
+Pour compiler la présentation, il suffit de lancer la commande suivante :
+
+```bash
+make presentation
+```
+
+Pour netttoyer les fichiers générés lors de la compilation de la présentation, il suffit de lancer la commande suivante :
+
+```bash
+make clean-presentation
+```

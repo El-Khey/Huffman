@@ -1,0 +1,8 @@
+\beamer@sectionintoc {1}{Protocole expérimental}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Analyse des facteurs influants}{3}{0}{1}
+\beamer@subsectionintoc {1}{2}{Génération des fichiers de test}{4}{0}{1}
+\beamer@subsectionintoc {1}{3}{Lois de génération}{5}{0}{1}
+\beamer@subsectionintoc {1}{4}{Expérimentation}{6}{0}{1}
+\beamer@sectionintoc {2}{Analyse et interprétation}{11}{0}{2}
+\beamer@sectionintoc {3}{Conclusion}{17}{0}{3}
+\beamer@sectionintoc {4}{Demonstration}{18}{0}{4}

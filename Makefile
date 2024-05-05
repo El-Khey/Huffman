@@ -33,6 +33,26 @@ build: main.o $(CODEC) $(UTILS) $(DEBUG) $(COMPONENTS) $(GUI_UTILS) $(MANAGER)
 install:
 	./setup.sh
 
+
+# ==================================================== #
+#           B E A M E R  P R E S E N T A T I O N       #
+# ==================================================== #
+# 		  defines the targets of the presentation      #
+# ---------------------------------------------------- #
+
+PRESENTATION = ./beamer/src/presentation
+LATEX = pdflatex
+LATEX_OPTS = -interaction=nonstopmode -output-directory=./beamer/src/
+
+presentation: $(PRESENTATION).tex
+	$(LATEX) $(LATEX_OPTS) $(PRESENTATION).tex
+	$(LATEX) $(LATEX_OPTS) $(PRESENTATION).tex
+
+clean-presentation:
+	rm -f $(PRESENTATION).aux $(PRESENTATION).log $(PRESENTATION).out $(PRESENTATION).toc \
+	$(PRESENTATION).nav $(PRESENTATION).snm
+
+
 # ==================================================== #
 #            	 H U F F  V E R S I O N S              #
 # ==================================================== #
@@ -335,7 +355,7 @@ run-all-test: all create-compressed-dirs run-linear run-uniform run-normal run-z
 simple-clean:
 	rm -rf *.o
 
-clean: simple-clean
+clean: simple-clean clean-presentation
 	rm -rf main main_v? && rm -rf $(MAIN_DIR)/__pycache__ 
 
 
