@@ -26,6 +26,11 @@ Exemple d'utilisation :
 ./main -g -d ./archive.bin ./output
 ```
 
+> [!WARNING]
+> le mode debug peut être lancé uniquement en le combinant avec une autre option (`-c`, `-d`, `-m`).
+> Si le mode debug est lancé sans autre option, le programme va afficher le message d'aide et se terminer.
+
+
 Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande
 `make v%version%` avec **%version%** la version du projet (de 1 à 5).
 
