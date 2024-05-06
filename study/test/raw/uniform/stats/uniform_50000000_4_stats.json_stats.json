@@ -1,9 +1,0 @@
-{
-    "total_chars": 50000000,
-    "unique_chars": 4,
-    "most_common_char": " ",
-    "most_common_freq": 12500000,
-    "mean_freq": 12500000.0,
-    "median_freq": 12500000.0,
-    "std_dev": 0.0
-}

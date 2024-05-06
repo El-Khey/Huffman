@@ -30,7 +30,6 @@ Exemple d'utilisation :
 > le mode debug peut être lancé uniquement en le combinant avec une autre option (`-c`, `-d`, `-m`).
 > Si le mode debug est lancé sans autre option, le programme va afficher le message d'aide et se terminer.
 
-
 Les executables des versions précédentes peuvent être généré en compilan le projet avec la commande
 `make v%version%` avec **%version%** la version du projet (de 1 à 5).
 
@@ -83,6 +82,9 @@ make run-test-normal
 make run-test-zipf
 make run-test-random
 ```
+
+> [!NOTE]
+> La compression des fichiers de test peut prendre du temps, si vous la lancez > sur tout les fichiers de test générés. En effet, les fichiers de test générés représentent environ 2Go de données.
 
 # Compiler et Générer la Présentation
 
