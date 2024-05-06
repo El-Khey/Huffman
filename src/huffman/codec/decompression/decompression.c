@@ -92,7 +92,6 @@ static void decode(Header header, Content content, FILE *output)
     while (1)
     {
         index = (i % MAX_CHAR);
-
         if (header.alphabet[index] == NULL)
         {
             i++;
@@ -123,10 +122,10 @@ void decompress(char *input_file, char *output_dir)
     Archive compressed_archive = read_meta(input_file);
     int i = 0;
 
-    create_folder(output_dir);
     for (; i < compressed_archive.number_of_files; i++)
     {
         char *output_path = (char *)malloc(strlen(output_dir) + strlen(compressed_archive.content[i].path) + 1);
+        fix_folder_name(output_dir);
         strcpy(output_path, output_dir);
         strcat(output_path, compressed_archive.content[i].path);
 

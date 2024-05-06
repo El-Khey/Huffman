@@ -54,18 +54,17 @@ void create_intermediate_folders(char *directory)
 {
     char *parts[1024]; // TODO: decide a length for the parts array based on linux/windows limits
     int size = split_string(directory, parts, "/");
+    int is_absolute = directory[0] == '/';
 
     char *current_path = (char *)malloc(1024 * sizeof(char));
-    strcpy(current_path, parts[0]);
-    for (int i = 1; i < size; i++)
+    strcpy(current_path, is_absolute ? "/" : "");
+    for (int i = 0; i < size; i++)
     {
-        // Check if the current part is a file extension
         if (strchr(parts[i], '.') != NULL)
         {
-            break;
+            continue;
         }
 
-        strcat(current_path, "/");
         strcat(current_path, parts[i]);
         create_folder(current_path);
     }

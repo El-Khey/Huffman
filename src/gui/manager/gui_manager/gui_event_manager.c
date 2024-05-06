@@ -61,6 +61,43 @@ void handle_delete_event(GraphicalInterface *graphical_interface)
     }
 }
 
+void handle_decompress_event(GraphicalInterface *graphical_interface)
+{
+    if (is_button_clicked(graphical_interface->topbar.buttons[EXTRACTION], graphical_interface->mouse_manager))
+    {
+        char **paths = (char **)malloc(graphical_interface->table.rows_to_compress.number_saved_files * sizeof(char *));
+        int number_paths = 0, i = 0;
+
+        for (i = 0; i < graphical_interface->table.rows_to_compress.number_saved_files; i++)
+        {
+            if (is_archive_file(graphical_interface->table.rows_to_compress.list[i].path))
+            {
+                paths[number_paths] = (char *)malloc(strlen(graphical_interface->table.rows_to_compress.list[i].path) + 1);
+                strcpy(paths[number_paths], graphical_interface->table.rows_to_compress.list[i].path);
+                number_paths++;
+            }
+        }
+
+        if (number_paths > 0)
+        {
+            for (i = 0; i < number_paths; i++)
+            {
+                printf("Decompressing %s\n", paths[i]);
+                printf("Into %s\n", graphical_interface->explorer.current_directory.path);
+                decompress(paths[i], graphical_interface->explorer.current_directory.path);
+            }
+
+            deselect_all(&graphical_interface->table);
+
+            explore(&graphical_interface->explorer, graphical_interface->explorer.current_directory.path);
+            order_explorer(&graphical_interface->explorer);
+
+            clear_table_rows(&graphical_interface->table);
+            update_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+        }
+    }
+}
+
 void handle_compress_event(GraphicalInterface *graphical_interface)
 {
     if (is_button_clicked(graphical_interface->topbar.buttons[COMPRESS], graphical_interface->mouse_manager))

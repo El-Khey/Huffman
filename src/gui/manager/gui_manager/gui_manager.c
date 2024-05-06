@@ -56,6 +56,7 @@ void manage_gui_event(GraphicalInterface *graphical_interface)
     handle_deselect_all_event(graphical_interface);
     handle_delete_event(graphical_interface);
     handle_rows_button_event(graphical_interface);
+    handle_decompress_event(graphical_interface);
     handle_compress_event(graphical_interface);
     handle_theme_button_event(graphical_interface);
 }

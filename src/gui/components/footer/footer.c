@@ -13,7 +13,7 @@ Footer construct_footer(Position position, Dimension dimension, char *text)
                                            construct_dimension(100, 28), 0, SPECIAL_COLOR, PRIMARY_COLOR);
     layout_manager(EAST, &footer.rectangle, &footer.theme_button.rectangle, construct_paddings(0, 0, 0, 45));
     add_button_text(&footer.theme_button,
-                    construct_text("Dark Theme",
+                    construct_text("Light Theme",
                                    footer.theme_button.rectangle.position,
                                    "assets/fonts/Roboto/Roboto-Black.ttf",
                                    12, PRIMARY_COLOR),
