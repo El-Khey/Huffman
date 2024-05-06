@@ -28,12 +28,12 @@ int *convert_string_into_code(char *str, int size)
     return code;
 }
 
-int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size)
+int are_arrays_equal(int *arr1, int *arr2, int size)
 {
     int i;
     for (i = 0; i < size; i++)
     {
-        if (arr1[i] != arr2[i + processed_length])
+        if (arr1[i] != arr2[i])
         {
             return 0;
         }
@@ -205,4 +205,11 @@ Type compute_compression_type(char **path, int num_files)
     }
 
     return type;
+}
+
+char *convert_int_into_string(int number)
+{
+    char *str = (char *)malloc(12 * sizeof(char));
+    snprintf(str, 12, "%d", number);
+    return str;
 }

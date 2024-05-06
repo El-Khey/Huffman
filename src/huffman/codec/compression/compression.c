@@ -161,6 +161,7 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     archive.file = fopen(output_file, "ab");
     check_file_opening(archive.file, output_file);
     write_data(data, archive);
+    fclose(archive.file);
 
     fprintf(stdout, "\n\n========================================\n");
     fprintf(stdout, "  Compression completed successfully!\n");

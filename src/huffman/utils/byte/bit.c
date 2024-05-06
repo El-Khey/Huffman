@@ -25,7 +25,6 @@ void flush_bits(FILE *file, uint8_t *byte, uint8_t *bit_position)
 int read_bit(FILE *file, uint8_t *byte, uint8_t *bit_position)
 {
     int bit;
-
     if (*bit_position == 0)
     {
         if (fread(byte, sizeof(uint8_t), 1, file) != 1)

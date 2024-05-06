@@ -31,6 +31,8 @@ typedef struct Content
 
     int *encoded_data;
     int length_encoded_data;
+
+    long start_offset;
 } Content;
 
 typedef struct Archive

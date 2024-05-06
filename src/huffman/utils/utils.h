@@ -34,11 +34,10 @@ int *convert_string_into_code(char *str, int size);
  *
  * @param arr1 - the first array
  * @param arr2 - the second array
- * @param processed_length - the length of the processed part
  * @param size - the size of the arrays
  * @return int - 1 if the arrays are equal, 0 otherwise
  */
-int are_arrays_equal(int *arr1, int *arr2, int processed_length, int size);
+int are_arrays_equal(int *arr1, int *arr2, int size);
 
 /**
  * @brief This function initialize the frequencies of each character in a file
@@ -122,5 +121,13 @@ int delete_file_or_directory(const char *path);
  * @return Type - the compression type
  */
 Type compute_compression_type(char **path, int num_files);
+
+/**
+ * @brief This function convert an integer into a string
+ *
+ * @param number - the number to convert
+ * @return char* - the string
+ */
+char *convert_int_into_string(int number);
 
 #endif
