@@ -60,3 +60,11 @@ void debug_alphabet(Node **alphabet)
         print_alphabet(alphabet);
     }
 }
+
+void debug_current_extracted_file(char *filename)
+{
+    if (is_debug_mode())
+    {
+        printf("> Reading and decoding data for %s\n", filename);
+    }
+}

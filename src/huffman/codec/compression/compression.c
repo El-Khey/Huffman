@@ -17,6 +17,8 @@ static void write_header(FILE *file, Header header, int number_of_files)
                     header.alphabet[i]->frequency,
                     header.alphabet[i]->depth,
                     binary_code);
+
+            free(binary_code);
         }
     }
     fprintf(file, "n:%d", number_of_files);
@@ -50,7 +52,6 @@ static void write_encoded_data(File file, FILE *compressed_file, Node **alphabet
     uint8_t bit_position = 0;
     int i = 0;
 
-    // debug_file_size(file.name, file.total_size, file.flush_size); // ! TODO: use a debug flag to trigger this line
     fprintf(compressed_file, "\nlength:%d\n", (int)strlen(file.name));
     fprintf(compressed_file, "file:%s encoded_size:%d flush_size:%d\n", file.name, file.total_size, file.flush_size);
 
@@ -67,10 +68,12 @@ static void write_encoded_data(File file, FILE *compressed_file, Node **alphabet
         {
             int *code = convert_binary_code_into_int_array(alphabet[ch]->code, alphabet[ch]->depth);
             write_bit(compressed_file, &byte, &bit_position, code[i]);
+            free(code);
         }
     }
 
     flush_bits(compressed_file, &byte, &bit_position);
+    fclose(raw_file);
 }
 
 static void write_files_data(Files list, Archive archive)
@@ -161,6 +164,7 @@ void compress(char **inputs, char *output_file, int number_of_inputs, Type archi
     archive.file = fopen(output_file, "ab");
     check_file_opening(archive.file, output_file);
     write_data(data, archive);
+
     fclose(archive.file);
 
     fprintf(stdout, "\n\n========================================\n");

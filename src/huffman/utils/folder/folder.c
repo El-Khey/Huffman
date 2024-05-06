@@ -116,6 +116,7 @@ void find_deepest_level(char *base_path, char *dir_path, int *level)
     DIR *dir;
     struct dirent *entry;
 
+    fix_folder_name(dir_path);
     dir = opendir(dir_path);
     check_folder_opening(dir, dir_path);
 
@@ -154,7 +155,6 @@ static int get_number_files_helper(char *base_path, char *dir_path, int level, c
     struct dirent *entry;
     int num_files = 0;
 
-    // Open directory
     dir = opendir(dir_path);
     if (dir == NULL)
     {
@@ -204,7 +204,6 @@ void list_files_in_folder_at_level_helper(char *base_path, char *dir_path, int l
     DIR *dir;
     struct dirent *entry;
 
-    // Open directory
     dir = opendir(dir_path);
     if (dir == NULL)
     {

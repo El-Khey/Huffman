@@ -62,8 +62,7 @@ static void read_and_decode_data(FILE *file, Header header, Content *content, FI
     int processed_length = 0, data_encoded_length = 0;
     int *data_encoded = (int *)malloc(max_data_encoded_length * sizeof(int));
 
-    printf("> Reading and decoding data for %s\n", content->path);
-
+    debug_current_extracted_file(content->path);
     while (processed_length < content->size - content->flush_size)
     {
         bit = read_bit(file, &byte, &bit_position);

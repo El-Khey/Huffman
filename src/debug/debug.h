@@ -35,4 +35,11 @@ void debug_char_frequencies(int *char_frequencies);
  */
 void debug_alphabet(Node **alphabet);
 
+/**
+ * @brief This function display the current extracted file
+ *
+ * @param filename - the name of the file
+ */
+void debug_current_extracted_file(char *filename);
+
 #endif

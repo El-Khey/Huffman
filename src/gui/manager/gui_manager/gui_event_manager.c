@@ -82,8 +82,6 @@ void handle_decompress_event(GraphicalInterface *graphical_interface)
         {
             for (i = 0; i < number_paths; i++)
             {
-                printf("Decompressing %s\n", paths[i]);
-                printf("Into %s\n", graphical_interface->explorer.current_directory.path);
                 decompress(paths[i], graphical_interface->explorer.current_directory.path);
             }
 
@@ -95,6 +93,8 @@ void handle_decompress_event(GraphicalInterface *graphical_interface)
             clear_table_rows(&graphical_interface->table);
             update_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
         }
+
+        free(paths);
     }
 }
 
@@ -130,7 +130,11 @@ void handle_compress_event(GraphicalInterface *graphical_interface)
 
             clear_table_rows(&graphical_interface->table);
             update_table_rows(graphical_interface, graphical_interface->mouse_manager.wheel);
+
+            free(archive_full_path);
         }
+
+        free(paths);
     }
 }
 
@@ -143,7 +147,6 @@ void handle_rows_button_event(GraphicalInterface *graphical_interface)
             char *path = graphical_interface->table.rows[i].path;
             if (is_text_file(path) || is_archive_file(path))
             {
-                // TODO: A TESTER
                 char *command = (char *)malloc(strlen("xdg-open ") + strlen(path) + 1);
                 strcpy(command, "xdg-open ");
                 command = strcat(command, path);
@@ -151,6 +154,8 @@ void handle_rows_button_event(GraphicalInterface *graphical_interface)
                 {
                     fprintf(stderr, "<Error> Could not open file %s\n", path);
                 }
+
+                free(command);
                 return;
             }
 

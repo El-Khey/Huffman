@@ -10,7 +10,7 @@ Explorer construct_explorer()
     return explorer;
 }
 
-static long get_directory_size(const char *path)
+static long get_directory_size(char *path)
 {
     long size = 0;
     DIR *dir;
@@ -57,6 +57,7 @@ void explore(Explorer *explorer, char *path)
 
     explorer->current_directory.path = path;
     explorer->current_directory.name = get_folder_name(path);
+    fix_folder_name(explorer->current_directory.path);
     explorer->current_directory.dir = opendir(path);
 
     explorer->directories.number_of_directories = count_number_dir_inside_folder(path);
@@ -71,7 +72,7 @@ void explore(Explorer *explorer, char *path)
     while ((entry = readdir(explorer->current_directory.dir)) != NULL)
     {
         char *entry_path = malloc(strlen(path) + strlen(entry->d_name) + 2);
-        sprintf(entry_path, "%s/%s", path, entry->d_name);
+        sprintf(entry_path, "%s%s", path, entry->d_name);
 
         if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
         {
@@ -87,6 +88,7 @@ void explore(Explorer *explorer, char *path)
                 struct tm *tm_info = localtime(&mod_time);
 
                 directory.path = entry_path;
+                fix_folder_name(directory.path);
                 directory.name = entry->d_name;
 
                 Metadata metadata;
