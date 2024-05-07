@@ -1,6 +1,14 @@
 # Huffman
 
-Ce projet implémente l'algorithme d'Huffman pour compresser et décompresser des fichiers et répertoires, en ligne de commande et interface graphique.
+Ce projet implémente l'algorithme de Huffman pour la compression et la décompression de fichiers et de répertoires, à la fois en ligne de commande et via une interface graphique.
+
+## Installation
+
+Pour préparer votre environnement et être en mesure de lancer le projet, exécutez le script de configuration en lançant la commande ``make install``, ou exécutez le script ``./setup.sh``.
+
+> [!NOTE]
+> Assurez-vous d'accorder les permissions nécessaires au script en utilisant la commande :
+> ``chmod a+x setup.sh``
 
 ## Compression & Decompression
 
