@@ -1,6 +1,6 @@
 # Huffman
 
-Ce projet implémente l'algorithme d'Huffman pour pour la compresser et décompresser des fichiers et répertoires, en ligne de commande et interface graphique.
+Ce projet implémente l'algorithme d'Huffman pour compresser et décompresser des fichiers et répertoires, en ligne de commande et interface graphique.
 
 ## Compression & Decompression
 
