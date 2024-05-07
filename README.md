@@ -1,4 +1,8 @@
-# Compression & Decompression
+# Huffman
+
+Ce projet implémente l'algorithme d'Huffman pour pour la compresser et décompresser des fichiers et répertoires, en ligne de commande et interface graphique.
+
+## Compression & Decompression
 
 Pour compiler la dernière version du projet, il suffit de lancer la commande suivante :
 
@@ -56,7 +60,7 @@ make clean
 L'option `-g` permet de lancer le programme en mode debug, cela va afficher des informations supplémentaires sur le déroulement du programme,
 tel que la table de fréquence des caractères, l'aplphabet utilisé avec les codes associés, et les informations sur les fichiers compressés.
 
-# Génération des fichiers de test
+## Génération des fichiers de test
 
 Pour générer les fichiers de test, nécessaires pour l'étude de taux de compression, vous pouvez lancer la commande suivante :
 
